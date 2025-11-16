@@ -13,6 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
+    $country = trim($_POST['country']);
+    $phone = trim($_POST['phone']);
+    $gender = trim($_POST['gender']);
+
     
     // 服务器端验证
     $errors = [];
@@ -46,6 +50,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($errors)) {
         echo "<script>alert('" . implode("\\n", $errors) . "'); window.location.href='../register.html';</script>";
         exit();
+    }
+
+    if (empty($country)) {
+    $errors[] = "Country is required";
+    }
+
+    if (!preg_match('/^[0-9]{7,15}$/', $phone)) {
+        $errors[] = "Invalid phone number format";
+    }
+
+    if (empty($gender)) {
+        $errors[] = "Gender is required";
     }
     
     // 连接数据库
@@ -85,9 +101,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     
     // 插入新用户到 tenant 表
-    $insert_sql = "INSERT INTO tenant (TenantName, Email, Password) VALUES (?, ?, ?)";
+    $insert_sql = "INSERT INTO tenant (TenantName, Email, Password, FullName, Country, PhoneNo, Gender)
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
+
     $stmt = $conn->prepare($insert_sql);
-    $stmt->bind_param("sss", $username, $email, $hashed_password);
+    $stmt->bind_param("sssssss", $username, $email, $hashed_password, $fullname, $country, $phone, $gender);
+
     
     if ($stmt->execute()) {
         echo "<script>

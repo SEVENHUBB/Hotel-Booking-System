@@ -26,6 +26,9 @@ document.getElementById('registerForm').addEventListener('submit', function(e) {
     const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirm_password').value;
+    const country = document.getElementById('country').value;
+    const phone = document.getElementById('phone').value.trim();
+    const gender = document.getElementById('gender').value;
     
     // 验证全名
     if (fullname.length < 2) {
@@ -62,6 +65,23 @@ document.getElementById('registerForm').addEventListener('submit', function(e) {
     // 验证密码匹配
     if (password !== confirmPassword) {
         showError('Passwords do not match');
+        return false;
+    }
+
+    if (country === "") {
+    showError("Please select your country");
+    return false;
+    }
+
+    // 电话号码验证（至少 7 位）（你想严格我能再加强）
+    if (!/^[0-9]{7,15}$/.test(phone)) {
+        showError("Please enter a valid phone number (7-15 digits)");
+        return false;
+    }
+
+    // 性别
+    if (gender === "") {
+        showError("Please select your gender");
         return false;
     }
     
