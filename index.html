@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Booking System</title>
+    <link rel="stylesheet" href ="css/index.css">
+</head>
+<body>
+    <header>
+        <h1> Welcome To Super Booking System</h1>
+        <nav>
+            <div id="guestNav" style="display: none;">
+                <button id="loginButton" onclick="goToLogin()">Login</button>
+                <button id="registerBtn" onclick="goToRegister()">Register</button>
+            </div>
+
+            <div id="userNav" style="display: none;">
+                <span id="welcomeMessage" style="color: white; margin-right: 20px;"></span>
+                <button id="logoutBtn" onclick="logout()">Logout</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Hope you can find your ideal Hotel</h2>
+    </main>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
