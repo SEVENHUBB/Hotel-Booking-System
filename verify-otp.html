@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP - Hotel Booking System</title>
+    <link rel="stylesheet" href="css/verify-otp.css">
+</head>
+<body>
+    <div class="container">
+        <div class="verify-box">
+            <h1>Verify OTP</h1>
+            <p class="subtitle">Please enter the 6-digit code sent to your email</p>
+            <p class="email-display" id="emailDisplay"></p>
+            
+            <form id="verifyOtpForm" action="php/verify-otp.php" method="POST">
+                <input type="hidden" id="email" name="email">
+                
+                <div class="otp-input-group">
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                </div>
+                
+                <input type="hidden" id="otpCode" name="otp">
+                
+                <button type="submit" class="btn-verify">Verify OTP</button>
+            </form>
+            
+            <div class="resend-section">
+                <p>Didn't receive the code?</p>
+                <button id="resendBtn" class="btn-resend">Resend OTP</button>
+                <p class="timer" id="timer"></p>
+            </div>
+            
+            <a href="login.html" class="back-link">Back to Login</a>
+        </div>
+    </div>
+    
+    <script src="js/verify-otp.js"></script>
+</body>
+</html>
