@@ -50,15 +50,24 @@ document.getElementById('registerForm').addEventListener('submit', function(e) {
     }
     
     // 验证密码长度
-    if (password.length < 6) {
-        showError('Password must be at least 6 characters');
+    if (password.length < 8) {
+        showError('Password must be at least 8 characters');
         return false;
     }
     
-    // 验证密码强度（至少包含一个数字和一个字母）
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]/;
-    if (!passwordRegex.test(password)) {
-        showError('Password must contain at least one letter and one number');
+    // 验证密码强度 - 必须包含大写、小写、数字
+    if (!/[A-Z]/.test(password)) {
+        showError('Password must contain at least one uppercase letter (A-Z)');
+        return false;
+    }
+    
+    if (!/[a-z]/.test(password)) {
+        showError('Password must contain at least one lowercase letter (a-z)');
+        return false;
+    }
+    
+    if (!/[0-9]/.test(password)) {
+        showError('Password must contain at least one number (0-9)');
         return false;
     }
     
@@ -68,18 +77,19 @@ document.getElementById('registerForm').addEventListener('submit', function(e) {
         return false;
     }
 
+    // ✅ Country 必填
     if (country === "") {
-    showError("Please select your country");
-    return false;
+        showError("Please select your country");
+        return false;
     }
 
-    // 电话号码验证（至少 7 位）（你想严格我能再加强）
+    // 电话号码验证（至少 7 位）
     if (!/^[0-9]{7,15}$/.test(phone)) {
         showError("Please enter a valid phone number (7-15 digits)");
         return false;
     }
 
-    // 性别
+    // ✅ Gender 必填
     if (gender === "") {
         showError("Please select your gender");
         return false;

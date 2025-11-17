@@ -56,14 +56,29 @@
             <div class="registerform-group">
                 <label for="password">Password : </label>
                 <div class="password-container">
-                    <input type="password" id="password" name="password" placeholder="Enter Password" required>
+                    <input type="password" id="password" name="password" placeholder="Enter Password" required minlength="8">
                     <span class="toggle-password" onclick="togglePassword()">👁️</span>
                 </div>
             </div>
 
+            <div class="password-requirements">
+                <p class="requirement" id="req-length">
+                    <span class="indicator">-</span> At least 8 characters
+                </p>
+                <p class="requirement" id="req-uppercase">
+                    <span class="indicator">-</span> One uppercase letter
+                </p>
+                <p class="requirement" id="req-lowercase">
+                    <span class="indicator">-</span> One lowercase letter
+                </p>
+                <p class="re--*-quirement" id="req-number">
+                    <span class="indicator">-</span> One number
+                </p>
+            </div>
+
             <div class="registerform-group">
                 <label for="confirm_password"> Confirm Password : </label>
-                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm the Password" required>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm the Password" required minlength="8">
             </div>
 
             <button type="submit" class="login-btn">Register</button>

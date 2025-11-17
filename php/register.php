@@ -36,9 +36,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "Username must be at least 3 characters";
     }
     
-    // 验证密码
-    if (strlen($password) < 6) {
-        $errors[] = "Password must be at least 6 characters";
+    // 验证密码长度
+    if (strlen($password) < 8) {
+        $errors[] = "Password must be at least 8 characters";
+    }
+    
+    // 验证密码强度 - 必须包含大写、小写、数字
+    if (!preg_match('/[A-Z]/', $password)) {
+        $errors[] = "Password must contain at least one uppercase letter (A-Z)";
+    }
+    
+    if (!preg_match('/[a-z]/', $password)) {
+        $errors[] = "Password must contain at least one lowercase letter (a-z)";
+    }
+    
+    if (!preg_match('/[0-9]/', $password)) {
+        $errors[] = "Password must contain at least one number (0-9)";
     }
     
     // 验证密码匹配
@@ -46,22 +59,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "Passwords do not match";
     }
     
+    // ✅ Country 必填
+    if (empty($country)) {
+        $errors[] = "Country is required";
+    }
+    
+    // 验证电话号码
+    if (!preg_match('/^[0-9]{7,15}$/', $phone)) {
+        $errors[] = "Invalid phone number format (7-15 digits required)";
+    }
+
+    // ✅ Gender 必填
+    if (empty($gender)) {
+        $errors[] = "Gender is required";
+    }
+    
     // 如果有错误，返回错误信息
     if (!empty($errors)) {
         echo "<script>alert('" . implode("\\n", $errors) . "'); window.location.href='../register.html';</script>";
         exit();
-    }
-
-    if (empty($country)) {
-    $errors[] = "Country is required";
-    }
-
-    if (!preg_match('/^[0-9]{7,15}$/', $phone)) {
-        $errors[] = "Invalid phone number format";
-    }
-
-    if (empty($gender)) {
-        $errors[] = "Gender is required";
     }
     
     // 连接数据库
