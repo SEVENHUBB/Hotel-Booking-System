@@ -62,11 +62,13 @@ function checkPasswordMatch() {
     
     if (confirmPassword === '') {
         matchError.textContent = '';
+        matchError.style.color = '#666'; 
         return false;
     }
     
     if (newPassword !== confirmPassword) {
         matchError.textContent = '✗ Passwords do not match';
+        matchError.style.color = '#e74c3c';
         return false;
     } else {
         matchError.textContent = '✓ Passwords match';

@@ -18,20 +18,18 @@ body {
 
 .register-container {
     background: white;
-    border-radius: 12px;
+    border-radius: 50px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    padding: 40px;
+    padding: 50px;
     width: 100%;
-    max-width: 450px;
+    max-width: 600px;
     margin: 20px auto;
 }
 
 .register-container h1 {
     text-align: center;
-    color: #333;
-    margin-bottom: 30px;
-    font-size: 28px;
-    font-weight: 600;
+    margin-bottom: 20px;
+    color:#333;
 }
 
 .registerform-group {

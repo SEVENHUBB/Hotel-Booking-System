@@ -1,0 +1,126 @@
+/* ===== 背景 ===== */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #f3f3f3d4 0%, #d8e8ff 100%);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* ===== 中心容器 ===== */
+.container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* ===== 主卡片 ===== */
+.verify-box {
+    background: white;
+    width: 360px;
+    padding: 35px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+/* ===== 标题文字 ===== */
+h1 {
+    margin-top: 0;
+    color: #333;
+}
+
+.subtitle {
+    margin-top: -5px;
+    font-size: 14px;
+    color: #666;
+}
+
+.email-display {
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+/* ===== OTP 输入框组 ===== */
+.otp-input-group {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+/* 单个 OTP 输入框 */
+.otp-input {
+    width: 45px;
+    height: 50px;
+    font-size: 22px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.otp-input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+}
+
+/* ===== Verify OTP 按钮 ===== */
+.btn-verify {
+    width: 100%;
+    padding: 12px;
+    background: #007bff;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-verify:hover {
+    background: #0066d9;
+}
+
+/* ===== Resend 部分 ===== */
+.resend-section {
+    margin-top: 20px;
+}
+
+.btn-resend {
+    margin-top: 8px;
+    padding: 8px 14px;
+    font-size: 14px;
+    background: #f0f3ff;
+    border: 1px solid #bcd0ff;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-resend:hover {
+    background: #dce6ff;
+}
+
+.timer {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* ===== 返回登录链接 ===== */
+.back-link {
+    display: block;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}

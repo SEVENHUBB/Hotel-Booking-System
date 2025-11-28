@@ -12,6 +12,44 @@ function togglePassword() {
     }
 }
 
+const passwordInput = document.getElementById('password');
+const reqLength = document.getElementById('req-length');
+const reqUppercase = document.getElementById('req-uppercase');
+const reqLowercase = document.getElementById('req-lowercase');
+const reqNumber = document.getElementById('req-number');
+
+passwordInput.addEventListener('input', function() {
+    const password = this.value;
+    
+    // 检查长度（至少8个字符）
+    if (password.length >= 8) {
+        reqLength.classList.add('valid');
+    } else {
+        reqLength.classList.remove('valid');
+    }
+    
+    // 检查大写字母
+    if (/[A-Z]/.test(password)) {
+        reqUppercase.classList.add('valid');
+    } else {
+        reqUppercase.classList.remove('valid');
+    }
+    
+    // 检查小写字母
+    if (/[a-z]/.test(password)) {
+        reqLowercase.classList.add('valid');
+    } else {
+        reqLowercase.classList.remove('valid');
+    }
+    
+    // 检查数字
+    if (/[0-9]/.test(password)) {
+        reqNumber.classList.add('valid');
+    } else {
+        reqNumber.classList.remove('valid');
+    }
+});
+
 // 显示错误信息
 function showError(message) {
     alert(message);
