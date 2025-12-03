@@ -1,8 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super Booking System</title>
-    <link rel="stylesheet" href="">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+        }
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            background: #1e1e2f;
+            color: #fff;
+            position: fixed;
+            padding: 20px 0;
+        }
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .sidebar a {
+            display: block;
+            padding: 12px 30px;
+            color: #cfcfcf;
+            text-decoration: none;
+        }
+        .sidebar a:hover {
+            background: #34344a;
+            color: #fff;
+        }
+        .main {
+            margin-left: 240px;
+            padding: 20px;
+        }
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .card h3 {
+            margin-top: 0;
+        }
+    </style>
 </head>
+<body>
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <a href="#">Dashboard</a>
+        <a href="#">Users</a>
+        <a href="#">Properties</a>
+        <a href="#">Bookings</a>
+        <a href="#">Payments</a>
+        <a href="#">Reviews</a>
+        <a href="#">Reports</a>
+        <a href="#">Settings</a>
+    </div>
+
+    <div class="main">
+        <h1>Dashboard Overview</h1>
+        <div class="grid">
+            <div class="card">
+                <h3>Total Users</h3>
+                <p>1,245</p>
+            </div>
+            <div class="card">
+                <h3>Total Properties</h3>
+                <p>385</p>
+            </div>
+            <div class="card">
+                <h3>Active Bookings</h3>
+                <p>92</p>
+            </div>
+            <div class="card">
+                <h3>Pending Approvals</h3>
+                <p>14</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

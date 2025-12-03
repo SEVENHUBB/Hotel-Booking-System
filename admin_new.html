@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin — Bookings / Payments / Reviews / Reports / Hotels CRUD</title>
+  <style>
+    :root{--sidebar:#1e1e2f;--muted:#cfcfcf}
+    body{margin:0;font-family:Inter, system-ui, Arial, sans-serif;background:#f4f6f8}
+    .sidebar{width:260px;height:100vh;background:var(--sidebar);color:#fff;position:fixed;padding:24px 16px;box-sizing:border-box}
+    .sidebar h2{text-align:center;margin:0 0 18px}
+    .nav a{display:block;padding:10px 14px;margin:6px 0;border-radius:8px;color:var(--muted);text-decoration:none}
+    .nav a.active, .nav a:hover{background:#2c2c42;color:#fff}
+    .main{margin-left:260px;padding:20px}
+    .card{background:#fff;padding:16px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:16px}
+    h1{margin:0 0 12px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;border-bottom:1px solid #eee;text-align:left}
+    th{background:#fafafa}
+    .btn{display:inline-block;padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
+    .btn-primary{background:#4a90e2;color:#fff}
+    .btn-danger{background:#e24a4a;color:#fff}
+    .btn-ghost{background:transparent;border:1px solid #ddd}
+    form .row{display:flex;gap:8px;flex-wrap:wrap}
+    input,select,textarea{padding:8px;border:1px solid #ddd;border-radius:6px;min-width:0}
+    .small{font-size:13px;color:#666}
+    .actions button{margin-right:6px}
+    .hidden{display:none}
+    .file-preview{max-width:120px;max-height:80px;object-fit:cover;border-radius:6px;border:1px solid #ddd}
+    .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Admin Panel</h2>
+    <div class="nav">
+      <a href="#" data-page="dashboard" class="active">Dashboard</a>
+      <a href="#" data-page="bookings">Bookings</a>
+      <a href="#" data-page="payments">Payments</a>
+      <a href="#" data-page="reviews">Reviews</a>
+      <a href="#" data-page="reports">Reports</a>
+      <a href="#" data-page="hotels">Hotels (CRUD / Upload)</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <div id="dashboard" class="page card">
+      <div class="topbar">
+        <h1>Dashboard Overview</h1>
+        <div class="small">Quick actions: <button class="btn btn-primary" id="add-hotel-quick">Add hotel</button></div>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <h3>Total Users</h3>
+          <p id="stat-users">1,245</p>
+        </div>
+        <div class="card">
+          <h3>Total Properties</h3>
+          <p id="stat-properties">385</p>
+        </div>
+        <div class="card">
+          <h3>Active Bookings</h3>
+          <p id="stat-bookings">92</p>
+        </div>
+        <div class="card">
+          <h3>Revenue (30d)</h3>
+          <p id="stat-revenue">$34,120</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOKINGS -->
+    <div id="bookings" class="page hidden card">
+      <h1>Bookings</h1>
+      <p class="small">View, edit or cancel bookings.</p>
+      <div class="card">
+        <table id="table-bookings">
+          <thead><tr><th>ID</th><th>Guest</th><th>Hotel</th><th>Room</th><th>Check-in</th><th>Check-out</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PAYMENTS -->
+    <div id="payments" class="page hidden card">
+      <h1>Payments</h1>
+      <p class="small">Payments list, refunds and payouts.</p>
+      <div class="card">
+        <table id="table-payments">
+          <thead><tr><th>Txn ID</th><th>Booking</th><th>Amount</th><th>Method</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- REVIEWS -->
+    <div id="reviews" class="page hidden card">
+      <h1>Reviews</h1>
+      <p class="small">Moderate, remove or reply to reviews.</p>
+      <div class="card">
+        <table id="table-reviews">
+          <thead><tr><th>ID</th><th>Hotel</th><th>User</th><th>Rating</th><th>Comment</th><th>Actions</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- REPORTS -->
+    <div id="reports" class="page hidden card">
+      <h1>Reports</h1>
+      <p class="small">Generate simple CSV reports for bookings and revenue.</p>
+      <div class="card">
+        <label>Report type</label>
+        <select id="report-type">
+          <option value="bookings">Bookings (CSV)</option>
+          <option value="revenue">Revenue (CSV)</option>
+        </select>
+        <button class="btn btn-primary" id="generate-report">Generate</button>
+        <div id="report-result" style="margin-top:12px"></div>
+      </div>
+    </div>
+
+    <!-- HOTELS CRUD -->
+    <div id="hotels" class="page hidden card">
+      <h1>Hotels — Create / Read / Update / Delete</h1>
+      <p class="small">Upload images, set rooms, prices and availability.</p>
+
+      <div class="card">
+        <h3>Add / Edit Hotel</h3>
+        <form id="hotel-form">
+          <input type="hidden" id="hotel-id" />
+          <div class="row">
+            <input id="hotel-name" placeholder="Hotel name" required style="flex:1" />
+            <input id="hotel-city" placeholder="City" required />
+          </div>
+          <div class="row" style="margin-top:8px">
+            <input id="hotel-price" type="number" placeholder="Base price (USD)" required />
+            <input id="hotel-rooms" type="number" placeholder="Rooms available" required />
+            <input id="hotel-image" type="file" accept="image/*" />
+            <img id="hotel-preview" class="file-preview hidden" alt="preview" />
+          </div>
+          <div style="margin-top:8px">
+            <textarea id="hotel-desc" placeholder="Short description" rows="2" style="width:100%"></textarea>
+          </div>
+          <div style="margin-top:8px">
+            <button class="btn btn-primary" type="submit">Save Hotel</button>
+            <button class="btn btn-ghost" type="button" id="hotel-clear">Clear</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Hotels List</h3>
+        <table id="table-hotels">
+          <thead><tr><th>ID</th><th>Name</th><th>City</th><th>Price</th><th>Rooms</th><th>Image</th><th>Actions</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Simple SPA nav
+    document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click', e=>{
+      e.preventDefault();const page=a.dataset.page;document.querySelectorAll('.nav a').forEach(x=>x.classList.remove('active'));a.classList.add('active');document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));document.getElementById(page).classList.remove('hidden');
+    }))
+
+    // In-memory sample data
+    let hotels = [
+      {id:'H001',name:'Seaside Resort',city:'Penang',price:85,rooms:10,image:null,desc:'Near the beach.'},
+      {id:'H002',name:'City Central Hotel',city:'Kuala Lumpur',price:120,rooms:20,image:null,desc:'City center, close to MRT.'}
+    ]
+    let bookings = [
+      {id:'B1001',guest:'Adam Lee',hotel:'Seaside Resort',room:'Deluxe',checkin:'2025-12-10',checkout:'2025-12-15',status:'Confirmed'},
+      {id:'B1002',guest:'Sarah Tan',hotel:'City Central Hotel',room:'Standard',checkin:'2025-11-20',checkout:'2025-11-22',status:'Cancelled'}
+    ]
+    let payments = [
+      {id:'T9001',booking:'B1001',amount:425,method:'Card',status:'Paid',date:'2025-11-01'},
+      {id:'T9002',booking:'B1002',amount:240,method:'PayPal',status:'Refunded',date:'2025-11-02'}
+    ]
+    let reviews = [
+      {id:'R01',hotel:'Seaside Resort',user:'Mike',rating:5,comment:'Great stay!'},
+      {id:'R02',hotel:'City Central Hotel',user:'Amy',rating:3,comment:'Okay location.'}
+    ]
+
+    // Render functions
+    function renderHotels(){
+      const tbody = document.querySelector('#table-hotels tbody');tbody.innerHTML='';hotels.forEach(h=>{
+        const tr=document.createElement('tr');tr.innerHTML=`<td>${h.id}</td><td>${h.name}</td><td>${h.city}</td><td>$${h.price}</td><td>${h.rooms}</td><td>${h.image?'<img src="'+h.image+'" class="file-preview"/>':''}</td><td class="actions"><button class="btn btn-primary" data-id="${h.id}" data-action="edit">Edit</button><button class="btn btn-danger" data-id="${h.id}" data-action="delete">Delete</button></td>`;
+        tbody.appendChild(tr);
+      })
+      document.getElementById('stat-properties').textContent = hotels.length;
+    }
+    function renderBookings(){
+      const tbody=document.querySelector('#table-bookings tbody');tbody.innerHTML='';bookings.forEach(b=>{
+        const tr=document.createElement('tr');tr.innerHTML=`<td>${b.id}</td><td>${b.guest}</td><td>${b.hotel}</td><td>${b.room}</td><td>${b.checkin}</td><td>${b.checkout}</td><td>${b.status}</td><td class="actions"><button class="btn btn-ghost" data-id="${b.id}" data-action="view">View</button><button class="btn btn-danger" data-id="${b.id}" data-action="cancel">Cancel</button></td>`;tbody.appendChild(tr);
+      })
+      document.getElementById('stat-bookings').textContent = bookings.filter(b=>b.status==='Confirmed').length;
+    }
+    function renderPayments(){
+      const tbody=document.querySelector('#table-payments tbody');tbody.innerHTML='';payments.forEach(p=>{
+        const tr=document.createElement('tr');tr.innerHTML=`<td>${p.id}</td><td>${p.booking}</td><td>$${p.amount}</td><td>${p.method}</td><td>${p.status}</td><td>${p.date}</td><td class="actions"><button class="btn btn-ghost" data-id="${p.id}" data-action="refund">Refund</button></td>`;tbody.appendChild(tr);
+      })
+      const rev = payments.reduce((s,p)=>s+p.amount,0);document.getElementById('stat-revenue').textContent = '$'+rev;
+    }
+    function renderReviews(){
+      const tbody=document.querySelector('#table-reviews tbody');tbody.innerHTML='';reviews.forEach(r=>{
+        const tr=document.createElement('tr');tr.innerHTML=`<td>${r.id}</td><td>${r.hotel}</td><td>${r.user}</td><td>${r.rating}</td><td>${r.comment}</td><td class="actions"><button class="btn btn-primary" data-id="${r.id}" data-action="reply">Reply</button><button class="btn btn-danger" data-id="${r.id}" data-action="remove">Remove</button></td>`;tbody.appendChild(tr);
+      })
+    }
+
+    // Initial render
+    renderHotels();renderBookings();renderPayments();renderReviews();
+
+    // Hotel form
+    const hotelForm=document.getElementById('hotel-form');
+    const hotelImageInput = document.getElementById('hotel-image');
+    hotelImageInput.addEventListener('change',e=>{
+      const file = e.target.files[0];const preview=document.getElementById('hotel-preview');
+      if(!file){preview.classList.add('hidden');preview.src='';return}
+      const reader=new FileReader();reader.onload=e=>{preview.src=e.target.result;preview.classList.remove('hidden')};reader.readAsDataURL(file);
+    })
+
+    hotelForm.addEventListener('submit',e=>{
+      e.preventDefault();const idField=document.getElementById('hotel-id');const name=document.getElementById('hotel-name').value.trim();const city=document.getElementById('hotel-city').value.trim();const price=Number(document.getElementById('hotel-price').value);const rooms=Number(document.getElementById('hotel-rooms').value);const desc=document.getElementById('hotel-desc').value;const preview=document.getElementById('hotel-preview').src||null;
+      if(idField.value){ // update
+        const idx=hotels.findIndex(h=>h.id===idField.value);if(idx>-1){hotels[idx]={...hotels[idx],name,city,price,rooms,image:preview,desc}} 
+      } else { // create
+        const newId = 'H' + String(Math.floor(Math.random()*9000)+1000);
+        hotels.push({id:newId,name,city,price,rooms,image:preview,desc});
+      }
+      hotelForm.reset();document.getElementById('hotel-preview').classList.add('hidden');document.getElementById('hotel-id').value='';renderHotels();
+    })
+
+    document.getElementById('hotel-clear').addEventListener('click',()=>{hotelForm.reset();document.getElementById('hotel-preview').classList.add('hidden');document.getElementById('hotel-id').value='';})
+
+    // Hotels actions (edit/delete)
+    document.querySelector('#table-hotels tbody').addEventListener('click',e=>{
+      const btn = e.target.closest('button');if(!btn) return;const id=btn.dataset.id;const action=btn.dataset.action;if(action==='edit'){const h=hotels.find(x=>x.id===id);if(h){document.getElementById('hotel-id').value=h.id;document.getElementById('hotel-name').value=h.name;document.getElementById('hotel-city').value=h.city;document.getElementById('hotel-price').value=h.price;document.getElementById('hotel-rooms').value=h.rooms;document.getElementById('hotel-desc').value=h.desc;if(h.image){document.getElementById('hotel-preview').src=h.image;document.getElementById('hotel-preview').classList.remove('hidden')}window.scrollTo({top:0,behavior:'smooth'})}} else if(action==='delete'){if(confirm('Delete hotel '+id+'?')){hotels=hotels.filter(h=>h.id!==id);renderHotels()}}
+    })
+
+    // Bookings actions
+    document.querySelector('#table-bookings tbody').addEventListener('click',e=>{
+      const btn=e.target.closest('button');if(!btn) return;const id=btn.dataset.id;const action=btn.dataset.action;if(action==='cancel'){const idx=bookings.findIndex(b=>b.id===id);if(idx>-1){bookings[idx].status='Cancelled';renderBookings();alert('Booking cancelled.')}}
+    })
+
+    // Payments action refund (simulation)
+    document.querySelector('#table-payments tbody').addEventListener('click',e=>{
+      const btn=e.target.closest('button');if(!btn) return;const id=btn.dataset.id;const action=btn.dataset.action;if(action==='refund'){const p=payments.find(x=>x.id===id);if(p && p.status!=='Refunded'){if(confirm('Issue refund for '+id+' ?')){p.status='Refunded';renderPayments();alert('Refunded (simulated).')}}}
+    })
+
+    // Reviews actions
+    document.querySelector('#table-reviews tbody').addEventListener('click',e=>{
+      const btn=e.target.closest('button');if(!btn) return;const id=btn.dataset.id;const action=btn.dataset.action;if(action==='remove'){reviews=reviews.filter(r=>r.id!==id);renderReviews()} else if(action==='reply'){const r=reviews.find(x=>x.id===id);const ans=prompt('Reply to review by '+r.user+':');if(ans){alert('Reply saved (not persisted).')}}
+    })
+
+    // Generate CSV reports
+    function toCSV(rows,headers){let csv = headers.join(',')+"\n";rows.forEach(r=>{csv+=headers.map(h=>('"'+(r[h]||'')+'"')).join(',')+"\n"});return csv}
+    document.getElementById('generate-report').addEventListener('click',()=>{
+      const t=document.getElementById('report-type').value;const out=document.getElementById('report-result');out.innerHTML='';if(t==='bookings'){const rows=bookings.map(b=>({id:b.id,guest:b.guest,hotel:b.hotel,checkin:b.checkin,checkout:b.checkout,status:b.status}));const csv=toCSV(rows,['id','guest','hotel','checkin','checkout','status']);const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);out.innerHTML=`<a href="${url}" download="bookings_report.csv" class="btn btn-primary">Download bookings CSV</a>`} else if(t==='revenue' || t==='revenue'){const rows=payments.map(p=>({txn:p.id,booking:p.booking,amount:p.amount,status:p.status,date:p.date}));const csv=toCSV(rows,['txn','booking','amount','status','date']);const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);out.innerHTML=`<a href="${url}" download="revenue_report.csv" class="btn btn-primary">Download revenue CSV</a>`}
+    })
+
+    // Quick add hotel button
+    document.getElementById('add-hotel-quick').addEventListener('click',()=>{document.querySelectorAll('.nav a').forEach(x=>x.classList.remove('active'));document.querySelector('.nav a[data-page="hotels"]').classList.add('active');document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));document.getElementById('hotels').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'})})
+
+    // Delegate events when tables change (re-render)
+    // Re-attach listeners by re-rendering on DOM
+
+  </script>
+</body>
+</html>
