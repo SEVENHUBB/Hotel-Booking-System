@@ -1,11 +1,9 @@
-// 跳转到登录页面
 function goToLogin() {
-    window.location.href = 'login.php';
+    window.location.href = "login.html";
 }
 
-// 跳转到注册页面
 function goToRegister() {
-    window.location.href = 'register.php';
+    window.location.href = "register.html";
 }
 
 // 登出函数

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Super Booking System</title>
+  <link rel="stylesheet" href="css/home.css" />
+  <link rel="stylesheet" href="css/index.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+</head>
+<body>
+
+    <!-- ⭐ 合并自 _main_page.php -->
+    <header>
+        <h1>Super Booking System</h1>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+        <div id="guestNav">
+            <button id="loginButton" onclick="goToLogin()">Log In</button>
+            <button id="registerBtn" onclick="goToRegister()">Register</button>
+        </div>
+        <div id="userNav" style="display:none;">
+            <span id="welcomeMessage"></span>
+            <button id="logoutBtn" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+
+    <!-- ⭐ 合并自 home 页面 -->
+    <section class="home-header">
+        <h1>Welcome to Super Booking Hotels</h1>
+        <p>Find your perfect stay with the best prices</p>
+
+        <div class="search-box">
+            <input type="text" placeholder="Enter destination..." />
+            <input type="date" />
+            <input type="date" />
+            <select>
+                <option>1 Guest</option>
+                <option>2 Guests</option>
+                <option>3 Guests</option>
+                <option>4 Guests</option>
+            </select>
+            <button>Search</button>
+        </div>
+    </section>
+
+    <section class="hotels-section">
+        <h2>Featured Hotels</h2>
+        <div class="hotel-grid">
+
+            <a href="">
+                <div class="hotel-card">
+                    <img src="images/hotel_1.png" alt="Hotel" />
+                    <div class="info">
+                        <h3>Sunrise Resort</h3>
+                        <p>Location: Penang</p>
+                        <p class="price">RM 250 / night</p>
+                    </div>
+                </div>
+            </a>
+
+            <div class="hotel-card">
+                <img src="hotel2.jpg" alt="Hotel" />
+                <div class="info">
+                    <h3>Luxury Palace Hotel</h3>
+                    <p>Location: Kuala Lumpur</p>
+                    <p class="price">RM 450 / night</p>
+                </div>
+            </div>
+
+            <div class="hotel-card">
+                <img src="hotel3.jpg" alt="Hotel" />
+                <div class="info">
+                    <h3>Beachside Villa</h3>
+                    <p>Location: Langkawi</p>
+                    <p class="price">RM 300 / night</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <script src="js/main.js"></script>
+
+</body>
+</html>
