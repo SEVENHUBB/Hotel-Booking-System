@@ -2,29 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Hotel Admin</title>
-    <style>
-        body { margin: 0; font-family: Arial; background: #f4f4f4; }
-        .container { width: 80%; margin: 40px auto; }
-        .card { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-        input, textarea, select {
-            width: 100%; padding: 10px; margin-bottom: 10px;
-            border-radius: 6px; border: 1px solid #ccc; box-sizing: border-box;
-        }
-        button {
-            padding: 10px 15px; background: #1e1e2f; color: white;
-            border: none; border-radius: 6px; cursor: pointer;
-        }
-        button:hover { opacity: 0.9; }
-        table { width: 100%; margin-top: 20px; border-collapse: collapse; background: white; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
-        th { background: #f0f0f0; }
-        .delete-btn { color: #d32f2f; cursor: pointer; font-weight: bold; }
-        .delete-btn:hover { text-decoration: underline; }
-        .msg { padding: 10px; margin: 10px 0; border-radius: 4px; }
-        .success { background: #e8f5e9; color: #2e7d32; }
-        .error { background: #ffebee; color: #c62828; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Hotel Admin Panel</title>
+    <link rel="stylesheet" href="css/admin_hotel_style.css" />
 </head>
 <body>
 
@@ -41,9 +21,8 @@
             <input type="text" name="City" placeholder="City" required>
             <input type="text" name="Country" placeholder="Country" required>
             <input type="number" name="NumRooms" placeholder="Number of Rooms" min="1">
-            <input type="text" name="Category" placeholder="Category (e.g. Beach, City, Resort)">
+            <input type="text" name="Category" placeholder="Category (e.g. Beach, City)">
             <input type="number" name="StarRating" placeholder="Star Rating" min="1" max="5" step="1">
-
             <button type="submit">Add Hotel</button>
         </form>
     </div>
@@ -62,106 +41,14 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+                <!-- Filled by JavaScript -->
+            </tbody>
         </table>
     </div>
 
 </div>
 
-<script>
-// === CONFIG: Change this to match your actual PHP filename and path ===
-const API_URL = "php/admin_hotel.php";   // This matches your folder structure
-
-// Show message
-function showMessage(text, type = "success") {
-    const msgDiv = document.getElementById("message");
-    msgDiv.textContent = text;
-    msgDiv.className = "msg " + type;
-    setTimeout(() => msgDiv.textContent = "", 5000);
-}
-
-// Load all hotels
-function loadHotels() {
-    fetch(`${API_URL}?action=read`)
-        .then(res => {
-            if (!res.ok) throw new Error("Server error");
-            return res.json();
-        })
-        .then(data => {
-            const tbody = document.querySelector("#hotelTable tbody");
-            if (!data || data.length === 0) {
-                tbody.innerHTML = "<tr><td colspan='7'>No hotels found</td></tr>";
-                return;
-            }
-            tbody.innerHTML = data.map(h => `
-                <tr>
-                    <td>${h.HotelID}</td>
-                    <td>${h.HotelName}</td>
-                    <td>${h.City}</td>
-                    <td>${h.Country}</td>
-                    <td>${h.NumRooms || "-"}</td>
-                    <td>${"★".repeat(h.StarRating || 0)}</td>
-                    <td><span class="delete-btn" data-id="${h.HotelID}">Delete</span></td>
-                </tr>
-            `).join("");
-
-            // Attach delete handlers safely (no inline JS)
-            document.querySelectorAll(".delete-btn").forEach(btn => {
-                btn.onclick = () => deleteHotel(btn.dataset.id);
-            });
-        })
-        .catch(err => {
-            console.error(err);
-            showMessage("Failed to load hotels", "error");
-        });
-}
-
-// Add hotel
-document.getElementById("hotelForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-
-    fetch(`${API_URL}?action=create`, {
-        method: "POST",
-        body: formData
-    })
-    .then(res => res.json())
-    .then(result => {
-        if (result.success) {
-            showMessage("Hotel added successfully!");
-            this.reset();
-            loadHotels();
-        } else {
-            showMessage("Error: " + (result.error || "Unknown error"), "error");
-        }
-    })
-    .catch(err => {
-        console.error(err);
-        showMessage("Request failed", "error");
-    });
-});
-
-// Delete hotel
-function deleteHotel(id) {
-    if (!confirm("Are you sure you want to delete this hotel?")) return;
-
-    const formData = new FormData();
-    formData.append("HotelID", id);
-
-    fetch(`${API_URL}?action=delete`, {
-        method: "POST",
-        body: formData
-    })
-    .then(() => {
-        showMessage("Hotel deleted");
-        loadHotels();
-    })
-    .catch(() => showMessage("Delete failed", "error"));
-}
-
-// Initial load
-loadHotels();
-</script>
-
+<script src="js/admin_hotel.js"></script>
 </body>
 </html>
