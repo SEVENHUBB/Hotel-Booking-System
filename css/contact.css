@@ -1,0 +1,104 @@
+/* General */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+}
+
+ /* *{
+    outline:1px solid red !important;
+}  */
+
+
+
+
+/* Navbar */
+.navbar {
+    background: linear-gradient(135deg, #0a4d68 0%, #088395 100%);
+}
+.navbar-brand, .nav-link {
+    color: white !important;
+    font-weight: 500;
+}
+.nav-link.active {
+    font-weight: bold;
+}
+.btn-login {
+    border: 1px solid white;
+}
+.btn-register {
+    background-color: white;
+    color: #006699;
+    font-weight: 600;
+}
+
+/* Hero */
+.contact-hero {
+    background: linear-gradient(rgba(0,102,153,0.9), rgba(0,102,153,0.95)),
+                url('https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    padding: 120px 0 100px;
+    color:white;
+    text-align: center;
+}
+
+/* Form Card */
+.form-card {
+    background: white;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.form-control, .form-select {
+    border-radius: 10px;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
+.form-control:focus {
+    border-color: #006699;
+    box-shadow: 0 0 0 0.2rem rgba(0,102,153,0.25);
+}
+.btn-send {
+    background-color: #006699;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.btn-send:hover {
+    background-color: #005580;
+}
+
+/* Info Box */
+.info-box {
+    background-color: #006699;
+    border-radius: 15px;
+    padding: 35px;
+}
+.info-box i {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Map */
+.map-container {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Footer */
+footer {
+    background-color: #222;
+    color: #aaa;
+}
+.social-icons a {
+    color: #aaa;
+    margin: 0 12px;
+    font-size: 1.5rem;
+}
+.social-icons a:hover {
+    color: white;
+}
