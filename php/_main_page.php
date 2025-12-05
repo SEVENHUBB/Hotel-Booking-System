@@ -1,0 +1,32 @@
+<?php 
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Super Booking System</title>
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+<body>
+    <header>
+        <h1>Super Booking System</h1>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="home.php">Home</a></li>
+                <li><a href="about.php">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+        <div id="guestNav">
+            <button id="loginButton" onclick="goToLogin()">Log In</button>
+            <button id="registerBtn" onclick="goToRegister()">Register</button>
+        </div>
+        <div id="userNav">
+            <span id="welcomeMessage"></span>
+            <button id="logoutBtn" onclick="logout()">Logout</button>
+        </div>
+    </header>
+    <script src="../js/main.js"></script>
+</body>

@@ -7,27 +7,10 @@
     <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-    <header>
-        <h1>Super Booking System</h1>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
-            </ul>
-        </nav>
-        <div id="guestNav" style="display: none;">
-            <button id="loginButton" onclick="goToLogin()">Log In</button>
-            <button id="registerBtn" onclick="goToRegister()">Register</button>
-        </div>
-        <div id="userNav" style="display: none;">
-            <span id="welcomeMessage"></span>
-            <button id="logoutBtn" onclick="logout()">Logout</button>
-        </div>
-    </header>
+
+<?php include '_main_page.php'; ?>
 
     <main>
-        <h1>Eadric 你在这里做</h1>
 
         <section class="about-hero">
             <h2>About Super Booking System</h2>
@@ -114,7 +97,7 @@
         <p>&copy; 2024 Super Booking System. All rights reserved.</p>
         <p>Making your hotel booking experience super easy!</p>
     </footer>
+    <script src="../js/main.js"></script>
 
-    <script src="js/main.js"></script>
 </body>
 </html>

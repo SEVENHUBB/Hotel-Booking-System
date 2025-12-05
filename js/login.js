@@ -1,6 +1,6 @@
 // 返回主页
 function goBack() {
-    window.location.href = 'index.html';
+    window.location.href = 'index.php';
 }
 
 // 显示/隐藏密码
