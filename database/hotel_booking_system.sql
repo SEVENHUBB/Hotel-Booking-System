@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2025 at 10:59 AM
+-- Generation Time: Nov 27, 2025 at 08:42 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -20,6 +20,24 @@ SET time_zone = "+00:00";
 --
 -- Database: `hotel_booking_system`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `AdminID` int(11) NOT NULL,
+  `RoleID` int(11) DEFAULT NULL,
+  `HotelID` int(11) DEFAULT NULL,
+  `AdminName` varchar(100) DEFAULT NULL,
+  `Password` varchar(255) DEFAULT NULL,
+  `Gender` varchar(10) DEFAULT NULL,
+  `PhoneNo` varchar(20) DEFAULT NULL,
+  `Email` varchar(100) DEFAULT NULL,
+  `Salary` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -44,9 +62,8 @@ CREATE TABLE `availablerooms` (
 
 CREATE TABLE `bill` (
   `BillID` int(11) NOT NULL,
-  `PaymentID` int(11) NOT NULL,
-  `TenantName` varchar(100) NOT NULL,
-  `Password` varchar(255) DEFAULT NULL,
+  `PaymentID` int(11) DEFAULT NULL,
+  `TenantName` varchar(100) DEFAULT NULL,
   `PhoneNo` varchar(20) DEFAULT NULL,
   `Gender` varchar(10) DEFAULT NULL,
   `Email` varchar(100) DEFAULT NULL,
@@ -61,68 +78,13 @@ CREATE TABLE `bill` (
 
 CREATE TABLE `booking` (
   `BookingID` int(11) NOT NULL,
-  `RoomID` int(11) NOT NULL,
-  `TenantID` int(11) NOT NULL,
-  `CheckInDate` date NOT NULL,
-  `CheckOutDate` date NOT NULL,
-  `NumberOfTenant` int(11) NOT NULL,
-  `BookingDate` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Status` varchar(20) DEFAULT 'Pending'
+  `RoomID` int(11) DEFAULT NULL,
+  `TenantID` int(11) DEFAULT NULL,
+  `CheckInDate` date DEFAULT NULL,
+  `CheckOutDate` date DEFAULT NULL,
+  `NumberOfTenant` int(11) DEFAULT NULL,
+  `BookingDate` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `booking`
---
-
-INSERT INTO `booking` (`BookingID`, `RoomID`, `TenantID`, `CheckInDate`, `CheckOutDate`, `NumberOfTenant`, `BookingDate`, `Status`) VALUES
-(1, 1, 1, '2025-11-20', '2025-11-23', 2, '2025-11-15 09:39:10', 'Confirmed'),
-(2, 2, 2, '2025-11-25', '2025-11-28', 3, '2025-11-15 09:39:10', 'Pending');
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `bookingdetails`
--- (See below for the actual view)
---
-CREATE TABLE `bookingdetails` (
-`BookingID` int(11)
-,`TenantName` varchar(100)
-,`Email` varchar(100)
-,`RoomType` varchar(50)
-,`HotelName` varchar(100)
-,`CheckInDate` date
-,`CheckOutDate` date
-,`NumberOfTenant` int(11)
-,`Status` varchar(20)
-,`Amount` decimal(10,2)
-,`PaymentStatus` varchar(20)
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `employee`
---
-
-CREATE TABLE `employee` (
-  `EmployeeID` int(11) NOT NULL,
-  `RoleID` int(11) NOT NULL,
-  `EmployeeName` varchar(100) NOT NULL,
-  `Password` varchar(255) NOT NULL,
-  `Gender` varchar(10) DEFAULT NULL,
-  `PhoneNo` varchar(20) DEFAULT NULL,
-  `Email` varchar(100) NOT NULL,
-  `Salary` decimal(10,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `employee`
---
-
-INSERT INTO `employee` (`EmployeeID`, `RoleID`, `EmployeeName`, `Password`, `Gender`, `PhoneNo`, `Email`, `Salary`) VALUES
-(1, 1, 'Ahmad bin Ali', '$2y$10$example_hash_password1', 'Male', '+60-12-3456789', 'ahmad@grandhotel.com', 5000.00),
-(2, 2, 'Siti binti Hassan', '$2y$10$example_hash_password2', 'Female', '+60-13-9876543', 'siti@grandhotel.com', 3000.00),
-(3, 3, 'Kumar a/l Rajan', '$2y$10$example_hash_password3', 'Male', '+60-14-5551234', 'kumar@grandhotel.com', 2500.00);
 
 -- --------------------------------------------------------
 
@@ -132,22 +94,39 @@ INSERT INTO `employee` (`EmployeeID`, `RoleID`, `EmployeeName`, `Password`, `Gen
 
 CREATE TABLE `hotel` (
   `HotelID` int(11) NOT NULL,
-  `HotelName` varchar(100) NOT NULL,
-  `Address` varchar(255) NOT NULL,
-  `City` varchar(50) NOT NULL,
-  `Country` varchar(50) NOT NULL,
-  `NumRooms` int(11) NOT NULL,
-  `StarRating` int(11) DEFAULT NULL CHECK (`StarRating` between 1 and 5),
-  `PhoneNo` varchar(20) DEFAULT NULL
+  `HotelName` varchar(100) DEFAULT NULL,
+  `Description` varchar(255) DEFAULT NULL,
+  `Address` varchar(255) DEFAULT NULL,
+  `City` varchar(50) DEFAULT NULL,
+  `Country` varchar(50) DEFAULT NULL,
+  `NumRooms` int(11) DEFAULT NULL,
+  `Category` varchar(50) DEFAULT NULL,
+  `StarRating` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `password_reset_otp`
+--
+
+CREATE TABLE `password_reset_otp` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `otp` varchar(6) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `expires_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_used` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `hotel`
+-- Dumping data for table `password_reset_otp`
 --
 
-INSERT INTO `hotel` (`HotelID`, `HotelName`, `Address`, `City`, `Country`, `NumRooms`, `StarRating`, `PhoneNo`) VALUES
-(1, 'Grand Hotel Melaka', '123 Jonker Street', 'Melaka', 'Malaysia', 50, 5, '+60-6-1234567'),
-(2, 'Riverside Inn', '456 Beach Road', 'Melaka', 'Malaysia', 30, 4, '+60-6-7654321');
+INSERT INTO `password_reset_otp` (`id`, `email`, `otp`, `created_at`, `expires_at`, `is_used`) VALUES
+(4, 'leon@gmail.com', '696944', '2025-11-16 07:20:40', '2025-11-16 00:30:40', 0),
+(10, 'tangyeesiang2006@gmail.com', '393453', '2025-11-24 02:28:15', '2025-11-23 19:38:15', 0);
 
 -- --------------------------------------------------------
 
@@ -157,20 +136,11 @@ INSERT INTO `hotel` (`HotelID`, `HotelName`, `Address`, `City`, `Country`, `NumR
 
 CREATE TABLE `payment` (
   `PaymentID` int(11) NOT NULL,
-  `BookingID` int(11) NOT NULL,
-  `Amount` decimal(10,2) NOT NULL,
-  `PaymentMethod` varchar(50) NOT NULL,
-  `PaymentDate` timestamp NOT NULL DEFAULT current_timestamp(),
-  `PaymentStatus` varchar(20) DEFAULT 'Pending'
+  `BookingID` int(11) DEFAULT NULL,
+  `Amount` decimal(10,2) DEFAULT NULL,
+  `PaymentMethod` varchar(50) DEFAULT NULL,
+  `PaymentStatus` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `payment`
---
-
-INSERT INTO `payment` (`PaymentID`, `BookingID`, `Amount`, `PaymentMethod`, `PaymentDate`, `PaymentStatus`) VALUES
-(1, 1, 750.00, 'Credit Card', '2025-11-15 09:39:10', 'Completed'),
-(2, 2, 1350.00, 'Online Banking', '2025-11-15 09:39:10', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -180,18 +150,8 @@ INSERT INTO `payment` (`PaymentID`, `BookingID`, `Amount`, `PaymentMethod`, `Pay
 
 CREATE TABLE `role` (
   `RoleID` int(11) NOT NULL,
-  `RoleTitle` varchar(50) NOT NULL
+  `RoleTitle` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `role`
---
-
-INSERT INTO `role` (`RoleID`, `RoleTitle`) VALUES
-(4, 'Admin'),
-(3, 'Housekeeping'),
-(1, 'Manager'),
-(2, 'Receptionist');
 
 -- --------------------------------------------------------
 
@@ -201,24 +161,14 @@ INSERT INTO `role` (`RoleID`, `RoleTitle`) VALUES
 
 CREATE TABLE `room` (
   `RoomID` int(11) NOT NULL,
-  `HotelID` int(11) NOT NULL,
-  `RoomType` varchar(50) NOT NULL,
-  `RoomPrice` decimal(10,2) NOT NULL,
+  `HotelID` int(11) DEFAULT NULL,
+  `TenantID` int(11) DEFAULT NULL,
+  `RoomType` varchar(50) DEFAULT NULL,
+  `RoomPrice` decimal(10,2) DEFAULT NULL,
   `RoomDesc` text DEFAULT NULL,
-  `RoomStatus` varchar(20) DEFAULT 'Available',
-  `Capacity` int(11) NOT NULL
+  `RoomStatus` varchar(20) DEFAULT NULL,
+  `Capacity` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `room`
---
-
-INSERT INTO `room` (`RoomID`, `HotelID`, `RoomType`, `RoomPrice`, `RoomDesc`, `RoomStatus`, `Capacity`) VALUES
-(1, 1, 'Deluxe Room', 250.00, 'Spacious room with city view', 'Available', 2),
-(2, 1, 'Suite', 450.00, 'Luxury suite with ocean view', 'Available', 4),
-(3, 1, 'Standard Room', 150.00, 'Comfortable standard room', 'Available', 2),
-(4, 2, 'Family Room', 350.00, 'Large room for families', 'Available', 5),
-(5, 2, 'Standard Room', 120.00, 'Basic accommodation', 'Available', 2);
 
 -- --------------------------------------------------------
 
@@ -228,11 +178,13 @@ INSERT INTO `room` (`RoomID`, `HotelID`, `RoomType`, `RoomPrice`, `RoomDesc`, `R
 
 CREATE TABLE `tenant` (
   `TenantID` int(11) NOT NULL,
-  `TenantName` varchar(100) NOT NULL,
-  `Password` varchar(255) NOT NULL,
+  `RoleID` int(11) DEFAULT NULL,
+  `TenantName` varchar(100) DEFAULT NULL,
+  `Password` varchar(255) DEFAULT NULL,
   `PhoneNo` varchar(20) DEFAULT NULL,
   `Gender` varchar(10) DEFAULT NULL,
-  `Email` varchar(100) NOT NULL,
+  `Email` varchar(100) DEFAULT NULL,
+  `FullName` varchar(100) DEFAULT NULL,
   `Country` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -240,9 +192,9 @@ CREATE TABLE `tenant` (
 -- Dumping data for table `tenant`
 --
 
-INSERT INTO `tenant` (`TenantID`, `TenantName`, `Password`, `PhoneNo`, `Gender`, `Email`, `Country`) VALUES
-(1, 'John Doe', '$2y$10$example_hash_password4', '+60-16-7778889', 'Male', 'john.doe@email.com', 'Singapore'),
-(2, 'Mary Tan', '$2y$10$example_hash_password5', '+60-17-4445556', 'Female', 'mary.tan@email.com', 'Malaysia');
+INSERT INTO `tenant` (`TenantID`, `RoleID`, `TenantName`, `Password`, `PhoneNo`, `Gender`, `Email`, `FullName`, `Country`) VALUES
+(2, NULL, 'david', '$2y$10$0j.dc/AFNendhIQlH6pFnOQayJWxTyNX.hqdsxxV9g3OZ8z.qhOZa', '0185878187', 'Male', 'davidtao@gmail.com', 'DavidTao', 'Malaysia'),
+(3, NULL, 'yeesiang', '$2y$10$WK6aLgEgXbABxvyz9vGp2.ekCkDN.kwmEgh5u6tTWuq/2kdVLGvSi', '0185878187', 'Male', 'tangyeesiang2006@gmail.com', 'Tang Yee Siang', 'Singapore');
 
 -- --------------------------------------------------------
 
@@ -253,18 +205,16 @@ DROP TABLE IF EXISTS `availablerooms`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `availablerooms`  AS SELECT `r`.`RoomID` AS `RoomID`, `r`.`RoomType` AS `RoomType`, `r`.`RoomPrice` AS `RoomPrice`, `r`.`RoomDesc` AS `RoomDesc`, `r`.`Capacity` AS `Capacity`, `h`.`HotelName` AS `HotelName` FROM (`room` `r` join `hotel` `h` on(`r`.`HotelID` = `h`.`HotelID`)) WHERE `r`.`RoomStatus` = 'Available' ;
 
--- --------------------------------------------------------
-
---
--- Structure for view `bookingdetails`
---
-DROP TABLE IF EXISTS `bookingdetails`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `bookingdetails`  AS SELECT `b`.`BookingID` AS `BookingID`, `t`.`TenantName` AS `TenantName`, `t`.`Email` AS `Email`, `r`.`RoomType` AS `RoomType`, `h`.`HotelName` AS `HotelName`, `b`.`CheckInDate` AS `CheckInDate`, `b`.`CheckOutDate` AS `CheckOutDate`, `b`.`NumberOfTenant` AS `NumberOfTenant`, `b`.`Status` AS `Status`, `p`.`Amount` AS `Amount`, `p`.`PaymentStatus` AS `PaymentStatus` FROM ((((`booking` `b` join `tenant` `t` on(`b`.`TenantID` = `t`.`TenantID`)) join `room` `r` on(`b`.`RoomID` = `r`.`RoomID`)) join `hotel` `h` on(`r`.`HotelID` = `h`.`HotelID`)) left join `payment` `p` on(`b`.`BookingID` = `p`.`BookingID`)) ;
-
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`AdminID`),
+  ADD KEY `RoleID` (`RoleID`);
 
 --
 -- Indexes for table `bill`
@@ -282,18 +232,18 @@ ALTER TABLE `booking`
   ADD KEY `TenantID` (`TenantID`);
 
 --
--- Indexes for table `employee`
---
-ALTER TABLE `employee`
-  ADD PRIMARY KEY (`EmployeeID`),
-  ADD UNIQUE KEY `Email` (`Email`),
-  ADD KEY `RoleID` (`RoleID`);
-
---
 -- Indexes for table `hotel`
 --
 ALTER TABLE `hotel`
   ADD PRIMARY KEY (`HotelID`);
+
+--
+-- Indexes for table `password_reset_otp`
+--
+ALTER TABLE `password_reset_otp`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_email` (`email`),
+  ADD KEY `idx_expires` (`expires_at`);
 
 --
 -- Indexes for table `payment`
@@ -306,8 +256,7 @@ ALTER TABLE `payment`
 -- Indexes for table `role`
 --
 ALTER TABLE `role`
-  ADD PRIMARY KEY (`RoleID`),
-  ADD UNIQUE KEY `RoleTitle` (`RoleTitle`);
+  ADD PRIMARY KEY (`RoleID`);
 
 --
 -- Indexes for table `room`
@@ -321,11 +270,17 @@ ALTER TABLE `room`
 --
 ALTER TABLE `tenant`
   ADD PRIMARY KEY (`TenantID`),
-  ADD UNIQUE KEY `Email` (`Email`);
+  ADD KEY `RoleID` (`RoleID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `AdminID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `bill`
@@ -337,78 +292,85 @@ ALTER TABLE `bill`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `employee`
---
-ALTER TABLE `employee`
-  MODIFY `EmployeeID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `hotel`
 --
 ALTER TABLE `hotel`
-  MODIFY `HotelID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `HotelID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `password_reset_otp`
+--
+ALTER TABLE `password_reset_otp`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `PaymentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `PaymentID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `role`
 --
 ALTER TABLE `role`
-  MODIFY `RoleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `RoleID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `room`
 --
 ALTER TABLE `room`
-  MODIFY `RoomID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `RoomID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tenant`
 --
 ALTER TABLE `tenant`
-  MODIFY `TenantID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `TenantID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
 --
 
 --
+-- Constraints for table `admin`
+--
+ALTER TABLE `admin`
+  ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`RoleID`) REFERENCES `role` (`RoleID`);
+
+--
 -- Constraints for table `bill`
 --
 ALTER TABLE `bill`
-  ADD CONSTRAINT `bill_ibfk_1` FOREIGN KEY (`PaymentID`) REFERENCES `payment` (`PaymentID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `bill_ibfk_1` FOREIGN KEY (`PaymentID`) REFERENCES `payment` (`PaymentID`);
 
 --
 -- Constraints for table `booking`
 --
 ALTER TABLE `booking`
-  ADD CONSTRAINT `booking_ibfk_1` FOREIGN KEY (`RoomID`) REFERENCES `room` (`RoomID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `booking_ibfk_2` FOREIGN KEY (`TenantID`) REFERENCES `tenant` (`TenantID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `booking_ibfk_1` FOREIGN KEY (`RoomID`) REFERENCES `room` (`RoomID`),
+  ADD CONSTRAINT `booking_ibfk_2` FOREIGN KEY (`TenantID`) REFERENCES `tenant` (`TenantID`);
 
---
--- Constraints for table `employee`
---
-ALTER TABLE `employee`
-  ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`RoleID`) REFERENCES `role` (`RoleID`);
 
 --
 -- Constraints for table `payment`
 --
 ALTER TABLE `payment`
-  ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`BookingID`) REFERENCES `booking` (`BookingID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`BookingID`) REFERENCES `booking` (`BookingID`);
 
 --
 -- Constraints for table `room`
 --
 ALTER TABLE `room`
-  ADD CONSTRAINT `room_ibfk_1` FOREIGN KEY (`HotelID`) REFERENCES `hotel` (`HotelID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `room_ibfk_1` FOREIGN KEY (`HotelID`) REFERENCES `hotel` (`HotelID`);
+
+--
+-- Constraints for table `tenant`
+--
+ALTER TABLE `tenant`
+  ADD CONSTRAINT `tenant_ibfk_1` FOREIGN KEY (`RoleID`) REFERENCES `role` (`RoleID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
