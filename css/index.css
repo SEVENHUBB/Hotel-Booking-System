@@ -9,9 +9,7 @@
     outline:1px solid red !important;
 }  */
 
-/* *{
-    outline:1px solid red;
-} */
+
 
 body {
     font-family: 'Arial', sans-serif;
@@ -41,6 +39,21 @@ header nav {
     align-items: center;
 }
 
+.home-header {
+    background: url('../images/background.png') center/cover no-repeat;
+    padding: 120px 20px;
+    text-align: center;
+    color: white;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+
+
 
 /* Navigation Links */
 .nav-links {
@@ -67,6 +80,7 @@ header nav {
     display: flex;
     gap: 15px;
 }
+
 
 .auth-buttons button,
 #guestNav button,
@@ -262,6 +276,9 @@ footer p {
     color: #0a4d68;
     font-size: 1.2rem;
 }
+
+.prev::before  { content: "❮"; font-size: 40px; }
+.next::before  { content: "❯"; font-size: 40px; }
 
 /* Responsive Design */
 @media (max-width: 968px) {

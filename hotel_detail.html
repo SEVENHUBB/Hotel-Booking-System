@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sunrise Pool Villa - Langkawi | Super Booking</title>
+  
+  <link rel="stylesheet" href="css/index.css" />           <!-- 你原来的全局样式 -->
+  <link rel="stylesheet" href="css/hotel_detail.css" />    <!-- 本页专用样式 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- 你原来的 header -->
+  <header>
+    <h1>Super Booking System</h1>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </nav>
+    <div id="guestNav">
+      <button id="loginButton">Log In</button>
+      <button id="registerBtn">Register</button>
+    </div>
+  </header>
+
+  <div class="hotel-detail">
+
+    <div class="hotel-header">
+      <h1>Sunrise Pool Villa</h1>
+      <p class="location"><i class="fas fa-map-marker-alt"></i> Langkawi Island, Malaysia</p>
+      <div class="rating">5 stars 4.9 <span style="color:#888">(528 reviews)</span></div>
+    </div>
+
+    <!-- 轮播图 -->
+    <div class="carousel" id="carousel">
+        <button class="carousel-control prev" aria-label="Previous"></button>
+        <button class="carousel-control next" aria-label="Next"></button>
+
+      <div class="carousel-inner" id="carouselInner">
+        <div class="carousel-item" style="background-image: url('images/hotel_detail1.png')"></div>
+        <div class="carousel-item" style="background-image: url('images/hotel_detail2.png')"></div>
+        <div class="carousel-item" style="background-image: url('images/hotel_detail3.png')"></div>
+        <div class="carousel-item" style="background-image: url('images/hotel_detail4.png')"></div>
+        <div class="carousel-item" style="background-image: url('images/hotel_detail5.png')"></div>
+      </div>
+
+      <div class="dots" id="dots"></div>
+    </div>
+
+    <div class="price-reserve">
+      <h2 class="price">RM 1,280 <small>/ night</small></h2>
+      <p>Private Pool Villa • Free Cancellation • Breakfast Included</p>
+      <button class="reserve-btn">Reserve Now</button>
+    </div>
+
+  </div>
+
+  <script src="js/hotel_detail.js"></script>
+</body>
+</html>
