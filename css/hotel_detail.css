@@ -1,8 +1,8 @@
 .hotel-detail { max-width: 1300px; margin: 0 auto; padding: 20px; }
 
-*{
+/* *{
     outline: 1px solid red;
-}
+} */
 
 .hotel-header {
   text-align: center;
