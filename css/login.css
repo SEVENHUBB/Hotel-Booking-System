@@ -12,7 +12,7 @@ outline:solid 1px red;
 
 
 body {
-    background: linear-gradient(135deg, #f3f3f3d4 0%, #d3cadc 100%);
+    background: linear-gradient(135deg, #f3f3f3d4 0%, #d8e8ff 100%);
     display: flex;
     justify-content: center;
     align-items: center;
