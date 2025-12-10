@@ -25,7 +25,7 @@ if ($action === "create") {
             $dest = $uploadDir . $newName;
 
             if (move_uploaded_file($file['tmp_name'], $dest)) {
-                $imagePath = 'uploads/hotels/' . $newName;
+$imagePath = 'images/hotel_photo/' . $newName;
             }
         }
     }
