@@ -1,4 +1,4 @@
-const API_URL = "php/admin_hotel.php";  // Make sure this path is correct
+const API_URL = "php/admin_hotel.php";
 
 function showMessage(text, type = "success") {
     const msgDiv = document.getElementById("message");
