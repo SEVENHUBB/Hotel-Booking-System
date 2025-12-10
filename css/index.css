@@ -52,6 +52,174 @@ header nav {
     position: relative;
 }
 
+.destination-select {
+  padding: 14px 18px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  min-width: 220px;
+  background: white;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.destination-select:focus {
+  box-shadow: 0 0 0 4px rgba(8, 131, 149, 0.3);
+  transform: scale(1.02);
+}
+
+/* 可选：加个小箭头图标 */
+.destination-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23088395' d='M0 0l6 8 6-8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+}
+
+
+/* 房客选择弹出框 */
+.guest-picker-popup {
+  position: absolute;
+  top: calc(100% + 12px);           /* 距离搜索框下方一点点 */
+  left: 50%;
+  transform: translateX(-50%);      /* 水平居中 */
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.28);
+  padding: 24px;
+  width: 360px;
+  z-index: 1000;
+  display: none;
+}
+
+.guest-picker-popup.show { 
+    display: block; 
+}
+
+.guest-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.guest-row:last-of-type { border-bottom: none; }
+
+.guest-label div { font-weight: 600; font-size: 1.1rem; }
+.guest-label small { color: #666; font-size: 0.85rem; }
+
+.guest-counter {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.counter-btn {
+  width: 36px; height: 36px;
+  border: 2px solid #ddd;
+  background: white;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.counter-btn:hover { border-color: #088395; color: #088395; }
+.counter-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.counter-value {
+  min-width: 30px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.done-btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 14px;
+  background: #088395;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* 长方形白色边框，和 Destination 一模一样 */
+.rect-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: white;
+  border-radius: 12px;           /* 长方形圆角，不是 50px 的药丸 */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  min-width: 180px;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  font-weight: 500;
+  color: #333;
+}
+
+.rect-box:hover {
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+.rect-box i:first-child {
+  color: #088395;
+  font-size: 1.3rem;
+}
+
+.rect-box .arrow {
+  position: absolute;
+  right: 18px;
+  font-size: 0.9rem;
+  color: #666;
+  transition: transform 0.3s;
+}
+
+.rect-box.active .arrow {
+  transform: rotate(180deg);
+}
+
+/* 让 Search 按钮永远在同一行（不被挤下去） */
+.search-box-modern {
+  position: relative;           /* 必须加！让弹出框能绝对定位 */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+}
+
+.search-btn {
+  margin-left: auto;            /* 关键！让按钮自动靠右 */
+  z-index: 10;
+}
+
+/* 手机端还是换行，但按钮占满一行 */
+@media (max-width: 768px) {
+  .search-btn {
+    margin-left: 0;
+    width: 100%;
+    border-radius: 50px;
+    margin-top: 10px;
+  }
+}
+
+.done-btn:hover { background: #0a4d68; }
+
+/* 显示文字 */
+#guestDisplay { font-weight: 500; cursor: pointer; }
+.guest-arrow { font-size: 0.9rem; margin-left: 6px; transition: transform 0.3s; }
+.guests.active .guest-arrow { transform: rotate(180deg); }
 
 
 
@@ -80,6 +248,8 @@ header nav {
     display: flex;
     gap: 15px;
 }
+
+
 
 
 .auth-buttons button,
