@@ -14,34 +14,43 @@
     <div class="card">
         <h2>Add New Hotel</h2>
         <div id="message"></div>
-        <form id="hotelForm">
-            <input type="number" name="HotelID" placeholder="Hotel ID (unique)" required min="1">
-            <input type="text" name="HotelName" placeholder="Hotel Name" required>
-            <textarea name="Description" placeholder="Description (optional)" rows="3"></textarea>
-            <input type="text" name="Address" placeholder="Address">
-            <input type="text" name="City" placeholder="City" required>
-            <input type="text" name="Country" placeholder="Country" required>
-            <input type="number" name="NumRooms" placeholder="Number of Rooms" min="1">
-            <input type="text" name="Category" placeholder="Category (e.g. Beach, City)">
-            <input type="number" name="StarRating" placeholder="Star Rating" min="1" max="5" step="1">
-            <button type="submit">Add Hotel</button>
-        </form>
+<form id="hotelForm" enctype="multipart/form-data">
+    <input type="number" name="HotelID" placeholder="Hotel ID (unique)" required min="1">
+    <input type="text" name="HotelName" placeholder="Hotel Name" required>
+    <textarea name="Description" placeholder="Description (optional)" rows="3"></textarea>
+    <input type="text" name="Address" placeholder="Address">
+    <input type="text" name="City" placeholder="City" required>
+    <input type="text" name="Country" placeholder="Country" required>
+    <input type="number" name="NumRooms" placeholder="Number of Rooms" min="1">
+    <input type="text" name="Category" placeholder="Category (e.g. Beach, City)">
+
+    <!-- NEW: Image Upload -->
+    <div class="image-upload">
+        <label>Hotel Image (optional)</label>
+        <input type="file" name="hotel_image" accept="image/*">
+        <div id="imagePreview" style="margin-top:10px; max-width:300px;"></div>
+    </div>
+
+    <input type="number" name="StarRating" placeholder="Star Rating" min="1" max="5" step="1">
+    <button type="submit">Add Hotel</button>
+</form>
     </div>
 
     <div class="card">
         <h2>Hotel List</h2>
         <table id="hotelTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Hotel Name</th>
-                    <th>City</th>
-                    <th>Country</th>
-                    <th>Rooms</th>
-                    <th>Stars</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
+<thead>
+    <tr>
+        <th>ID</th>
+        <th>Image</th>
+        <th>Hotel Name</th>
+        <th>City</th>
+        <th>Country</th>
+        <th>Rooms</th>
+        <th>Stars</th>
+        <th>Action</th>
+    </tr>
+</thead>
             <tbody>
                 <!-- Filled by JavaScript -->
             </tbody>
