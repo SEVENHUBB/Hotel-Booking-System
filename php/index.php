@@ -1,3 +1,13 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+include "db_hotel.php";
+
+$sql = "SELECT HotelID, HotelName, Description, Address, City, Country, NumRooms, Category, StarRating, ImagePath FROM hotel";
+
+$result = $conn->query($sql); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,9 +15,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Super Booking System</title>
-    <link rel="stylesheet" href="css/home.css" />
-    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="../css/home.css" />
+    <link rel="stylesheet" href="../css/index.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+</head>
 </head>
 
 <body>
@@ -17,9 +28,9 @@
         <h1>Super Booking System</h1>
         <nav>
             <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../about.html">About Us</a></li>
+                <li><a href="../contact.html">Contact Us</a></li>
             </ul>
         </nav>
         <div id="guestNav">
@@ -105,51 +116,50 @@
             </div>
 
             <button class="search-btn">Search</button>
-            
+
         </div>
     </section>
 
-    
     <section class="hotels-section">
         <h2>Featured Hotels</h2>
+
         <div class="hotel-grid">
 
-            <a href="">
-                <div class="hotel-card">
-                    <img src="images/hotel_1.png" alt="Hotel" />
-                    <div class="info">
-                        <h3>Sunrise Resort</h3>
-                        <p>Location: Penang</p>
-                        <p class="price">RM 250 / night</p>
+            <?php if ($result && $result->num_rows > 0): ?>
+
+                <?php while ($row = $result->fetch_assoc()): ?>
+
+                    <div class="hotel-card">
+                        <img
+                            src="../<?php echo !empty($row['ImagePath']) ? $row['ImagePath'] : 'default.png'; ?>"
+                            alt="<?php echo htmlspecialchars($row['HotelName']); ?>">
+
+                        <div class="info">
+                            <h3>Name: <?php echo $row['HotelName'] ?>
+                            <p><?php echo $row['Description']; ?></p>
+                            <p><strong>Address:</strong> <?php echo $row['Address']; ?></p>
+                            <p><strong>Rooms Available:</strong> <?php echo $row['NumRooms']; ?></p>
+                            <p><strong>Category:</strong> <?php echo $row['Category']; ?></p>
+                            <p><strong>Location:</strong> <?php echo $row['City'] . ", " . $row['Country']; ?></p>
+                            <p>⭐ <?php echo $row['StarRating']; ?> Star Hotel</p>
+                        </div>
                     </div>
-                </div>
-            </a>
 
-            <div class="hotel-card">
-                <img src="hotel2.jpg" alt="Hotel" />
-                <div class="info">
-                    <h3>Luxury Palace Hotel</h3>
-                    <p>Location: Kuala Lumpur</p>
-                    <p class="price">RM 450 / night</p>
-                </div>
-            </div>
+                <?php endwhile; ?>
 
-            <div class="hotel-card">
-                <img src="hotel3.jpg" alt="Hotel" />
-                <div class="info">
-                    <h3>Beachside Villa</h3>
-                    <p>Location: Langkawi</p>
-                    <p class="price">RM 300 / night</p>
-                </div>
-            </div>
+            <?php else: ?>
+
+                <p>No hotels available</p>
+
+            <?php endif; ?>
 
         </div>
     </section>
 
+    <script src="../js/main.js"></script>
+    <script src="../js/date-picker.js"></script>
+    <script src="../js/guest-picker.js"></script>
 
-    <script src="js/main.js"></script>
-    <script src="js/date-picker.js"></script>
-    <script src="js/guest-picker.js"></script>
 
 </body>
 

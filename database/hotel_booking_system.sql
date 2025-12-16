@@ -161,8 +161,8 @@ CREATE TABLE `role` (
 
 CREATE TABLE `room` (
   `RoomID` int(11) NOT NULL,
-  `HotelID` int(11) DEFAULT NULL,
-  `TenantID` int(11) DEFAULT NULL,
+  `TenantID` int(11) DEFAU
+  `HotelID` int(11) DEFAULT NULL,LT NULL,
   `RoomType` varchar(50) DEFAULT NULL,
   `RoomPrice` decimal(10,2) DEFAULT NULL,
   `RoomDesc` text DEFAULT NULL,

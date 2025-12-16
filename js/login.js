@@ -5,7 +5,7 @@ function goBack() {
 
 // 显示/隐藏密码
 function togglePassword() {
-    const passwordInput = document.getElementById('password');
+    const passwordInput = dElemocument.getentById('password');
     const toggleIcon = document.querySelector('.toggle-password');
     
     if (passwordInput.type === 'password') {
