@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // 跳转到主页
             echo "<script>
                     alert('Login successful!\\nWelcome back, " . $tenant['TenantName'] . "!');
-                    window.location.href='../index.html';
+                    window.location.href='index.php';
                   </script>";
             exit();
             

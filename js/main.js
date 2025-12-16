@@ -1,21 +1,21 @@
 function goToLogin() {
-    window.location.href = "login.html";
+    window.location.href = "/Hotel_Booking_System/login.html";
 }
 
 function goToRegister() {
-    window.location.href = "register.html";
+    window.location.href = "/Hotel_Booking_System/register.html";
 }
 
 // 登出函数
 function logout() {
     if (confirm('Are you sure you want to logout?')) {
-        window.location.href = 'php/logout.php';
+        window.location.href = 'logout.php';
     }
 }
 
 // 检查用户登录状态
 function checkLoginStatus() {
-    fetch('php/check_session.php')
+    fetch('check_session.php')
         .then(response => response.json())
         .then(data => {
             if (data.logged_in) {

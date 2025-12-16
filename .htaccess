@@ -1,0 +1,6 @@
+DirectoryIndex index.php
+
+RewriteEngine On
+
+# 如果访问的是根目录
+RewriteRule ^$ php/index.php [L]

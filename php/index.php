@@ -15,11 +15,11 @@ $result = $conn->query($sql); ?>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Super Booking System</title>
-    <link rel="stylesheet" href="../css/home.css" />
-    <link rel="stylesheet" href="../css/index.css" />
+    <link rel="stylesheet" href="/Hotel_Booking_System/css/home.css">
+    <link rel="stylesheet" href="/Hotel_Booking_System/css/index.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 </head>
-</head>
+
 
 <body>
 
@@ -28,9 +28,9 @@ $result = $conn->query($sql); ?>
         <h1>Super Booking System</h1>
         <nav>
             <ul class="nav-links">
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="../about.html">About Us</a></li>
-                <li><a href="../contact.html">Contact Us</a></li>
+                <li><a href="/Hotel_Booking_System/php/index.php">Home</a></li>
+                <li><a href="/Hotel_Booking_System/about.html">About Us</a></li>
+                <li><a href="/Hotel_Booking_System/contact.html">Contact Us</a></li>
             </ul>
         </nav>
         <div id="guestNav">
@@ -129,21 +129,20 @@ $result = $conn->query($sql); ?>
 
                 <?php while ($row = $result->fetch_assoc()): ?>
 
-                    <div class="hotel-card">
-                        <img
-                            src="../<?php echo !empty($row['ImagePath']) ? $row['ImagePath'] : 'default.png'; ?>"
-                            alt="<?php echo htmlspecialchars($row['HotelName']); ?>">
-
-                        <div class="info">
-                            <h3>Name: <?php echo $row['HotelName'] ?>
-                            <p><?php echo $row['Description']; ?></p>
-                            <p><strong>Address:</strong> <?php echo $row['Address']; ?></p>
-                            <p><strong>Rooms Available:</strong> <?php echo $row['NumRooms']; ?></p>
-                            <p><strong>Category:</strong> <?php echo $row['Category']; ?></p>
-                            <p><strong>Location:</strong> <?php echo $row['City'] . ", " . $row['Country']; ?></p>
-                            <p>⭐ <?php echo $row['StarRating']; ?> Star Hotel</p>
-                        </div>
-                    </div>
+        <a href="user_room.php?hotel_id=<?php echo $row['HotelID']; ?>">
+            <div class="hotel-card">
+                <img src="../<?php echo !empty($row['ImagePath']) ? $row['ImagePath'] : 'default.png'; ?>" alt="<?php echo htmlspecialchars($row['HotelName']); ?>">
+                <div class="info">
+                    <h3><?php echo $row['HotelName'] ?></h3>
+                    <p><?php echo $row['Description']; ?></p>
+                    <p><strong>Address:</strong> <?php echo $row['Address']; ?></p>
+                    <p><strong>Rooms Available:</strong> <?php echo $row['NumRooms']; ?></p>
+                    <p><strong>Category:</strong> <?php echo $row['Category']; ?></p>
+                    <p><strong>Location:</strong> <?php echo $row['City'] . ", " . $row['Country']; ?></p>
+                    <p>⭐ <?php echo $row['StarRating']; ?> Star Hotel</p>
+                </div>
+            </div>
+        </a>
 
                 <?php endwhile; ?>
 
@@ -156,9 +155,10 @@ $result = $conn->query($sql); ?>
         </div>
     </section>
 
-    <script src="../js/main.js"></script>
-    <script src="../js/date-picker.js"></script>
-    <script src="../js/guest-picker.js"></script>
+    <script src="/Hotel_Booking_System/js/main.js"></script>
+    <script src="/Hotel_Booking_System/js/date-picker.js"></script>
+    <script src="/Hotel_Booking_System/js/guest-picker.js"></script>
+
 
 
 </body>

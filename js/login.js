@@ -1,11 +1,11 @@
 // 返回主页
 function goBack() {
-    window.location.href = 'index.html';
+    window.location.href = '/Hotel_Booking_System/php/index.php';
 }
 
 // 显示/隐藏密码
 function togglePassword() {
-    const passwordInput = dElemocument.getentById('password');
+    const passwordInput = document.getElementById('password');
     const toggleIcon = document.querySelector('.toggle-password');
     
     if (passwordInput.type === 'password') {

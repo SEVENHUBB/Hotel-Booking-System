@@ -21,6 +21,6 @@ if (isset($_COOKIE['remember_token'])) {
 }
 
 // 跳转到主页
-header("Location: ../index.html");
+header("Location:index.php");
 exit();
 ?>
