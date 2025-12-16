@@ -13,6 +13,7 @@
         <div id="errorMessage" class = "error-message"></div> 
 
         <form id="loginForm" action="php/login.php" method="POST">
+
             <div class = "form-group">
                 <label for="username"> Username/Email :</label>
                 <input type="text" id="username" name="username" placeholder="Please Enter" required>
@@ -40,11 +41,20 @@
             <button type="button" class="back-btn" onclick="goBack()">Back To Home Page</button>
         </form>
 
+
         <div class="register-prompt">
             <p> Don't have the account? Register Now! <a href="register.html" class="register-link">Register</a></p>
+            <button type="button" class="admin-login-small-btn" onclick="goAdminLogin()">Admin Login</button>
         </div>
+        
 
     </div>
+    
+    <script>
+        function goAdminLogin() {
+            window.location.href = "admin-login.html"; // 跳转到 admin login 页面
+    }
+    </script>
 
     <script src="js/login.js"></script>
 </body>

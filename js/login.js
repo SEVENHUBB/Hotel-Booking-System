@@ -124,3 +124,19 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     }
     isSubmitting = true;
 });
+
+function switchRole() {
+    const roleInput = document.getElementById('role');
+    const title = document.getElementById('loginTitle');
+    const switchText = document.getElementById('switchRoleText');
+
+    if (roleInput.value === 'tenant') {
+        roleInput.value = 'admin';
+        title.textContent = 'Admin Login';
+        switchText.textContent = 'User';
+    } else {
+        roleInput.value = 'tenant';
+        title.textContent = 'User Login';
+        switchText.textContent = 'Admin';
+    }
+}
