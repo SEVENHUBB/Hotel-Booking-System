@@ -34,24 +34,24 @@ $result = $conn->query($sql); ?>
             </ul>
         </nav>
         <div id="navRight">
-        <?php if (isset($_SESSION['tenant_id'])): ?>
+            <?php if (isset($_SESSION['tenant_id'])): ?>
 
-            <span class="welcome-text">
-                Hi, <?php echo htmlspecialchars($_SESSION['tenant_name']); ?>
-            </span>
+                <span class="welcome-text">
+                    Hi, <?php echo htmlspecialchars($_SESSION['tenant_name']); ?>
+                </span>
 
-            <a href="../tenant_profile.html" class="profile-btn">
-                <i class="fas fa-user"></i> Profile
-            </a>
+                <a href="../tenant_profile.html" class="profile-btn">
+                    <i class="fas fa-user"></i> Profile
+                </a>
 
-            <a href="/Hotel_Booking_System/php/logout.php" class="logout-btn">Logout</a>
+                <a href="/Hotel_Booking_System/php/logout.php" class="logout-btn">Logout</a>
 
-        <?php else: ?>
+            <?php else: ?>
 
-            <button class="login-btn" onclick="goToLogin()">Log In</button>
-            <button class="register-btn" onclick="goToRegister()">Register</button>
+                <button class="login-btn" onclick="goToLogin()">Log In</button>
+                <button class="register-btn" onclick="goToRegister()">Register</button>
 
-        <?php endif; ?>
+            <?php endif; ?>
         </div>
     </header>
 
@@ -141,20 +141,20 @@ $result = $conn->query($sql); ?>
 
                 <?php while ($row = $result->fetch_assoc()): ?>
 
-        <a href="user_room.php?hotel_id=<?php echo $row['HotelID']; ?>">
-            <div class="hotel-card">
-                <img src="../<?php echo !empty($row['ImagePath']) ? $row['ImagePath'] : 'default.png'; ?>" alt="<?php echo htmlspecialchars($row['HotelName']); ?>">
-                <div class="info">
-                    <h3><?php echo $row['HotelName'] ?></h3>
-                    <p><?php echo $row['Description']; ?></p>
-                    <p><strong>Address:</strong> <?php echo $row['Address']; ?></p>
-                    <p><strong>Rooms Available:</strong> <?php echo $row['NumRooms']; ?></p>
-                    <p><strong>Category:</strong> <?php echo $row['Category']; ?></p>
-                    <p><strong>Location:</strong> <?php echo $row['City'] . ", " . $row['Country']; ?></p>
-                    <p>⭐ <?php echo $row['StarRating']; ?> Star Hotel</p>
-                </div>
-            </div>
-        </a>
+                    <a href="user_room.php?hotel_id=<?php echo $row['HotelID']; ?>">
+                        <div class="hotel-card">
+                            <img src="../<?php echo !empty($row['ImagePath']) ? $row['ImagePath'] : 'default.png'; ?>" alt="<?php echo htmlspecialchars($row['HotelName']); ?>">
+                            <div class="info">
+                                <h3><?php echo $row['HotelName'] ?></h3>
+                                <p><?php echo $row['Description']; ?></p>
+                                <p><strong>Address:</strong> <?php echo $row['Address']; ?></p>
+                                <p><strong>Rooms Available:</strong> <?php echo $row['NumRooms']; ?></p>
+                                <p><strong>Category:</strong> <?php echo $row['Category']; ?></p>
+                                <p><strong>Location:</strong> <?php echo $row['City'] . ", " . $row['Country']; ?></p>
+                                <p>⭐ <?php echo $row['StarRating']; ?> Star Hotel</p>
+                            </div>
+                        </div>
+                    </a>
 
                 <?php endwhile; ?>
 
