@@ -40,7 +40,7 @@ $result = $conn->query($sql); ?>
                 Hi, <?php echo htmlspecialchars($_SESSION['tenant_name']); ?>
             </span>
 
-            <a href="../tenant_profile.html" class="profile-btn">
+            <a href="/Hotel_Booking_System/php/profile.php" class="profile-btn">
                 <i class="fas fa-user"></i> Profile
             </a>
 

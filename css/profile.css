@@ -1,0 +1,88 @@
+/* ===== 全局 ===== */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f2f4f8;
+}
+
+/* ===== 页面标题 ===== */
+h2 {
+    text-align: center;
+    margin-top: 30px;
+    color: #333;
+}
+
+/* ===== Profile Box ===== */
+.profile-box {
+    width: 350px;
+    background: #ffffff;
+    margin: 30px auto;
+    padding: 25px 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+/* ===== Profile Image ===== */
+.profile-img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #e0e0e0;
+    margin-bottom: 15px;
+}
+
+/* ===== File Input ===== */
+input[type="file"] {
+    width: 100%;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+/* ===== Text Input ===== */
+input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #4f8cff;
+    box-shadow: 0 0 4px rgba(79, 140, 255, 0.4);
+}
+
+/* ===== Button ===== */
+button {
+    width: 100%;
+    padding: 12px;
+    background: #4f8cff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #3b74e0;
+}
+
+/* ===== Success Message (optional) ===== */
+.success-msg {
+    width: 350px;
+    margin: 15px auto;
+    padding: 10px;
+    background: #e6f7ec;
+    color: #2e7d32;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 14px;
+}
