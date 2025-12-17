@@ -1,6 +1,6 @@
 const ROOM_API = "php/room_crud.php";
 
-function showRoomMessage(text, type="success") {
+function showRoomMessage(text, type = "success") {
     const msg = document.getElementById("roomMessage");
     msg.innerHTML = text;
     msg.className = "msg " + type;
@@ -36,8 +36,14 @@ function loadRooms() {
                 <tr>
                     <td>${r.RoomID}</td>
                     <td>${r.HotelName}</td>
+                    <td>
+                    ${r.RoomImage
+                    ? `<img src="${r.RoomImage}" style="width:80px;height:auto">`
+                    : '<small>No image</small>'
+                }
+                    </td>
                     <td>${r.RoomType}</td>
-                    <td>${r.RoomPrice}</td>
+                    <td>${Number(r.RoomPrice).toFixed(2)}</td>
                     <td>${r.RoomDesc || '-'}</td>
                     <td>${r.RoomStatus}</td>
                     <td>${r.Capacity}</td>
@@ -52,8 +58,31 @@ function loadRooms() {
         .catch(err => console.error("Failed to load rooms:", err));
 }
 
+// Image Preview (small size)
+document.querySelector('input[name="room_image"]').addEventListener('change', function (e) {
+    const preview = document.getElementById('imagePreview');
+    preview.innerHTML = '';
+
+    if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+
+        // Optional: limit file size (e.g. max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            preview.innerHTML = '<small style="color:red;">Image too large! Max 5MB</small>';
+            this.value = '';
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (ev) {
+            preview.innerHTML = `<img src="${ev.target.result}" alt="Room Preview">`;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
 // 提交新增房间表单
-document.getElementById("roomForm").addEventListener("submit", function(e){
+document.getElementById("roomForm").addEventListener("submit", function (e) {
     e.preventDefault();
     const formData = new FormData(this);
 
@@ -83,7 +112,7 @@ function deleteRoom(id) {
     fetch(`${ROOM_API}?action=delete`, { method: "POST", body: fd })
         .then(res => res.json())
         .then(result => {
-            if(result.success) {
+            if (result.success) {
                 showRoomMessage("Room deleted successfully");
                 loadRooms();
             } else {
