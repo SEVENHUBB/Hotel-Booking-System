@@ -30,37 +30,48 @@
         <div class="card">
             <h2>Add New Room</h2>
             <form id="roomForm" enctype="multipart/form-data">
-                <label for="HotelID">Select Hotel:</label>
-                <select name="HotelID" id="HotelID" required>
-                    <option value="">Select Hotel</option>
-                </select>
+                <div>
+                    <label for="HotelID">Select Hotel</label>
+                    <select name="HotelID" id="HotelID" required>
+                        <option value="">Select Hotel</option>
+                    </select>
+                </div>
 
-                <label for="RoomType">Room Type:</label>
-                <select name="RoomType" id="RoomType" required>
-                    <option value="">Select Type</option>
-                    <option value="Single Room">Single Room</option>
-                    <option value="Double Room">Double Room</option>
-                    <option value="Queen Size">Queen Size</option>
-                    <option value="King Size">King Size</option>
-                </select>
+                <div>
+                    <label for="RoomType">Room Type</label>
+                    <select name="RoomType" id="RoomType" required>
+                        <option value="">Select Type</option>
+                        <option value="Single Room">Single Room</option>
+                        <option value="Double Room">Double Room</option>
+                        <option value="Queen Size">Queen Size</option>
+                        <option value="King Size">King Size</option>
+                    </select>
+                </div>
 
-                <label for="RoomPrice">Room Price:</label>
-                <input type="number" name="RoomPrice" id="RoomPrice" placeholder="Room Price" min="0" step="0.01" required>
+                <div>
+                    <label for="RoomPrice">Room Price (per night)</label>
+                    <input type="number" name="RoomPrice" id="RoomPrice" placeholder="e.g. 150.00" min="0" step="0.01" required>
+                </div>
 
-                <label for="RoomDesc">Description (optional):</label>
-                <input type="text" name="RoomDesc" id="RoomDesc" placeholder="Room Description">
+                <div>
+                    <label for="Capacity">Capacity (guests)</label>
+                    <input type="number" name="Capacity" id="Capacity" placeholder="e.g. 2" min="1" required>
+                </div>
 
-                <label for="Capacity">Capacity:</label>
-                <input type="number" name="Capacity" id="Capacity" placeholder="Capacity" min="1" required>
+                <div>
+                    <label for="RoomDesc">Description (optional)</label>
+                    <input type="text" name="RoomDesc" id="RoomDesc" placeholder="Cozy room with sea view...">
+                </div>
 
-                <label for="RoomStatus">Status:</label>
-                <select name="RoomStatus" id="RoomStatus" required>
-                    <option value="Available">Available</option>
-                    <option value="Booked">Booked</option>
-                    <option value="Maintenance">Maintenance</option>
-                </select>
+                <div>
+                    <label for="RoomStatus">Status</label>
+                    <select name="RoomStatus" id="RoomStatus" required>
+                        <option value="Available">Available</option>
+                        <option value="Booked">Booked</option>
+                        <option value="Maintenance">Maintenance</option>
+                    </select>
+                </div>
 
-                <!-- Image Upload -->
                 <div class="image-upload">
                     <label>Room Image (optional)</label>
                     <input type="file" name="room_image" accept="image/*">
@@ -76,7 +87,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Hotel</th>
-                        <th>Images</th>
+                        <th>Image</th>
                         <th>Type</th>
                         <th>Price</th>
                         <th>Description</th>
