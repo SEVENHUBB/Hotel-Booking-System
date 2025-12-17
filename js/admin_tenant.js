@@ -1,75 +1,116 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('tenantForm');
-    const tableBody = document.querySelector('#tenantTable tbody');
-    const messageDiv = document.getElementById('message');
+const API_URL = "php/admin_tenant.php";
 
-    // Load tenants
-    function loadTenants() {
-        fetch('admin_tenant.php?action=read')
-            .then(res => res.json())
-            .then(tenants => {
-                tableBody.innerHTML = '';
-                if (tenants.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="9">No tenants found.</td></tr>';
-                    return;
-                }
+function showMessage(text, type = "success") {
+    const msgDiv = document.getElementById("message");
+    msgDiv.innerHTML = text;
+    msgDiv.className = "msg " + type;
+    setTimeout(() => msgDiv.innerHTML = "", 5000);
+}
 
-                tenants.forEach(t => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${t.TenantID}</td>
-                        <td>${t.RoleID || '-'}</td>
-                        <td>${t.TenantName || '-'}</td>
-                        <td>${t.FullName || '-'}</td>
-                        <td>${t.Email || '-'}</td>
-                        <td>${t.PhoneNo || '-'}</td>
-                        <td>${t.Gender || '-'}</td>
-                        <td>${t.Country || '-'}</td>
-                        <td>
-                            <button class="delete-btn" data-id="${t.TenantID}">Delete</button>
-                        </td>
-                    `;
-                    tableBody.appendChild(tr);
-                });
+function loadTenants() {
+    fetch(`${API_URL}?action=read`)
+        .then(res => {
+            if (!res.ok) throw new Error("Server error");
+            return res.json();
+        })
+        .then(data => {
+            const tbody = document.querySelector("#tenantTable tbody");
+            if (!data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:20px; color:#999;">
+                    No tenants found. Add one above!
+                </td></tr>`;
+                return;
+            }
 
-                // Delete handlers
-                document.querySelectorAll('.delete-btn').forEach(btn => {
-                    btn.onclick = function() {
-                        if (confirm('Delete this tenant?')) {
-                            const fd = new FormData();
-                            fd.append('TenantID', this.dataset.id);
-                            fetch('admin_tenant.php?action=delete', { method: 'POST', body: fd })
-                                .then(res => res.json())
-                                .then(() => {
-                                    showMessage('Tenant deleted!', 'success');
-                                    loadTenants();
-                                });
+            tbody.innerHTML = data.map(t => `
+                <tr>
+                    <td data-label="ID">${t.TenantID}</td>
+                    <td data-label="Image">
+                        ${t.ImagePath 
+                            ? `<img src="${t.ImagePath}" alt="${t.FullName}" onerror="this.src='https://via.placeholder.com/70x70/eeeeee/999999?text=No+Image'">`
+                            : '<small style="color:#999">No image</small>'
                         }
-                    };
-                });
+                    </td>
+                    <td data-label="Name"><strong>${t.FullName || t.TenantName}</strong></td>
+                    <td data-label="Username">${t.TenantName}</td>
+                    <td data-label="Email">${t.Email || "-"}</td>
+                    <td data-label="Phone">${t.PhoneNo || "-"}</td>
+                    <td data-label="Gender">${t.Gender || "-"}</td>
+                    <td data-label="Country">${t.Country || "-"}</td>
+                    <td data-label="Action">
+                        <span class="delete-btn" style="color:red; cursor:pointer;" data-id="${t.TenantID}">Delete</span>
+                    </td>
+                </tr>
+            `).join("");
+
+            document.querySelectorAll(".delete-btn").forEach(btn => {
+                btn.onclick = () => deleteTenant(btn.dataset.id);
             });
+        })
+        .catch(err => {
+            console.error(err);
+            showMessage("Failed to load tenants: " + err.message, "error");
+        });
+}
+
+// 图片预览
+document.querySelector('input[name="tenant_image"]').addEventListener('change', function(e) {
+    const preview = document.getElementById('imagePreview');
+    preview.innerHTML = '';
+
+    if (e.target.files && e.target.files[0]) {
+        const file = e.target.files[0];
+        if (file.size > 5 * 1024 * 1024) {
+            preview.innerHTML = '<small style="color:red;">Image too large! Max 5MB</small>';
+            this.value = '';
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+            preview.innerHTML = `<img src="${ev.target.result}" alt="Preview">`;
+        };
+        reader.readAsDataURL(file);
     }
-
-    // Add tenant
-    form.onsubmit = function(e) {
-        e.preventDefault();
-        const fd = new FormData(this);
-
-        fetch('admin_tenant.php?action=create', { method: 'POST', body: fd })
-            .then(res => res.json())
-            .then(data => {
-                showMessage(data.message || 'Success!', data.success ? 'success' : 'error');
-                if (data.success) {
-                    form.reset();
-                    loadTenants();
-                }
-            });
-    };
-
-    function showMessage(text, type) {
-        messageDiv.innerHTML = `<div class="alert ${type}">${text}</div>`;
-        setTimeout(() => messageDiv.innerHTML = '', 4000);
-    }
-
-    loadTenants();
 });
+
+// 表单提交
+document.getElementById("tenantForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+
+    fetch(`${API_URL}?action=create`, {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(result => {
+        if (result.success) {
+            showMessage("Tenant added successfully!");
+            this.reset();
+            document.getElementById('imagePreview').innerHTML = '';
+            loadTenants();
+        } else {
+            showMessage("Error: " + (result.error || "Unknown error"), "error");
+        }
+    })
+    .catch(err => {
+        showMessage("Request failed.", "error");
+        console.error(err);
+    });
+});
+
+function deleteTenant(id) {
+    if (!confirm("Are you sure you want to delete this tenant?")) return;
+
+    const formData = new FormData();
+    formData.append("TenantID", id);
+
+    fetch(`${API_URL}?action=delete`, { method: "POST", body: formData })
+        .then(() => {
+            showMessage("Tenant deleted successfully");
+            loadTenants();
+        })
+        .catch(() => showMessage("Delete failed", "error"));
+}
+
+document.addEventListener("DOMContentLoaded", loadTenants);

@@ -3,34 +3,36 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Tenants Admin Panel</title>
-    <link rel="stylesheet" href="css/admin_tenant.css" />
+    <title>Tenant Admin Panel</title>
+    <link rel="stylesheet" href="css/admin_hotel_style.css" /> <!-- 可以复用原来的 CSS -->
 </head>
 <body>
-
 <div class="container">
 
     <div class="card">
         <h2>Add New Tenant</h2>
         <div id="message"></div>
-        <form id="tenantForm">
+        <form id="tenantForm" enctype="multipart/form-data">
             <input type="number" name="TenantID" placeholder="Tenant ID (unique)" required min="1">
-            <input type="number" name="RoleID" placeholder="Role ID (optional)">
-            <input type="text" name="TenantName" placeholder="Username" required>
+            <input type="number" name="RoleID" placeholder="Role ID" required min="1">
+            <input type="text" name="TenantName" placeholder="Username (login)" required>
             <input type="password" name="Password" placeholder="Password" required>
-            <input type="text" name="FullName" placeholder="Full Name (optional)">
+            <input type="text" name="FullName" placeholder="Full Name" required>
             <input type="email" name="Email" placeholder="Email (optional)">
             <input type="text" name="PhoneNo" placeholder="Phone Number (optional)">
-            
-            <select name="Gender">
-                <option value="">Select Gender (optional)</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-            </select>
-            
-            <input type="text" name="Country" placeholder="Country (optional)">
-            
+            <input type="text" name="Gender" placeholder="Gender (e.g. Male/Female/Other)">
+            <input type="text" name="Country" placeholder="Country" required>
+
+            <!-- 注意：你的表里有 Email 和 Mail 两个字段，这里我假设 Mail 是邮寄地址 -->
+            <input type="text" name="Mail" placeholder="Mailing Address (optional)">
+
+            <!-- 头像上传（可选） -->
+            <div class="image-upload">
+                <label>Tenant Avatar (optional)</label>
+                <input type="file" name="tenant_image" accept="image/*">
+                <div id="imagePreview" style="margin-top:10px; max-width:300px;"></div>
+            </div>
+
             <button type="submit">Add Tenant</button>
         </form>
     </div>
@@ -41,9 +43,9 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Role ID</th>
-                    <th>Username</th>
+                    <th>Avatar</th>
                     <th>Full Name</th>
+                    <th>Username</th>
                     <th>Email</th>
                     <th>Phone</th>
                     <th>Gender</th>
