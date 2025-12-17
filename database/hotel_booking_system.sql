@@ -101,7 +101,8 @@ CREATE TABLE `hotel` (
   `Country` varchar(50) DEFAULT NULL,
   `NumRooms` int(11) DEFAULT NULL,
   `Category` varchar(50) DEFAULT NULL,
-  `StarRating` int(11) DEFAULT NULL
+  `StarRating` int(11) DEFAULT NULL,
+  `ImagePath` VARCHAR(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
@@ -160,16 +161,16 @@ CREATE TABLE `role` (
 --
 
 CREATE TABLE `room` (
-  `RoomID` int(11) NOT NULL,
-  `TenantID` int(11) DEFAU
-  `HotelID` int(11) DEFAULT NULL,LT NULL,
-  `RoomType` varchar(50) DEFAULT NULL,
-  `RoomPrice` decimal(10,2) DEFAULT NULL,
-  `RoomDesc` text DEFAULT NULL,
-  `RoomStatus` varchar(20) DEFAULT NULL,
-  `Capacity` int(11) DEFAULT NULL
+  `RoomID` INT(11) NOT NULL,
+  `TenantID` INT(11) DEFAULT NULL,
+  `HotelID` INT(11) DEFAULT NULL,
+  `RoomType` VARCHAR(50) DEFAULT NULL,
+  `RoomPrice` DECIMAL(10,2) DEFAULT NULL,
+  `RoomDesc` TEXT DEFAULT NULL,
+  `RoomStatus` VARCHAR(20) DEFAULT NULL,
+  `Capacity` INT(11) DEFAULT NULL,
+  PRIMARY KEY (`RoomID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 -- --------------------------------------------------------
 
 --
@@ -262,7 +263,6 @@ ALTER TABLE `role`
 -- Indexes for table `room`
 --
 ALTER TABLE `room`
-  ADD PRIMARY KEY (`RoomID`),
   ADD KEY `HotelID` (`HotelID`);
 
 --
