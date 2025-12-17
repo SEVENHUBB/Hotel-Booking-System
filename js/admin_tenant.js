@@ -16,7 +16,7 @@ function loadTenants() {
         .then(data => {
             const tbody = document.querySelector("#tenantTable tbody");
             if (!data || data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:20px; color:#999;">
+                tbody.innerHTML = `<tr><td colspan="10" style="text-align:center; padding:20px; color:#999;">
                     No tenants found. Add one above!
                 </td></tr>`;
                 return;
@@ -25,18 +25,19 @@ function loadTenants() {
             tbody.innerHTML = data.map(t => `
                 <tr>
                     <td data-label="ID">${t.TenantID}</td>
-                    <td data-label="Image">
+                    <td data-label="Avatar">
                         ${t.ImagePath 
-                            ? `<img src="${t.ImagePath}" alt="${t.FullName}" onerror="this.src='https://via.placeholder.com/70x70/eeeeee/999999?text=No+Image'">`
-                            : '<small style="color:#999">No image</small>'
+                            ? `<img src="${t.ImagePath}" alt="${t.FullName || t.TenantName}" onerror="this.src='https://via.placeholder.com/70x70/eeeeee/999999?text=No+Image'">`
+                            : '<small style="color:#999">No avatar</small>'
                         }
                     </td>
-                    <td data-label="Name"><strong>${t.FullName || t.TenantName}</strong></td>
+                    <td data-label="Full Name"><strong>${t.FullName || "-"}</strong></td>
                     <td data-label="Username">${t.TenantName}</td>
                     <td data-label="Email">${t.Email || "-"}</td>
                     <td data-label="Phone">${t.PhoneNo || "-"}</td>
                     <td data-label="Gender">${t.Gender || "-"}</td>
                     <td data-label="Country">${t.Country || "-"}</td>
+                    <td data-label="Role ID">${t.RoleID}</td>
                     <td data-label="Action">
                         <span class="delete-btn" style="color:red; cursor:pointer;" data-id="${t.TenantID}">Delete</span>
                     </td>
@@ -53,7 +54,7 @@ function loadTenants() {
         });
 }
 
-// 图片预览
+// 头像预览
 document.querySelector('input[name="tenant_image"]').addEventListener('change', function(e) {
     const preview = document.getElementById('imagePreview');
     preview.innerHTML = '';
@@ -67,7 +68,7 @@ document.querySelector('input[name="tenant_image"]').addEventListener('change', 
         }
         const reader = new FileReader();
         reader.onload = function(ev) {
-            preview.innerHTML = `<img src="${ev.target.result}" alt="Preview">`;
+            preview.innerHTML = `<img src="${ev.target.result}" alt="Avatar Preview" style="max-width:200px; border-radius:50%;">`;
         };
         reader.readAsDataURL(file);
     }
@@ -90,7 +91,7 @@ document.getElementById("tenantForm").addEventListener("submit", function (e) {
             document.getElementById('imagePreview').innerHTML = '';
             loadTenants();
         } else {
-            showMessage("Error: " + (result.error || "Unknown error"), "error");
+            showMessage("Error: " + (result.error || "Could not add tenant"), "error");
         }
     })
     .catch(err => {

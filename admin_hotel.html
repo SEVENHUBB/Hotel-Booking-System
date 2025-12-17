@@ -3,58 +3,76 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Hotel Admin Panel</title>
-    <link rel="stylesheet" href="css/admin_hotel_style.css" />
+    <title>Hotels Management - Admin</title>
+    <link rel="stylesheet" href="css/admin_hotel.css" />
 </head>
 <body>
-    
 
-<div class="container">
+<div class="dashboard-wrapper">
 
-    <div class="card">
-        <h2>Add New Hotel</h2>
+    <!-- Left Sidebar -->
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <a href="admin.html">Dashboard</a>
+        <a href="admin_tenant.html">Users</a>
+        <a href="admin_booking.html">Bookings</a>
+        <a href="admin_payment.html">Payments</a>
+        <a href="#">Reviews</a>
+        <a href="admin_room.html">Rooms</a>
+        <a href="admin_hotel.html" class="active">Hotels</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Hotels Management</h1>
         <div id="message"></div>
-    <form id="hotelForm" enctype="multipart/form-data">
-    <input type="number" name="HotelID" placeholder="Hotel ID (unique)" required min="1">
-    <input type="text" name="HotelName" placeholder="Hotel Name" required>
-    <textarea name="Description" placeholder="Description (optional)" rows="3"></textarea>
-    <input type="text" name="Address" placeholder="Address">
-    <input type="text" name="City" placeholder="City" required>
-    <input type="text" name="Country" placeholder="Country" required>
-    <input type="number" name="NumRooms" placeholder="Number of Rooms" min="1">
-    <input type="text" name="Category" placeholder="Category (e.g. Beach, City)">
 
-    <!-- NEW: Image Upload -->
-    <div class="image-upload">
-        <label>Hotel Image (optional)</label>
-        <input type="file" name="hotel_image" accept="images/*">
-        <div id="imagePreview" style="margin-top:10px; max-width:300px;"></div>
-    </div>
+        <!-- Add New Hotel -->
+        <div class="card">
+            <h2>Add New Hotel</h2>
+            <form id="hotelForm" enctype="multipart/form-data">
+                <input type="number" name="HotelID" placeholder="Hotel ID (unique)" required min="1">
+                <input type="text" name="HotelName" placeholder="Hotel Name" required>
+                <textarea name="Description" placeholder="Description (optional)" rows="3"></textarea>
+                <input type="text" name="Address" placeholder="Address">
+                <input type="text" name="City" placeholder="City" required>
+                <input type="text" name="Country" placeholder="Country" required>
+                <input type="number" name="NumRooms" placeholder="Number of Rooms" min="1">
+                <input type="text" name="Category" placeholder="Category (e.g. Beach, City)">
 
-    <input type="number" name="StarRating" placeholder="Star Rating" min="1" max="5" step="1">
-    <button type="submit">Add Hotel</button>
-</form>
-    </div>
+                <!-- Image Upload -->
+                <div class="image-upload">
+                    <label>Hotel Image (optional)</label>
+                    <input type="file" name="hotel_image" accept="image/*">
+                    <div id="imagePreview"></div>
+                </div>
 
-    <div class="card">
-        <h2>Hotel List</h2>
-        <table id="hotelTable">
-<thead>
-    <tr>
-        <th>ID</th>
-        <th>Image</th>
-        <th>Hotel Name</th>
-        <th>City</th>
-        <th>Country</th>
-        <th>Rooms</th>
-        <th>Stars</th>
-        <th>Action</th>
-    </tr>
-</thead>
-            <tbody>
-                <!-- Filled by JavaScript -->
-            </tbody>
-        </table>
+                <input type="number" name="StarRating" placeholder="Star Rating" min="1" max="5" step="1">
+                <button type="submit">Add Hotel</button>
+            </form>
+        </div>
+
+        <!-- Hotel List -->
+        <div class="card">
+            <h2>Hotel List</h2>
+            <table id="hotelTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Image</th>
+                        <th>Hotel Name</th>
+                        <th>City</th>
+                        <th>Country</th>
+                        <th>Rooms</th>
+                        <th>Stars</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Filled by JavaScript -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </div>

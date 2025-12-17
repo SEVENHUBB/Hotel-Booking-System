@@ -6,15 +6,15 @@ $conn = getDBConnection();
 
 $action = $_GET['action'] ?? '';
 $uploadDir = '../images/tenant_photo/';
-$imagePath = null;
+$imagePath = null;  // 可选头像路径
 
-// 创建上传文件夹
+// 创建上传目录（如果不存在）
 if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0755, true);
 }
 
 if ($action === "create") {
-    // 处理图片上传（可选）
+    // 处理头像上传（可选）
     if (isset($_FILES['tenant_image']) && $_FILES['tenant_image']['error'] === 0) {
         $file = $_FILES['tenant_image'];
         $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
@@ -30,12 +30,13 @@ if ($action === "create") {
         }
     }
 
-    // 插入数据库
+    // 插入数据库（严格按照你的表字段顺序和类型）
     $stmt = $conn->prepare("INSERT INTO tenant 
-        (TenantID, RoleID, TenantName, Password, PhoneNo, Gender, Email, Mail, FullName, Country, ImagePath)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        (TenantID, RoleID, TenantName, Password, PhoneNo, Gender, Email, FullName, Country, ImagePath)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-    $stmt->bind_param("iisssssssss",
+    // 类型：i = int, s = string
+    $stmt->bind_param("iissssssss",
         $_POST['TenantID'],
         $_POST['RoleID'],
         $_POST['TenantName'],
@@ -43,16 +44,16 @@ if ($action === "create") {
         $_POST['PhoneNo'],
         $_POST['Gender'],
         $_POST['Email'],
-        $_POST['Mail'],
         $_POST['FullName'],
         $_POST['Country'],
-        $imagePath
+        $imagePath  // 可以是 string 或 NULL
     );
 
     $success = $stmt->execute();
+
     echo json_encode([
         "success" => $success,
-        "error" => $stmt->error,
+        "error"   => $stmt->error,
         "imagePath" => $imagePath
     ]);
     exit;
@@ -68,7 +69,7 @@ if ($action === "read") {
 if ($action === "delete") {
     $id = (int)$_POST['TenantID'];
 
-    // 删除关联图片
+    // 删除关联的头像文件
     $stmt = $conn->prepare("SELECT ImagePath FROM tenant WHERE TenantID = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
@@ -80,9 +81,11 @@ if ($action === "delete") {
         }
     }
 
+    // 删除记录
     $stmt = $conn->prepare("DELETE FROM tenant WHERE TenantID = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
+
     echo json_encode(["success" => true]);
     exit;
 }

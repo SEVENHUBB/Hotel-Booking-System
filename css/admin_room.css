@@ -1,0 +1,72 @@
+/* css/admin_room.css */
+/* Dedicated styles for admin_room.html */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f6f9;
+    color: #333;
+}
+
+.dashboard-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    background: #2c3e50;
+    color: #ecf0f1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    overflow-y: auto;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.sidebar h2 {
+    text-align: center;
+    padding: 25px 0;
+    font-size: 1.6em;
+    border-bottom: 1px solid #34495e;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 16px 30px;
+    color: #ecf0f1;
+    text-decoration: none;
+    font-size: 1.05em;
+    transition: all 0.3s ease;
+}
+
+.sidebar a:hover {
+    background: #34495e;
+    padding-left: 40px;
+}
+
+.sidebar a.active {
+    background: #3498db;
+    font-weight: bold;
+    border-left: 5px solid #fff;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    margin-left: 260px;
+    padding: 40px;
+}
+
+.main-content h1 {
+    color: #
