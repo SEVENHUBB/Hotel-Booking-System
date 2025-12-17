@@ -1,51 +1,49 @@
 <?php
-// admin_tenant.php - PHP logic file
+session_start();
+header("Content-Type: application/json");
+require 'db_config.php';
+$conn = getDBConnection();
 
-// Database connection (UPDATE THESE WITH YOUR ACTUAL DETAILS)
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "your_database_name"; // ← Change this!
+$action = $_GET['action'] ?? '';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-$message = '';
-$message_type = '';
-
-// Handle delete request
-if (isset($_GET['delete'])) {
-    $id = intval($_GET['delete']);
-    $stmt = $conn->prepare("DELETE FROM tenant WHERE TenantID = ?");
-    $stmt->bind_param("i", $id);
-    if ($stmt->execute()) {
-        $message = "Tenant deleted successfully.";
-        $message_type = "success";
-    } else {
-        $message = "Error deleting tenant.";
-        $message_type = "error";
-    }
-    $stmt->close();
+if ($action === "create") {
+    $stmt = $conn->prepare("INSERT INTO tenant 
+        (TenantID, RoleID, TenantName, Password, PhoneNo, Gender, Email, FullName, Country)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
     
-    // Redirect to prevent resubmission on page refresh
-    header("Location: admin_tenant.php");
-    exit();
+    // Password hashing for security
+    $hashedPassword = password_hash($_POST['Password'], PASSWORD_DEFAULT);
+    
+    $stmt->execute([
+        $_POST['TenantID'],
+        $_POST['RoleID'] ?: null,
+        $_POST['TenantName'],
+        $hashedPassword,
+        $_POST['PhoneNo'] ?: null,
+        $_POST['Gender'] ?: null,
+        $_POST['Email'] ?: null,
+        $_POST['FullName'] ?: null,
+        $_POST['Country'] ?: null
+    ]);
+
+    echo json_encode(["success" => true, "message" => "Tenant added successfully"]);
+    exit;
 }
 
-// Fetch all tenants
-$sql = "SELECT TenantID, TenantName, FullName, Email, PhoneNo, Gender, Country, RoleID 
-        FROM tenant 
-        ORDER BY TenantID DESC";
-$result = $conn->query($sql);
-
-$tenants = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $tenants[] = $row;
-    }
+if ($action === "read") {
+    $stmt = $conn->query("SELECT TenantID, RoleID, TenantName, FullName, Email, PhoneNo, Gender, Country FROM tenant ORDER BY TenantID DESC");
+    $tenants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    echo json_encode($tenants);
+    exit;
 }
 
-$conn->close();
+if ($action === "delete") {
+    $id = (int)$_POST['TenantID'];
+    $stmt = $conn->prepare("DELETE FROM tenant WHERE TenantID = ?");
+    $stmt->execute([$id]);
+    echo json_encode(["success" => true]);
+    exit;
+}
+
+echo json_encode(["error" => "Invalid action"]);
 ?>
