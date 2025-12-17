@@ -1,7 +1,7 @@
 <?php
+session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
 include "db_hotel.php";
 
 $sql = "SELECT HotelID, HotelName, Description, Address, City, Country, NumRooms, Category, StarRating, ImagePath FROM hotel";
@@ -33,13 +33,25 @@ $result = $conn->query($sql); ?>
                 <li><a href="/Hotel_Booking_System/contact.html">Contact Us</a></li>
             </ul>
         </nav>
-        <div id="guestNav">
-            <button id="loginButton" onclick="goToLogin()">Log In</button>
-            <button id="registerBtn" onclick="goToRegister()">Register</button>
-        </div>
-        <div id="userNav" style="display:none;">
-            <span id="welcomeMessage"></span>
-            <button id="logoutBtn" onclick="logout()">Logout</button>
+        <div id="navRight">
+        <?php if (isset($_SESSION['tenant_id'])): ?>
+
+            <span class="welcome-text">
+                Hi, <?php echo htmlspecialchars($_SESSION['tenant_name']); ?>
+            </span>
+
+            <a href="../tenant_profile.html" class="profile-btn">
+                <i class="fas fa-user"></i> Profile
+            </a>
+
+            <a href="/Hotel_Booking_System/php/logout.php" class="logout-btn">Logout</a>
+
+        <?php else: ?>
+
+            <button class="login-btn" onclick="goToLogin()">Log In</button>
+            <button class="register-btn" onclick="goToRegister()">Register</button>
+
+        <?php endif; ?>
         </div>
     </header>
 

@@ -533,3 +533,98 @@ footer p {
         font-size: 1.2rem;
     }
 }
+
+#navRight {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile-btn {
+    text-decoration: none;
+    padding: 6px 12px;
+    background: #3498db;
+    color: white;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.logout-btn {
+    text-decoration: none;
+    padding: 6px 12px;
+    background: #e74c3c;
+    color: white;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.welcome-text {
+    font-weight: bold;
+}
+
+/* Login / Register 按钮通用样式 */
+.nav-btn {
+    padding: 6px 14px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: white;
+    background-color: #3498db; /* 蓝色按钮 */
+}
+
+/* Register 按钮单独颜色 */
+.nav-btn.register-btn {
+    background-color: #2ecc71; /* 绿色按钮 */
+}
+
+/* 鼠标 hover 效果 */
+.nav-btn:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+}
+
+/* 右上角对齐 */
+#navRight {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 按钮间距 */
+}
+
+/* 公共样式 */
+.login-btn,
+.register-btn {
+    padding: 6px 14px;       /* 按钮大小 */
+    font-size: 14px;         /* 字体大小 */
+    border: none;            /* 去掉边框 */
+    border-radius: 5px;      /* 圆角 */
+    cursor: pointer;         /* 鼠标手型 */
+    transition: all 0.2s ease; /* 悬停动画 */
+    color: white;            /* 字体颜色 */
+}
+
+/* Log In 按钮颜色 */
+.login-btn {
+    background-color: #4191d2; /* 蓝色 */
+}
+
+/* Register 按钮颜色 */
+.register-btn {
+    background-color:  #4191d2; /* 绿色 */
+}
+
+/* Hover 效果 */
+.login-btn:hover,
+.register-btn:hover {
+    opacity: 0.85;             /* 轻微透明 */
+    transform: translateY(-1px); /* 微微上浮 */
+}
+
+/* 右上角排列（如果父容器是 #navRight） */
+#navRight {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 按钮间距 */
+}
+

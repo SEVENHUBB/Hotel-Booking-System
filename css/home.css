@@ -43,3 +43,34 @@ body { margin:0; font-family: Arial, sans-serif; background:#f5f5f5; }
 /* *{
     outline:1px solid red !important;
 } */
+
+
+/* Login / Register 按钮通用样式 */
+.nav-btn {
+    padding: 6px 14px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: white;
+    background-color: #3498db; /* 蓝色按钮 */
+}
+
+/* Register 按钮单独颜色 */
+.nav-btn.register-btn {
+    background-color: #2ecc71; /* 绿色按钮 */
+}
+
+/* 鼠标 hover 效果 */
+.nav-btn:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+}
+
+/* 右上角对齐 */
+#navRight {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* 按钮间距 */
+}
