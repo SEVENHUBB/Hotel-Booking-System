@@ -1,26 +1,20 @@
 <?php
 session_start();
 header("Content-Type: application/json");
-require 'db_config.php';
+require 'db_config.php';  // 你的数据库连接文件
 $conn = getDBConnection();
 
 $action = $_GET['action'] ?? '';
 $uploadDir = '../images/tenant_photo/';
+$imagePath = null;  // 可选头像路径
 
-if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
-
-// READ
-if ($action === "read") {
-    $result = $conn->query("SELECT * FROM tenant ORDER BY TenantID ASC");
-    echo json_encode($result->fetch_all(MYSQLI_ASSOC));
-    exit;
+// 创建上传目录（如果不存在）
+if (!is_dir($uploadDir)) {
+    mkdir($uploadDir, 0755, true);
 }
 
-// UPDATE
-if ($action === "update") {
-    $id = (int)$_POST['TenantID'];
-    $imagePath = null;
-
+if ($action === "create") {
+    // 处理头像上传（可选）
     if (isset($_FILES['tenant_image']) && $_FILES['tenant_image']['error'] === 0) {
         $file = $_FILES['tenant_image'];
         $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
@@ -29,79 +23,65 @@ if ($action === "update") {
         if (in_array($ext, $allowed) && $file['size'] <= 5 * 1024 * 1024) {
             $newName = uniqid('tenant_') . '.' . $ext;
             $dest = $uploadDir . $newName;
+
             if (move_uploaded_file($file['tmp_name'], $dest)) {
                 $imagePath = 'images/tenant_photo/' . $newName;
-
-                // Delete old image
-                $stmt = $conn->prepare("SELECT ImagePath FROM tenant WHERE TenantID = ?");
-                $stmt->bind_param("i", $id);
-                $stmt->execute();
-                $res = $stmt->get_result();
-                if ($row = $res->fetch_assoc() && $row['ImagePath']) {
-                    $old = '../' . $row['ImagePath'];
-                    if (file_exists($old)) unlink($old);
-                }
             }
         }
     }
 
-    $fields = []; $types = ""; $values = [];
+    // 插入数据库（严格按照你的表字段顺序和类型）
+    $stmt = $conn->prepare("INSERT INTO tenant 
+        (TenantID, RoleID, TenantName, Password, PhoneNo, Gender, Email, FullName, Country, ImagePath)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-    $map = [
-        'RoleID' => 'i', 'TenantName' => 's', 'FullName' => 's',
-        'Email' => 's', 'PhoneNo' => 's', 'Gender' => 's', 'Country' => 's'
-    ];
+    // 类型：i = int, s = string
+    $stmt->bind_param("iissssssss",
+        $_POST['TenantID'],
+        $_POST['RoleID'],
+        $_POST['TenantName'],
+        $_POST['Password'],
+        $_POST['PhoneNo'],
+        $_POST['Gender'],
+        $_POST['Email'],
+        $_POST['FullName'],
+        $_POST['Country'],
+        $imagePath  // 可以是 string 或 NULL
+    );
 
-    foreach ($map as $field => $type) {
-        if (isset($_POST[$field]) && $_POST[$field] !== '') {
-            $fields[] = "$field = ?";
-            $types .= $type;
-            $values[] = $_POST[$field];
-        }
-    }
-
-    if (!empty($_POST['Password'])) {
-        $fields[] = "Password = ?";
-        $types .= "s";
-        $values[] = $_POST['Password']; // Hash in production
-    }
-
-    if ($imagePath) {
-        $fields[] = "ImagePath = ?";
-        $types .= "s";
-        $values[] = $imagePath;
-    }
-
-    if (empty($fields)) {
-        echo json_encode(["success" => false, "error" => "No changes"]);
-        exit;
-    }
-
-    $sql = "UPDATE tenant SET " . implode(", ", $fields) . " WHERE TenantID = ?";
-    $types .= "i";
-    $values[] = $id;
-
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param($types, ...$values);
     $success = $stmt->execute();
 
-    echo json_encode(["success" => $success, "error" => $stmt->error]);
+    echo json_encode([
+        "success" => $success,
+        "error"   => $stmt->error,
+        "imagePath" => $imagePath
+    ]);
     exit;
 }
 
-// DELETE
+if ($action === "read") {
+    $result = $conn->query("SELECT * FROM tenant ORDER BY TenantID ASC");
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+    echo json_encode($data);
+    exit;
+}
+
 if ($action === "delete") {
     $id = (int)$_POST['TenantID'];
 
+    // 删除关联的头像文件
     $stmt = $conn->prepare("SELECT ImagePath FROM tenant WHERE TenantID = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $res = $stmt->get_result();
-    if ($row = $res->fetch_assoc() && $row['ImagePath']) {
+    if ($row = $res->fetch_assoc()) {
         $img = '../' . $row['ImagePath'];
-        if (file_exists($img)) unlink($img);
+        if ($row['ImagePath'] && file_exists($img)) {
+            unlink($img);
+        }
     }
 
+    // 删除记录
     $stmt = $conn->prepare("DELETE FROM tenant WHERE TenantID = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
@@ -111,4 +91,3 @@ if ($action === "delete") {
 }
 
 echo json_encode(["error" => "Invalid action"]);
-?>
