@@ -108,8 +108,6 @@ if (isset($_GET['keyword']) && !empty(trim($_GET['keyword']))) {
 
         </form>
 
-
-
         <!-- 隐藏的弹出框 -->
         <div class="guest-picker-popup" id="guestPicker">
             <div class="guest-row">
