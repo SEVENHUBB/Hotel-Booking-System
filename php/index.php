@@ -7,6 +7,17 @@ include "db_hotel.php";
 // this is for search bar function
 $keyword = "";
 
+// 确保 session 已开启
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
+}
+
+// 统计购物车总数量
+$cart_count = 0;
+foreach ($_SESSION['cart'] as $item) {
+    $cart_count += $item['Quantity'];
+}
+
 if (isset($_GET['keyword']) && !empty(trim($_GET['keyword']))) {
 
     $keyword = trim($_GET['keyword']);
@@ -59,26 +70,33 @@ if (isset($_GET['keyword']) && !empty(trim($_GET['keyword']))) {
                 <li><a href="/Hotel_Booking_System/contact.html">Contact Us</a></li>
             </ul>
         </nav>
-        <div id="navRight">
-            <?php if (isset($_SESSION['tenant_id'])): ?>
+<div id="navRight">
+    <?php if (isset($_SESSION['tenant_id'])): ?>
 
-                <span class="welcome-text">
-                    Hi, <?php echo htmlspecialchars($_SESSION['tenant_name']); ?>
-                </span>
-
-                <a href="/Hotel_Booking_System/php/profile.php" class="profile-btn">
-                    <i class="fas fa-user"></i> Profile
-                </a>
-
-                <a href="/Hotel_Booking_System/php/logout.php" class="logout-btn">Logout</a>
-
-            <?php else: ?>
-
-                <button class="login-btn" onclick="goToLogin()">Log In</button>
-                <button class="register-btn" onclick="goToRegister()">Register</button>
-
+        <a href="cart.php" class="cart-btn" title="View Cart">
+            <i class="fas fa-shopping-cart"></i>
+            <?php if($cart_count > 0): ?>
+                <span class="cart-count"><?php echo $cart_count; ?></span>
             <?php endif; ?>
-        </div>
+        </a>
+
+        <span class="welcome-text">
+            Hi, <?php echo htmlspecialchars($_SESSION['tenant_name']); ?>
+        </span>
+
+        <a href="/Hotel_Booking_System/php/profile.php" class="profile-btn">
+            <i class="fas fa-user"></i> Profile
+        </a>
+
+        <a href="/Hotel_Booking_System/php/logout.php" class="logout-btn">Logout</a>
+
+    <?php else: ?>
+
+        <button class="login-btn" onclick="goToLogin()">Log In</button>
+        <button class="register-btn" onclick="goToRegister()">Register</button>
+
+    <?php endif; ?>
+</div>
     </header>
 
 
