@@ -20,7 +20,7 @@
         <a href="#">Reviews</a>
         <a href="admin_room.html">Rooms</a>
         <a href="admin_hotel.html">Hotels</a>
-         <a href="php/logout.php" class="logout-link">Logout</a>
+        <a href="php/logout.php" class="logout-link">Logout</a>
     </div>
 
     <!-- Main Content -->
@@ -28,32 +28,37 @@
         <h1>Users Management</h1>
         <div id="message"></div>
 
-        <!-- Add New Tenant Card -->
-        <div class="card">
-            <h2>Add New Tenant</h2>
+        <!-- Edit Form (Hidden by default) -->
+        <div class="card" id="editCard" style="display:none;">
+            <h2>Edit Tenant</h2>
             <form id="tenantForm" enctype="multipart/form-data">
-                <input type="number" name="TenantID" placeholder="Tenant ID (unique)" required min="1">
+                <input type="hidden" name="TenantID" id="editTenantID">
+
                 <input type="number" name="RoleID" placeholder="Role ID" required min="1">
                 <input type="text" name="TenantName" placeholder="Username (for login)" required maxlength="100">
-                <input type="password" name="Password" placeholder="Password" required>
+                <input type="password" name="Password" placeholder="New Password (leave blank to keep current)">
+
                 <input type="text" name="FullName" placeholder="Full Name" required maxlength="100">
                 <input type="email" name="Email" placeholder="Email (optional)" maxlength="100">
                 <input type="text" name="PhoneNo" placeholder="Phone Number (optional)" maxlength="20">
                 <input type="text" name="Gender" placeholder="Gender (e.g. Male/Female/Other)" maxlength="10">
                 <input type="text" name="Country" placeholder="Country" required maxlength="50">
 
-                <!-- Avatar Upload -->
-                <div class="image-upload" style="margin: 20px 0;">
-                    <label style="display:block; margin-bottom:8px; font-weight:600;">Tenant Avatar (optional)</label>
+                <div class="image-upload">
+                    <label>Current Avatar</label>
+                    <div id="currentAvatar" style="margin:15px 0;"></div>
+                    
+                    <label>Change Avatar (optional)</label>
                     <input type="file" name="tenant_image" accept="image/*">
-                    <div id="imagePreview" style="margin-top:10px;"></div>
+                    <div id="imagePreview"></div>
                 </div>
 
-                <button type="submit">Add Tenant</button>
+                <button type="submit">Update Tenant</button>
+                <button type="button" id="cancelBtn" class="cancel-btn">Cancel</button>
             </form>
         </div>
 
-        <!-- Tenant List Card -->
+        <!-- Tenant List -->
         <div class="card">
             <h2>Tenant List</h2>
             <table id="tenantTable">
