@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Payments - Admin</title>
+    <link rel="stylesheet" href="css/admin_payment.css" />
+</head>
+<body>
+
+<div class="dashboard-wrapper">
+
+    <!-- Left Sidebar -->
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <a href="admin.html">Dashboard</a>
+        <a href="admin_tenant.html">Users</a>
+        <a href="admin_booking.html">Bookings</a>
+        <a href="admin_payment.html" class="active">Payments</a>
+        <a href="#">Reviews</a>
+        <a href="admin_room.html">Rooms</a>
+        <a href="admin_hotel.html">Hotels</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Payment Records</h1>
+        <div id="message"></div>
+
+        <div class="card">
+            <h2>All Payments</h2>
+            <table id="paymentTable">
+                <thead>
+                    <tr>
+                        <th>Payment ID</th>
+                        <th>Booking ID</th>
+                        <th>Tenant</th>
+                        <th>Amount</th>
+                        <th>Payment Method</th>
+                        <th>Status</th>
+                        <th>Stay Period</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Filled by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script src="js/admin_payment.js"></script>
+</body>
+</html>

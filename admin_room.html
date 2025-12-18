@@ -1,127 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Room Panel</title>
-    <link rel="stylesheet" href="css/admin_style.css" />
-    <style>
-        .card {
-            background: #fff;
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 900px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-
-        th,
-        td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-
-        th {
-            background: #f4f4f4;
-        }
-
-        .msg {
-            margin-bottom: 15px;
-            padding: 10px;
-            border-radius: 5px;
-        }
-
-        .msg.success {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .msg.error {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        button {
-            padding: 8px 15px;
-            cursor: pointer;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Rooms Management - Admin</title>
+    <link rel="stylesheet" href="css/admin_room.css" />
 </head>
-
 <body>
 
-    <div class="card">
-        <h2>Add Room</h2>
-        <div id="roomMessage"></div>
-        <form id="roomForm">
-            <label for="HotelID">Select Hotel:</label>
-            <select name="HotelID" id="HotelID" required>
-                <option value="">Select Hotel</option>
-            </select>
+<div class="dashboard-wrapper">
 
-            <label for="RoomType">Room Type:</label>
-            <select name="RoomType" id="RoomType" required>
-                <option value="">Select Type</option>
-                <option value="Single Room">Single Room</option>
-                <option value="Double Room">Double Room</option>
-                <option value="Queen Size">Queen Size</option>
-                <option value="King Size">King Size</option>
-            </select>
-
-            <label for="RoomPrice">Room Price:</label>
-            <input type="number" name="RoomPrice" id="RoomPrice" placeholder="Room Price" min="0" step="0.01" required>
-
-            <label for="RoomDesc">Description (optional):</label>
-            <input type="text" name="RoomDesc" id="RoomDesc" placeholder="Room Description">
-
-            <label for="Capacity">Capacity:</label>
-            <input type="number" name="Capacity" id="Capacity" placeholder="Capacity" min="1" required>
-
-            <label for="RoomStatus">Status:</label>
-            <select name="RoomStatus" id="RoomStatus" required>
-                <option value="Available">Available</option>
-                <option value="Booked">Booked</option>
-                <option value="Maintenance">Maintenance</option>
-            </select>
-
-            <!-- NEW: Image Upload -->
-            <div class="image-upload">
-                <label>Room Image (optional)</label>
-                <input type="file" name="room_image" accept="images/*">
-                <div id="imagePreview" style="margin-top:10px; max-width:300px;"></div>
-            </div>
-
-            <button type="submit">Add Room</button>
-        </form>
-
-        <h2>Room List</h2>
-        <table id="roomTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Hotel</th>
-                    <th>Images</th>
-                    <th>Type</th>
-                    <th>Price</th>
-                    <th>Description</th>
-                    <th>Status</th>
-                    <th>Capacity</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+    <!-- Left Sidebar -->
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <a href="admin.html">Dashboard</a>
+        <a href="admin_tenant.html">Users</a>
+        <a href="admin_booking.html">Bookings</a>
+        <a href="admin_payment.html">Payments</a>
+        <a href="#">Reviews</a>
+        <a href="admin_room.html" class="active">Rooms</a>
+        <a href="admin_hotel.html">Hotels</a>
     </div>
 
-    <script src="js/admin_room.js"></script>
-</body>
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Rooms Management</h1>
+        <div id="roomMessage"></div>
 
+        <div class="card">
+            <h2>Add New Room</h2>
+            <form id="roomForm" enctype="multipart/form-data">
+                <div>
+                    <label for="HotelID">Select Hotel</label>
+                    <select name="HotelID" id="HotelID" required>
+                        <option value="">Select Hotel</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="RoomType">Room Type</label>
+                    <select name="RoomType" id="RoomType" required>
+                        <option value="">Select Type</option>
+                        <option value="Single Room">Single Room</option>
+                        <option value="Double Room">Double Room</option>
+                        <option value="Queen Size">Queen Size</option>
+                        <option value="King Size">King Size</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="RoomPrice">Room Price (per night)</label>
+                    <input type="number" name="RoomPrice" id="RoomPrice" placeholder="e.g. 150.00" min="0" step="0.01" required>
+                </div>
+
+                <div>
+                    <label for="Capacity">Capacity (guests)</label>
+                    <input type="number" name="Capacity" id="Capacity" placeholder="e.g. 2" min="1" required>
+                </div>
+
+                <div>
+                    <label for="RoomDesc">Description (optional)</label>
+                    <input type="text" name="RoomDesc" id="RoomDesc" placeholder="Cozy room with sea view...">
+                </div>
+
+                <div>
+                    <label for="RoomStatus">Status</label>
+                    <select name="RoomStatus" id="RoomStatus" required>
+                        <option value="Available">Available</option>
+                        <option value="Booked">Booked</option>
+                        <option value="Maintenance">Maintenance</option>
+                    </select>
+                </div>
+
+                <!-- 在房型数量位置 -->
+                <div>
+                    <label for="RoomQuantity">Number of Rooms</label>
+                    <input type="number" name="RoomQuantity" id="RoomQuantity" value="1" min="1" required>
+                </div>
+
+
+                <div class="image-upload">
+                    <label>Room Image (optional)</label>
+                    <input type="file" name="room_image" accept="image/*">
+                    <div id="imagePreview"></div>
+                </div>
+
+
+
+                <button type="submit">Add Room</button>
+            </form>
+
+            <h2>Room List</h2>
+            <table id="roomTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Hotel</th>
+                        <th>Image</th>
+                        <th>Type</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Capacity</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Filled by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script src="js/admin_room.js"></script>
+</body>
 </html>

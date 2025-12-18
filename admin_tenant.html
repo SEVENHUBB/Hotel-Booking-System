@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Users Management - Admin</title>
+    <link rel="stylesheet" href="css/admin_tenant.css" />
+</head>
+<body>
+
+<div class="dashboard-wrapper">
+
+    <!-- Left Sidebar -->
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <a href="admin.html">Dashboard</a>
+        <a href="admin_tenant.html" class="active">Users</a>
+        <a href="admin_booking.html">Bookings</a>
+        <a href="admin_payment.html">Payments</a>
+        <a href="#">Reviews</a>
+        <a href="admin_room.html">Rooms</a>
+        <a href="admin_hotel.html">Hotels</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Users Management</h1>
+        <div id="message"></div>
+
+        <!-- Add New Tenant Card -->
+        <div class="card">
+            <h2>Add New Tenant</h2>
+            <form id="tenantForm" enctype="multipart/form-data">
+                <input type="number" name="TenantID" placeholder="Tenant ID (unique)" required min="1">
+                <input type="number" name="RoleID" placeholder="Role ID" required min="1">
+                <input type="text" name="TenantName" placeholder="Username (for login)" required maxlength="100">
+                <input type="password" name="Password" placeholder="Password" required>
+                <input type="text" name="FullName" placeholder="Full Name" required maxlength="100">
+                <input type="email" name="Email" placeholder="Email (optional)" maxlength="100">
+                <input type="text" name="PhoneNo" placeholder="Phone Number (optional)" maxlength="20">
+                <input type="text" name="Gender" placeholder="Gender (e.g. Male/Female/Other)" maxlength="10">
+                <input type="text" name="Country" placeholder="Country" required maxlength="50">
+
+                <!-- Avatar Upload -->
+                <div class="image-upload" style="margin: 20px 0;">
+                    <label style="display:block; margin-bottom:8px; font-weight:600;">Tenant Avatar (optional)</label>
+                    <input type="file" name="tenant_image" accept="image/*">
+                    <div id="imagePreview" style="margin-top:10px;"></div>
+                </div>
+
+                <button type="submit">Add Tenant</button>
+            </form>
+        </div>
+
+        <!-- Tenant List Card -->
+        <div class="card">
+            <h2>Tenant List</h2>
+            <table id="tenantTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Avatar</th>
+                        <th>Full Name</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Gender</th>
+                        <th>Country</th>
+                        <th>Role ID</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Filled by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script src="js/admin_tenant.js"></script>
+</body>
+</html>
