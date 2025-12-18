@@ -28,11 +28,13 @@
         <h1>Hotels Management</h1>
         <div id="message"></div>
 
-        <!-- Add New Hotel -->
+        <!-- Add / Edit Hotel Form -->
         <div class="card">
-            <h2>Add New Hotel</h2>
+            <h2 id="formTitle">Add New Hotel</h2>
             <form id="hotelForm" enctype="multipart/form-data">
-                <input type="number" name="HotelID" placeholder="Hotel ID (unique)" required min="1">
+                <input type="hidden" name="HotelID" id="editHotelID">
+
+                <input type="number" name="HotelID" id="hotelIdInput" placeholder="Hotel ID (unique)" required min="1">
                 <input type="text" name="HotelName" placeholder="Hotel Name" required>
                 <textarea name="Description" placeholder="Description (optional)" rows="3"></textarea>
                 <input type="text" name="Address" placeholder="Address">
@@ -41,15 +43,17 @@
                 <input type="number" name="NumRooms" placeholder="Number of Rooms" min="1">
                 <input type="text" name="Category" placeholder="Category (e.g. Beach, City)">
 
-                <!-- Image Upload -->
                 <div class="image-upload">
-                    <label>Hotel Image (optional)</label>
+                    <label id="imageLabel">Hotel Image (optional)</label>
+                    <div id="currentImage" style="margin:15px 0;"></div>
                     <input type="file" name="hotel_image" accept="image/*">
                     <div id="imagePreview"></div>
                 </div>
 
                 <input type="number" name="StarRating" placeholder="Star Rating" min="1" max="5" step="1">
-                <button type="submit">Add Hotel</button>
+
+                <button type="submit" id="submitBtn">Add Hotel</button>
+                <button type="button" id="cancelBtn" class="cancel-btn" style="display:none;">Cancel</button>
             </form>
         </div>
 
