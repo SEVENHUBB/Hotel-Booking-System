@@ -4,9 +4,35 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include "db_hotel.php";
 
-$sql = "SELECT HotelID, HotelName, Description, Address, City, Country, NumRooms, Category, StarRating, ImagePath FROM hotel";
+// this is for search bar function
+$keyword = "";
 
-$result = $conn->query($sql); ?>
+if (isset($_GET['keyword']) && !empty(trim($_GET['keyword']))) {
+
+    $keyword = trim($_GET['keyword']);
+
+    $sql = "SELECT HotelID, HotelName, Description, Address, City, Country, 
+                   NumRooms, Category, StarRating, ImagePath
+            FROM hotel
+            WHERE HotelName LIKE ?
+               OR City LIKE ?
+               OR Address LIKE ?";
+
+    $stmt = $conn->prepare($sql);
+    $search = "%" . $keyword . "%";
+    $stmt->bind_param("sss", $search, $search, $search);
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+
+    $sql = "SELECT HotelID, HotelName, Description, Address, City, Country, 
+                   NumRooms, Category, StarRating, ImagePath
+            FROM hotel";
+
+    $result = $conn->query($sql);
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,9 +66,9 @@ $result = $conn->query($sql); ?>
                     Hi, <?php echo htmlspecialchars($_SESSION['tenant_name']); ?>
                 </span>
 
-            <a href="/Hotel_Booking_System/php/profile.php" class="profile-btn">
-                <i class="fas fa-user"></i> Profile
-            </a>
+                <a href="/Hotel_Booking_System/php/profile.php" class="profile-btn">
+                    <i class="fas fa-user"></i> Profile
+                </a>
 
                 <a href="/Hotel_Booking_System/php/logout.php" class="logout-btn">Logout</a>
 
@@ -61,13 +87,10 @@ $result = $conn->query($sql); ?>
         <h1>Welcome to Super Booking Hotels</h1>
         <p>Find your perfect stay with the best prices</p>
 
-        <div class="search-box">
-            <select class="destination-select" required>
-                <option value="" disabled selected>Select Destination</option>
-                <option value="Johor">Johor Bahru</option>
-                <option value="Kuala Lumpur">Kuala Lumpur</option>
-                <option value="Penang">Penang</option>
-            </select>
+        <form method="GET" action="index.php" class="search-box">
+
+            <input type="text" name="keyword" placeholder="Enter city, address or hotel name"
+                value="<?php echo isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : ''; ?>" required />
 
             <input type="date" />
             <input type="date" />
@@ -81,59 +104,66 @@ $result = $conn->query($sql); ?>
                 </div>
             </div>
 
-            <!-- 隐藏的弹出框 -->
-            <div class="guest-picker-popup" id="guestPicker">
-                <div class="guest-row">
-                    <div class="guest-label">
-                        <div>Rooms</div>
-                        <small>Maximum 8 rooms</small>
-                    </div>
-                    <div class="guest-counter">
-                        <button class="counter-btn minus" data-type="rooms">-</button>
-                        <span class="counter-value" data-type="rooms">1</span>
-                        <button class="counter-btn plus" data-type="rooms">+</button>
-                    </div>
+            <button type="submit" class="search-btn">Search</button>
+
+        </form>
+
+
+
+        <!-- 隐藏的弹出框 -->
+        <div class="guest-picker-popup" id="guestPicker">
+            <div class="guest-row">
+                <div class="guest-label">
+                    <div>Rooms</div>
+                    <small>Maximum 8 rooms</small>
                 </div>
-
-                <div class="guest-row">
-                    <div class="guest-label">
-                        <div>Adults</div>
-                        <small>Age 18 or above</small>
-                    </div>
-                    <div class="guest-counter">
-                        <button class="counter-btn minus" data-type="adults">-</button>
-                        <span class="counter-value" data-type="adults">2</span>
-                        <button class="counter-btn plus" data-type="adults">+</button>
-                    </div>
-                </div>
-
-                <div class="guest-row">
-                    <div class="guest-label">
-                        <div>Children</div>
-                        <small>Ages 0–17</small>
-                    </div>
-                    <div class="guest-counter">
-                        <button class="counter-btn minus" data-type="children">-</button>
-                        <span class="counter-value" data-type="children">0</span>
-                        <button class="counter-btn plus" data-type="children">+</button>
-                    </div>
-                </div>
-
-                <!-- 儿童年龄选择区域（动态生成） -->
-                <div id="childrenAges"></div>
-
-                <div class="guest-actions">
-                    <button class="done-btn">Done</button>
+                <div class="guest-counter">
+                    <button class="counter-btn minus" data-type="rooms">-</button>
+                    <span class="counter-value" data-type="rooms">1</span>
+                    <button class="counter-btn plus" data-type="rooms">+</button>
                 </div>
             </div>
 
-            <button class="search-btn">Search</button>
+            <div class="guest-row">
+                <div class="guest-label">
+                    <div>Adults</div>
+                    <small>Age 18 or above</small>
+                </div>
+                <div class="guest-counter">
+                    <button class="counter-btn minus" data-type="adults">-</button>
+                    <span class="counter-value" data-type="adults">2</span>
+                    <button class="counter-btn plus" data-type="adults">+</button>
+                </div>
+            </div>
 
-        </div>
+            <div class="guest-row">
+                <div class="guest-label">
+                    <div>Children</div>
+                    <small>Ages 0–17</small>
+                </div>
+                <div class="guest-counter">
+                    <button class="counter-btn minus" data-type="children">-</button>
+                    <span class="counter-value" data-type="children">0</span>
+                    <button class="counter-btn plus" data-type="children">+</button>
+                </div>
+            </div>
+
+            <!-- 儿童年龄选择区域（动态生成） -->
+            <div id="childrenAges"></div>
+
+            <div class="guest-actions">
+                <button class="done-btn">Done</button>
     </section>
 
     <section class="hotels-section">
-        <h2>Featured Hotels</h2>
+        <h2>
+            <?php if (!empty($keyword)): ?>
+                Search results for "<?php echo htmlspecialchars($keyword); ?>"
+            <?php else: ?>
+                Featured Hotels
+            <?php endif; ?>
+        </h2>
+
 
         <div class="hotel-grid">
 
