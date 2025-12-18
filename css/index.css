@@ -78,6 +78,38 @@ header nav {
   background-position: right 18px center;
 }
 
+/* 1️⃣ destination input 样式 */
+.destination-input {
+    padding: 14px 18px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    min-width: 220px;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    outline: none;
+    transition: all 0.3s;
+  }
+  
+  .destination-input:focus {
+    box-shadow: 0 0 0 4px rgba(8, 131, 149, 0.3);
+    transform: scale(1.02);
+  }
+  
+  /* 2️⃣ 修 search box layout */
+  .search-box {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  
+  /* 3️⃣ 防止 form 破坏布局 */
+  form {
+    display: contents;
+  }
+  
+
 /* 房客选择弹出框 */
 .guest-picker-popup {
   position: absolute;
