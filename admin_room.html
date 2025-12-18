@@ -28,9 +28,12 @@
         <h1>Rooms Management</h1>
         <div id="roomMessage"></div>
 
+        <!-- Add / Edit Room Form -->
         <div class="card">
-            <h2>Add New Room</h2>
+            <h2 id="formTitle">Add New Room</h2>
             <form id="roomForm" enctype="multipart/form-data">
+                <input type="hidden" name="RoomID" id="editRoomID">
+
                 <div>
                     <label for="HotelID">Select Hotel</label>
                     <select name="HotelID" id="HotelID" required>
@@ -51,46 +54,47 @@
 
                 <div>
                     <label for="RoomPrice">Room Price (per night)</label>
-                    <input type="number" name="RoomPrice" id="RoomPrice" placeholder="e.g. 150.00" min="0" step="0.01" required>
+                    <input type="number" name="RoomPrice" placeholder="e.g. 150.00" min="0" step="0.01" required>
                 </div>
 
                 <div>
                     <label for="Capacity">Capacity (guests)</label>
-                    <input type="number" name="Capacity" id="Capacity" placeholder="e.g. 2" min="1" required>
+                    <input type="number" name="Capacity" placeholder="e.g. 2" min="1" required>
+                </div>
+
+                <div>
+                    <label for="RoomQuantity">Number of Rooms</label>
+                    <input type="number" name="RoomQuantity" value="1" min="1" required>
                 </div>
 
                 <div>
                     <label for="RoomDesc">Description (optional)</label>
-                    <input type="text" name="RoomDesc" id="RoomDesc" placeholder="Cozy room with sea view...">
+                    <input type="text" name="RoomDesc" placeholder="Cozy room with sea view...">
                 </div>
 
                 <div>
                     <label for="RoomStatus">Status</label>
-                    <select name="RoomStatus" id="RoomStatus" required>
+                    <select name="RoomStatus" required>
                         <option value="Available">Available</option>
                         <option value="Booked">Booked</option>
                         <option value="Maintenance">Maintenance</option>
                     </select>
                 </div>
 
-                <!-- 在房型数量位置 -->
-                <div>
-                    <label for="RoomQuantity">Number of Rooms</label>
-                    <input type="number" name="RoomQuantity" id="RoomQuantity" value="1" min="1" required>
-                </div>
-
-
                 <div class="image-upload">
-                    <label>Room Image (optional)</label>
+                    <label id="imageLabel">Room Image (optional)</label>
+                    <div id="currentImage" style="margin:20px 0;"></div>
                     <input type="file" name="room_image" accept="image/*">
                     <div id="imagePreview"></div>
                 </div>
 
-
-
-                <button type="submit">Add Room</button>
+                <button type="submit" id="submitBtn">Add Room</button>
+                <button type="button" id="cancelBtn" class="cancel-btn" style="display:none;">Cancel</button>
             </form>
+        </div>
 
+        <!-- Room List -->
+        <div class="card">
             <h2>Room List</h2>
             <table id="roomTable">
                 <thead>
@@ -103,6 +107,7 @@
                         <th>Description</th>
                         <th>Status</th>
                         <th>Capacity</th>
+                        <th>Quantity</th>
                         <th>Action</th>
                     </tr>
                 </thead>
