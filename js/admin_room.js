@@ -28,7 +28,7 @@ function loadRooms() {
         .then(data => {
             const tbody = document.querySelector("#roomTable tbody");
             if (!data.length) {
-                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:#999">No rooms found.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; color:#999">No rooms found.</td></tr>`;
                 return;
             }
 
@@ -36,17 +36,12 @@ function loadRooms() {
                 <tr>
                     <td>${r.RoomID}</td>
                     <td>${r.HotelName}</td>
-                    <td>
-                    ${r.RoomImage
-                    ? `<img src="${r.RoomImage}" style="width:80px;height:auto">`
-                    : '<small>No image</small>'
-                }
-                    </td>
+                    <td>${r.RoomImage ? `<img src="${r.RoomImage}" style="width:80px;height:auto">` : '<small>No image</small>'}</td>
                     <td>${r.RoomType}</td>
                     <td>${Number(r.RoomPrice).toFixed(2)}</td>
                     <td>${r.RoomDesc || '-'}</td>
                     <td>${r.RoomStatus}</td>
-                    <td>${r.Capacity}</td>
+                    <td>${r.Capacity} (${r.RoomQuantity} available)</td>
                     <td><span class="delete-btn" style="color:red; cursor:pointer;" data-id="${r.RoomID}">Delete</span></td>
                 </tr>
             `).join("");
@@ -58,7 +53,7 @@ function loadRooms() {
         .catch(err => console.error("Failed to load rooms:", err));
 }
 
-// Image Preview (small size)
+// Image Preview
 document.querySelector('input[name="room_image"]').addEventListener('change', function (e) {
     const preview = document.getElementById('imagePreview');
     preview.innerHTML = '';
@@ -66,7 +61,6 @@ document.querySelector('input[name="room_image"]').addEventListener('change', fu
     if (e.target.files && e.target.files[0]) {
         const file = e.target.files[0];
 
-        // Optional: limit file size (e.g. max 5MB)
         if (file.size > 5 * 1024 * 1024) {
             preview.innerHTML = '<small style="color:red;">Image too large! Max 5MB</small>';
             this.value = '';
@@ -75,13 +69,13 @@ document.querySelector('input[name="room_image"]').addEventListener('change', fu
 
         const reader = new FileReader();
         reader.onload = function (ev) {
-            preview.innerHTML = `<img src="${ev.target.result}" alt="Room Preview">`;
+            preview.innerHTML = `<img src="${ev.target.result}" alt="Room Preview" style="max-width:150px;">`;
         };
         reader.readAsDataURL(file);
     }
 });
 
-// 提交新增房间表单
+// 提交新增房间表单（一次只提交一条记录，RoomQuantity 写进数据库）
 document.getElementById("roomForm").addEventListener("submit", function (e) {
     e.preventDefault();
     const formData = new FormData(this);
@@ -130,3 +124,4 @@ document.addEventListener("DOMContentLoaded", () => {
     loadHotelOptions();
     loadRooms();
 });
+    

@@ -72,11 +72,20 @@
                     </select>
                 </div>
 
+                <!-- 在房型数量位置 -->
+                <div>
+                    <label for="RoomQuantity">Number of Rooms</label>
+                    <input type="number" name="RoomQuantity" id="RoomQuantity" value="1" min="1" required>
+                </div>
+
+
                 <div class="image-upload">
                     <label>Room Image (optional)</label>
                     <input type="file" name="room_image" accept="image/*">
                     <div id="imagePreview"></div>
                 </div>
+
+
 
                 <button type="submit">Add Room</button>
             </form>

@@ -11,10 +11,16 @@ $stmt->execute();
 $hotel = $stmt->get_result()->fetch_assoc();
 
 // 查询房间信息
-$stmt2 = $conn->prepare("SELECT * FROM room WHERE HotelID = ? AND RoomStatus='Available'");
+// 查询房间信息
+$stmt2 = $conn->prepare("
+    SELECT RoomType, RoomPrice, RoomDesc, RoomImage, Capacity, RoomQuantity
+    FROM room
+    WHERE HotelID = ? AND RoomStatus = 'Available'
+");
 $stmt2->bind_param("i", $hotel_id);
 $stmt2->execute();
 $rooms = $stmt2->get_result();
+
 ?>
 
 <!DOCTYPE html>
@@ -29,19 +35,23 @@ $rooms = $stmt2->get_result();
     <p><?php echo htmlspecialchars($hotel['Description']); ?></p>
     
     <div class="room-grid">
-        <?php if($rooms && $rooms->num_rows > 0): ?>
-            <?php while($r = $rooms->fetch_assoc()): ?>
-                <div class="room-card">
-                    <h3><?php echo $r['RoomType']; ?></h3>
-                    <p>Price: RM <?php echo $r['RoomPrice']; ?></p>
-                    <p>Capacity: <?php echo $r['Capacity']; ?> persons</p>
-                    <p><?php echo $r['RoomDesc']; ?></p>
-                    <a href="booking.php?room_id=<?php echo $r['RoomID']; ?>">Book Now</a>
-                </div>
-            <?php endwhile; ?>
-        <?php else: ?>
-            <p>No rooms available for this hotel.</p>
-        <?php endif; ?>
+<?php if($rooms && $rooms->num_rows > 0): ?>
+    <?php while($r = $rooms->fetch_assoc()): ?>
+        <div class="room-card">
+            <img src="<?php echo !empty($r['RoomImage']) ? '/Hotel_Booking_System/' . htmlspecialchars($r['RoomImage']) : '/Hotel_Booking_System/images/no-image.png'; ?>" alt="Room Image" class="room-img">
+            <h3><?php echo htmlspecialchars($r['RoomType']); ?></h3>
+            <p>Price: RM <?php echo htmlspecialchars($r['RoomPrice']); ?></p>
+            <p>Capacity: <?php echo htmlspecialchars($r['Capacity']); ?> persons</p>
+            <p><?php echo htmlspecialchars($r['RoomDesc']); ?></p>
+            <p>Available Rooms: <?php echo htmlspecialchars($r['RoomQuantity']); ?></p>
+            <a href="booking.php?hotel_id=<?php echo $hotel_id; ?>&room_type=<?php echo urlencode($r['RoomType']); ?>">Book Now</a>
+        </div>
+    <?php endwhile; ?>
+<?php else: ?>
+    <p>No rooms available for this hotel.</p>
+<?php endif; ?>
+
+
     </div>
 </body>
 </html>
