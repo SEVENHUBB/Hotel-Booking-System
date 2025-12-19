@@ -1,5 +1,4 @@
-/* css/admin_room.css */
-/* Enhanced beautiful design for admin_room.html */
+/* css/admin_room.css - Modern Professional Design */
 
 * {
     margin: 0;
@@ -9,9 +8,8 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
-    color: #333;
-    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+    color: #2c3e50;
 }
 
 .dashboard-wrapper {
@@ -19,111 +17,134 @@ body {
     min-height: 100vh;
 }
 
-/* Sidebar - same as others */
+/* Sidebar */
 .sidebar {
-    width: 260px;
-    background: #2c3e50;
+    width: 270px;
+    background: linear-gradient(to bottom, #2c3e50, #1a252f);
     color: #ecf0f1;
     position: fixed;
     top: 0;
     left: 0;
     height: 100%;
     overflow-y: auto;
-    box-shadow: 4px 0 15px rgba(0,0,0,0.1);
-    z-index: 1000;
+    box-shadow: 8px 0 20px rgba(0,0,0,0.15);
 }
 
 .sidebar h2 {
     text-align: center;
-    padding: 30px 0;
-    font-size: 1.7em;
-    border-bottom: 1px solid #34495e;
-    margin-bottom: 20px;
-    letter-spacing: 1.5px;
+    padding: 35px 0;
+    font-size: 1.8em;
     font-weight: 300;
+    letter-spacing: 2px;
+    border-bottom: 1px solid #34495e;
+    background: rgba(0,0,0,0.2);
 }
 
 .sidebar a {
     display: block;
     padding: 18px 30px;
-    color: #ecf0f1;
+    color: #bdc3c7;
     text-decoration: none;
     font-size: 1.05em;
     transition: all 0.3s ease;
+    border-left: 4px solid transparent;
 }
 
 .sidebar a:hover {
-    background: #34495e;
+    background: rgba(52, 152, 219, 0.2);
+    color: white;
     padding-left: 40px;
+    border-left-color: #3498db;
 }
 
 .sidebar a.active {
     background: #3498db;
+    color: white;
     font-weight: bold;
-    border-left: 5px solid #fff;
+    border-left-color: #2980b9;
+}
+
+.sidebar a.logout-link {
+    margin-top: auto;
+    background: #e74c3c;
+    color: white;
+    font-weight: bold;
+    border-top: 1px solid #c0392b;
+}
+
+.sidebar a.logout-link:hover {
+    background: #c0392b;
 }
 
 /* Main Content */
 .main-content {
     flex: 1;
-    margin-left: 260px;
-    padding: 50px 40px;
+    margin-left: 270px;
+    padding: 60px 40px;
 }
 
 .main-content h1 {
-    color: #2c3e50;
-    margin-bottom: 35px;
-    font-size: 2.4em;
+    font-size: 2.8em;
     font-weight: 400;
     text-align: center;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.main-content h1::after {
+    content: '';
+    width: 100px;
+    height: 4px;
+    background: #3498db;
+    margin: 20px auto;
+    display: block;
+    border-radius: 2px;
 }
 
 /* Message */
 #roomMessage {
-    padding: 15px 20px;
-    margin-bottom: 25px;
-    border-radius: 8px;
-    font-weight: bold;
+    padding: 16px 24px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    font-weight: 600;
     text-align: center;
     font-size: 1.1em;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
-.msg.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-.msg.error   { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+.msg.success { background: #d4edda; color: #155724; border-left: 5px solid #28a745; }
+.msg.error   { background: #f8d7da; color: #721c24; border-left: 5px solid #dc3545; }
 
-/* Card */
+/* Cards */
 .card {
     background: white;
     border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
     padding: 40px;
-    margin-bottom: 40px;
-    overflow: hidden;
+    margin-bottom: 50px;
 }
 
 .card h2 {
-    margin-bottom: 30px;
-    color: #2c3e50;
-    font-size: 1.8em;
+    font-size: 2em;
     text-align: center;
+    margin-bottom: 35px;
     position: relative;
 }
 
 .card h2::after {
     content: '';
-    display: block;
     width: 80px;
     height: 4px;
     background: #3498db;
-    margin: 15px auto 0;
+    margin: 20px auto 0;
+    display: block;
     border-radius: 2px;
 }
 
-/* Form Grid Layout */
+/* Form */
 form {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-    margin-bottom: 40px;
+    gap: 30px;
 }
 
 form label {
@@ -131,161 +152,171 @@ form label {
     margin-bottom: 8px;
     font-weight: 600;
     color: #495057;
-    font-size: 1.05em;
 }
 
-form select,
-form input[type="text"],
-form input[type="number"],
-form input[type="file"] {
+form input, form select, form textarea {
     width: 100%;
-    padding: 14px 16px;
+    padding: 16px 20px;
     border: 2px solid #e0e0e0;
-    border-radius: 10px;
-    font-size: 1em;
+    border-radius: 12px;
+    font-size: 1.05em;
+    background: #f8fbff;
     transition: all 0.3s ease;
-    background: #f8f9fa;
 }
 
-form select:focus,
-form input:focus {
+form input:focus, form select:focus, form textarea:focus {
     outline: none;
     border-color: #3498db;
     background: white;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.15);
 }
 
-form button {
+form button[type="submit"] {
     grid-column: 1 / -1;
     justify-self: center;
     background: linear-gradient(to right, #3498db, #2980b9);
     color: white;
-    padding: 15px 40px;
+    padding: 16px 60px;
     border: none;
     border-radius: 50px;
-    font-size: 1.2em;
+    font-size: 1.3em;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
 }
 
-form button:hover {
+form button[type="submit"]:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+    box-shadow: 0 12px 35px rgba(52, 152, 219, 0.4);
 }
 
-/* Image Upload */
+.cancel-btn {
+    background: #95a5a6;
+    color: white;
+    padding: 16px 40px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.cancel-btn:hover {
+    background: #7f8c8d;
+}
+
 .image-upload {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 20px;
-    border: 2px dashed #bdc3c7;
-    border-radius: 12px;
-    background: #f8f9fa;
+    padding: 30px;
+    border: 3px dashed #bdc3c7;
+    border-radius: 16px;
+    background: #f8fbff;
 }
 
-.image-upload label {
-    font-size: 1.1em;
-    color: #2c3e50;
-    margin-bottom: 15px;
+.image-upload:hover {
+    border-color: #3498db;
 }
 
-#imagePreview img {
-    max-width: 400px;
-    max-height: 300px;
+#currentImage img, #imagePreview img {
+    max-width: 500px;
+    max-height: 350px;
     border-radius: 12px;
-    margin-top: 15px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    margin-top: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
 /* Table */
 table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0;
+    border-spacing: 0 15px;
     margin-top: 30px;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
 }
 
 table th {
-    background: #2c3e50;
+    background: linear-gradient(to right, #2c3e50, #34495e);
     color: white;
-    padding: 18px 15px;
+    padding: 20px 15px;
     text-align: left;
     font-weight: 600;
-    font-size: 1.05em;
 }
 
 table td {
-    padding: 18px 15px;
     background: white;
-    border-bottom: 1px solid #eee;
+    padding: 20px 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
 table tr:hover td {
     background: #f1f8ff;
+    transform: scale(1.02);
+    transition: all 0.3s;
 }
 
 table img {
-    width: 100px;
-    height: 70px;
+    width: 120px;
+    height: 80px;
     object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 /* Status Badge */
-.status-available    { background: #d4edda; color: #155724; padding: 6px 12px; border-radius: 20px; font-weight: bold; }
-.status-booked       { background: #fff3cd; color: #856404; padding: 6px 12px; border-radius: 20px; font-weight: bold; }
-.status-maintenance  { background: #f8d7da; color: #721c24; padding: 6px 12px; border-radius: 20px; font-weight: bold; }
-
-.delete-btn {
-    color: #e74c3c;
-    cursor: pointer;
+.status-badge {
+    padding: 8px 16px;
+    border-radius: 20px;
     font-weight: bold;
-    padding: 8px 15px;
-    border-radius: 6px;
-    transition: background 0.3s;
+    font-size: 0.9em;
+}
+.status-available { background: #d4edda; color: #155724; }
+.status-booked { background: #fff3cd; color: #856404; }
+.status-maintenance { background: #f8d7da; color: #721c24; }
+
+/* Action Buttons */
+.action-btn {
+    padding: 12px 25px;
+    margin: 0 8px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
 }
 
-.delete-btn:hover {
-    background: #e74c3c;
+.action-btn.edit-btn {
+    background: linear-gradient(to right, #27ae60, #219a52);
     color: white;
 }
 
+.action-btn.edit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(39,174,96,0.4);
+}
+
+.action-btn.delete-btn {
+    background: linear-gradient(to right, #e74c3c, #c0392b);
+    color: white;
+}
+
+.action-btn.delete-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(231,76,60,0.4);
+}
+
 /* Responsive */
+@media (max-width: 1200px) {
+    form { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 992px) {
-    .main-content {
-        padding: 30px 20px;
-    }
-    form {
-        grid-template-columns: 1fr;
-    }
+    .main-content { padding: 40px 20px; }
 }
 
 @media (max-width: 768px) {
-    .sidebar {
-        width: 80px;
-    }
-    .sidebar h2,
-    .sidebar a {
-        text-align: center;
-        padding: 20px 0;
-        font-size: 0.9em;
-    }
-    .sidebar a {
-        padding-left: 0;
-    }
-    .sidebar a:hover {
-        padding-left: 0;
-    }
-    .main-content {
-        margin-left: 80px;
-    }
-    .card {
-        padding: 25px;
-    }
+    .sidebar { width: 80px; }
+    .sidebar h2, .sidebar a { text-align: center; padding: 25px 0; font-size: 0.9em; }
+    .sidebar a { padding-left: 0; }
+    .main-content { margin-left: 80px; }
+    td:last-child { display: flex; flex-direction: column; gap: 10px; }
+    .action-btn { width: 100%; }
 }
