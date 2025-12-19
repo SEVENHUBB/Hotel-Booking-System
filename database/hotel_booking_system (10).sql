@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 17, 2025 at 05:08 AM
+-- Generation Time: Dec 18, 2025 at 04:40 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -85,13 +85,24 @@ CREATE TABLE `bill` (
 
 CREATE TABLE `booking` (
   `BookingID` int(11) NOT NULL,
-  `RoomID` int(11) DEFAULT NULL,
+  `HotelID` int(11) DEFAULT NULL,
+  `RoomType` varchar(50) DEFAULT NULL,
   `TenantID` int(11) DEFAULT NULL,
   `CheckInDate` date DEFAULT NULL,
   `CheckOutDate` date DEFAULT NULL,
-  `NumberOfTenant` int(11) DEFAULT NULL,
+  `RoomQuantity` int(11) DEFAULT NULL,
   `BookingDate` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `booking`
+--
+
+INSERT INTO `booking` (`BookingID`, `HotelID`, `RoomType`, `TenantID`, `CheckInDate`, `CheckOutDate`, `RoomQuantity`, `BookingDate`) VALUES
+(1, 12, 'Single Room', 3, NULL, NULL, NULL, '2025-12-18 15:05:05'),
+(2, 4, 'Queen Size', 3, NULL, NULL, NULL, '2025-12-18 15:05:43'),
+(3, 12, 'Single Room', 3, NULL, NULL, NULL, '2025-12-18 15:10:40'),
+(5, 123457, 'Single Room', 3, '2025-12-18', '2025-12-21', 1, '2025-12-18 15:23:11');
 
 -- --------------------------------------------------------
 
@@ -117,10 +128,9 @@ CREATE TABLE `hotel` (
 --
 
 INSERT INTO `hotel` (`HotelID`, `HotelName`, `Description`, `Address`, `City`, `Country`, `NumRooms`, `Category`, `StarRating`, `ImagePath`) VALUES
-(15, 'Sex Hotel', 'located at setapak', 'Sungai Petani', 'Selangor', 'Malaysia', 20, '15', 4, 'images/hotel_photo/hotel_69422b40da830.png'),
-(67, 'Gay Hotel', 'Gay Hotel', 'KL', 'Kedah', 'Malaysia', 15, '4', 5, 'images/hotel_photo/hotel_69418b1bbceda.png'),
-(152, 'Purest Hotel', 'Located at Sungai Petani', 'Sungai Petani', 'Kedah', 'Malaysia', 45, '5', 5, 'images/hotel_photo/hotel_6941173bc72ee.png'),
-(123456, 'Purest Hotel', 'Purest Hotel', 'Sungai Petani', 'Kedah', 'Malaysia', 15, '4', 5, 'images/hotel_photo/hotel_69417f528db2b.png');
+(4, 'Xuan Hotel', 'Located at Muar', 'Johor', 'Muar', 'Malaysia', 11, '4', 2, 'images/hotel_photo/hotel_6943d2d445741.png'),
+(12, 'Halo Hotel', 'Located at KL', 'KL', 'KL', 'Malaysia', 15, 'City', 4, 'images/hotel_photo/hotel_6943b104a8c5f.png'),
+(123457, 'My Hotel', 'Description here', '123 Street', 'City', 'Country', 50, '3-Star', 4, 'images/hotel1.jpg');
 
 -- --------------------------------------------------------
 
@@ -184,18 +194,16 @@ CREATE TABLE `room` (
   `RoomDesc` text DEFAULT NULL,
   `RoomImage` varchar(255) DEFAULT NULL,
   `RoomStatus` varchar(20) DEFAULT NULL,
-  `Capacity` int(11) DEFAULT NULL
+  `Capacity` int(11) DEFAULT NULL,
+  `RoomQuantity` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `room`
 --
 
-INSERT INTO `room` (`RoomID`, `HotelID`, `TenantID`, `RoomType`, `RoomPrice`, `RoomDesc`, `RoomImage`, `RoomStatus`, `Capacity`) VALUES
-(4, 67, NULL, 'Single Room', 150.00, 'very good', NULL, 'Available', 1),
-(5, 152, NULL, 'Queen Size', 400.00, 'good', NULL, 'Available', 2),
-(6, 152, NULL, 'Double Room', 300.00, 'good', NULL, 'Available', 2),
-(7, 15, NULL, 'Queen Size', 400.00, 'noob', NULL, 'Available', 2);
+INSERT INTO `room` (`RoomID`, `HotelID`, `TenantID`, `RoomType`, `RoomPrice`, `RoomDesc`, `RoomImage`, `RoomStatus`, `Capacity`, `RoomQuantity`) VALUES
+(58, 123457, NULL, 'Single Room', 2.00, 'very good', 'images/room_photo/room_69441b85dc712.png', 'Available', 2, 15);
 
 -- --------------------------------------------------------
 
@@ -212,17 +220,18 @@ CREATE TABLE `tenant` (
   `Gender` varchar(10) DEFAULT NULL,
   `Email` varchar(100) DEFAULT NULL,
   `FullName` varchar(100) DEFAULT NULL,
-  `Country` varchar(50) DEFAULT NULL
+  `Country` varchar(50) DEFAULT NULL,
+  `profile_image` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tenant`
 --
 
-INSERT INTO `tenant` (`TenantID`, `RoleID`, `TenantName`, `Password`, `PhoneNo`, `Gender`, `Email`, `FullName`, `Country`) VALUES
-(2, NULL, 'david', '$2y$10$0j.dc/AFNendhIQlH6pFnOQayJWxTyNX.hqdsxxV9g3OZ8z.qhOZa', '0185878187', 'Male', 'davidtao@gmail.com', 'DavidTao', 'Malaysia'),
-(3, NULL, 'yeesiang', '$2y$10$J2wkex39eN0VrwwnGZxHB.6H1xF6n9s26bojaLTu/Gd1GgD7Bp7.S', '0185878187', 'Male', 'tangyeesiang2006@gmail.com', 'Tang Yee Siang', 'Singapore'),
-(4, NULL, '123', '$2y$10$VbSt9BQen5janFr06Mj8ee0gm4bYiwW9KE3RDeixLLm7hPjC4yS.K', '123456789', 'Male', '123@gmail.com', '123', 'Malaysia');
+INSERT INTO `tenant` (`TenantID`, `RoleID`, `TenantName`, `Password`, `PhoneNo`, `Gender`, `Email`, `FullName`, `Country`, `profile_image`) VALUES
+(2, NULL, 'david', '$2y$10$0j.dc/AFNendhIQlH6pFnOQayJWxTyNX.hqdsxxV9g3OZ8z.qhOZa', '0185878187', 'Male', 'davidtao@gmail.com', 'DavidTao', 'Malaysia', NULL),
+(3, NULL, 'yeesiang', '$2y$10$J2wkex39eN0VrwwnGZxHB.6H1xF6n9s26bojaLTu/Gd1GgD7Bp7.S', '0185878187', 'Male', 'tangyeesiang2006@gmail.com', 'Tang Yee Siang', 'Singapore', 'uploads/profile_3.png'),
+(4, NULL, '123', '$2y$10$VbSt9BQen5janFr06Mj8ee0gm4bYiwW9KE3RDeixLLm7hPjC4yS.K', '123456789', 'Male', '123@gmail.com', '123', 'Malaysia', NULL);
 
 -- --------------------------------------------------------
 
@@ -256,8 +265,8 @@ ALTER TABLE `bill`
 --
 ALTER TABLE `booking`
   ADD PRIMARY KEY (`BookingID`),
-  ADD KEY `RoomID` (`RoomID`),
-  ADD KEY `TenantID` (`TenantID`);
+  ADD KEY `TenantID` (`TenantID`),
+  ADD KEY `booking_hotel_fk` (`HotelID`);
 
 --
 -- Indexes for table `hotel`
@@ -320,13 +329,13 @@ ALTER TABLE `bill`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `BookingID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `hotel`
 --
 ALTER TABLE `hotel`
-  MODIFY `HotelID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123457;
+  MODIFY `HotelID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123458;
 
 --
 -- AUTO_INCREMENT for table `password_reset_otp`
@@ -350,7 +359,7 @@ ALTER TABLE `role`
 -- AUTO_INCREMENT for table `room`
 --
 ALTER TABLE `room`
-  MODIFY `RoomID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `RoomID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `tenant`
@@ -378,7 +387,7 @@ ALTER TABLE `bill`
 -- Constraints for table `booking`
 --
 ALTER TABLE `booking`
-  ADD CONSTRAINT `booking_ibfk_1` FOREIGN KEY (`RoomID`) REFERENCES `room` (`RoomID`),
+  ADD CONSTRAINT `booking_hotel_fk` FOREIGN KEY (`HotelID`) REFERENCES `hotel` (`HotelID`),
   ADD CONSTRAINT `booking_ibfk_2` FOREIGN KEY (`TenantID`) REFERENCES `tenant` (`TenantID`);
 
 --
