@@ -99,9 +99,12 @@ $result = $stmt->get_result();
         </table>
         <button type="submit" class="btn">Update Cart</button>
         <a href="checkout.php" class="btn">Proceed to Checkout</a>
+
+        <a href="index.php" class="btn back-btn">← Back to Home</a>
     </form>
 <?php else: ?>
     <p>Your cart is empty.</p>
+    <a href="index.php" class="btn back-btn">← Back to Home</a>
 <?php endif; ?>
 
 </body>
