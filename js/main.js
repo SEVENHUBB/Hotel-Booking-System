@@ -42,3 +42,4 @@ window.onload = function() {
     console.log('Main page loaded');
     checkLoginStatus();
 };
+

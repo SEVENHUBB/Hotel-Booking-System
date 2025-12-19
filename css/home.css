@@ -57,6 +57,8 @@ body { margin:0; font-family: Arial, sans-serif; background:#f5f5f5; }
     background-color: #3498db; /* 蓝色按钮 */
 }
 
+
+
 /* Register 按钮单独颜色 */
 .nav-btn.register-btn {
     background-color: #2ecc71; /* 绿色按钮 */
@@ -157,4 +159,162 @@ body { margin:0; font-family: Arial, sans-serif; background:#f5f5f5; }
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 15px;
     }
+}
+
+/* ===== Account Dropdown ===== */
+
+.account-box {
+    position: relative;
+}
+
+.account-btn {
+    background: #4da3ff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 14px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.account-btn:hover {
+    background: #358ce0;
+}
+
+.account-dropdown {
+    position: absolute;
+    right: 0;
+    top: 110%;
+    width: 190px;
+
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 999;
+}
+
+.account-dropdown a,
+.account-dropdown .dropdown-btn {
+    padding: 10px 14px;
+    text-decoration: none;
+    color: #333;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.account-dropdown a:hover,
+.account-dropdown .dropdown-btn:hover {
+    background: #f3f3f3;
+}
+
+.account-dropdown .danger {
+    color: #d32f2f;
+}
+
+.account-dropdown .danger:hover {
+    background: #ffeaea;
+}
+
+.account-dropdown.show {
+    display: flex;
+}
+
+/* =========================
+   MY BOOKING - BLUE
+========================= */
+.my-booking-btn {
+    background-color: #007bff;   /* 蓝色 */
+    color: #ffffff;
+    padding: 7px 14px;
+    border-radius: 18px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.my-booking-btn:hover {
+    background-color: #0056b3;
+}
+
+/* =========================
+   DELETE ACCOUNT - RED
+========================= */
+.delete-btn {
+    background-color: #dc3545;   /* 红色 */
+    color: #ffffff;
+    padding: 7px 14px;
+    border-radius: 18px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.delete-btn:hover {
+    background-color: #b02a37;
+}
+
+
+/* =========================
+   MY BOOKING BUTTON - BLUE
+========================= */
+.blue-btn {
+    background-color: #007bff;   /* 蓝色 */
+    color: #ffffff;
+    padding: 7px 14px;
+    border-radius: 18px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.blue-btn:hover {
+    background-color: #0056b3;  /* 深蓝色 hover */
+}
+
+/* =========================
+   DELETE BUTTON - RED
+========================= */
+.delete-btn {
+    background-color: #dc3545;   /* 红色 */
+    color: #ffffff;
+    padding: 7px 14px;
+    border-radius: 18px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.delete-btn:hover {
+    background-color: #b02a37;  /* 深红色 hover */
 }

@@ -660,3 +660,277 @@ footer p {
     gap: 10px; /* 按钮间距 */
 }
 
+/* 导航栏按钮组 */
+.nav-buttons {
+    display: flex;
+    gap: 10px; /* 按钮间距 */
+    align-items: center;
+}
+
+/* 通用按钮样式 */
+.nav-buttons .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: none;
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* ===== Account Dropdown ===== */
+
+.account-box {
+    position: relative;
+}
+
+.account-btn {
+    background: #4da3ff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 14px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.account-btn:hover {
+    background: #358ce0;
+}
+
+.account-dropdown {
+    position: absolute;
+    right: 0;
+    top: 110%;
+    width: 190px;
+
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 999;
+}
+
+.account-dropdown a,
+.account-dropdown .dropdown-btn {
+    padding: 10px 14px;
+    text-decoration: none;
+    color: #333;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.account-dropdown a:hover,
+.account-dropdown .dropdown-btn:hover {
+    background: #f3f3f3;
+}
+
+.account-dropdown .danger {
+    color: #d32f2f;
+}
+
+.account-dropdown .danger:hover {
+    background: #ffeaea;
+}
+
+.account-dropdown.show {
+    display: flex;
+}
+form button {
+    font-family: inherit;
+}
+
+/* =========================
+   NAV RIGHT - USER MENU
+========================= */
+#navRight {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Cart */
+.cart-btn {
+    position: relative;
+    color: #333;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.cart-btn:hover {
+    color: #007bff;
+}
+
+.cart-count {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    background: #dc3545;
+    color: #fff;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-weight: bold;
+}
+
+/* =========================
+   USER DROPDOWN MENU
+========================= */
+.user-menu {
+    position: relative;
+}
+
+.user-trigger {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: #ffffff;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.user-trigger i {
+    font-size: 16px;
+}
+
+/* Dropdown Box */
+.user-dropdown {
+    position: absolute;
+    top: 48px;
+    right: 0;
+    width: 190px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.18);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 999;
+}
+
+/* Dropdown Item */
+.user-dropdown a {
+    padding: 12px 16px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.2s ease;
+}
+
+.user-dropdown a i {
+    width: 18px;
+    text-align: center;
+}
+
+.user-dropdown a:hover {
+    background: #f5f7fa;
+}
+
+/* Logout Style */
+.user-dropdown .logout {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+/* Show on Hover */
+.user-menu:hover .user-dropdown {
+    display: flex;
+}
+
+/* =========================
+   LOGIN / REGISTER BUTTONS
+========================= */
+.login-btn,
+.register-btn {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.login-btn {
+    background: #007bff;
+    color: #fff;
+}
+
+.register-btn {
+    background: #28a745;
+    color: #fff;
+}
+
+.login-btn:hover {
+    background: #0056b3;
+}
+
+.register-btn:hover {
+    background: #1e7e34;
+}
+
+/* =========================
+   MY BOOKING - BLUE
+========================= */
+.my-booking-btn {
+    background-color: #007bff;   /* 蓝色 */
+    color: #ffffff;
+    padding: 7px 14px;
+    border-radius: 18px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.my-booking-btn:hover {
+    background-color: #0056b3;
+}
+
+/* =========================
+   DELETE ACCOUNT - RED
+========================= */
+.red-btn {
+    background-color: #dc3545;   /* 红色 */
+    color: #ffffff;
+    padding: 7px 14px;
+    border-radius: 18px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.delete-btn:hover {
+    background-color: #b02a37;
+}
+

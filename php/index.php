@@ -69,7 +69,7 @@ if (isset($_GET['keyword']) && !empty(trim($_GET['keyword']))) {
                 <li><a href="/Hotel_Booking_System/about.html">About Us</a></li>
                 <li><a href="/Hotel_Booking_System/contact.html">Contact Us</a></li>
             </ul>
-        </nav>
+        </nav>  
 <div id="navRight">
     <?php if (isset($_SESSION['tenant_id'])): ?>
 
@@ -86,6 +86,18 @@ if (isset($_GET['keyword']) && !empty(trim($_GET['keyword']))) {
 
         <a href="/Hotel_Booking_System/php/profile.php" class="profile-btn">
             <i class="fas fa-user"></i> Profile
+        </a>
+
+            <!-- My Booking -->
+        <a href="/Hotel_Booking_System/php/my_booking.php" class="nav-btn blue-btn">
+            <i class="fas fa-calendar-check"></i> My Booking
+        </a>
+
+        <!-- Delete Account -->
+        <a href="/Hotel_Booking_System/php/delete_account.php"
+        class="nav-btn delete-btn"
+        onclick="return confirm('Are you sure you want to delete your account?');">
+            <i class="fas fa-trash"></i> Delete
         </a>
 
         <a href="/Hotel_Booking_System/php/logout.php" class="logout-btn">Logout</a>

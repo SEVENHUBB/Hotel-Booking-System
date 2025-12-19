@@ -30,7 +30,7 @@ $tenant = $result->fetch_assoc();
 <head>
     <meta charset="UTF-8">
     <title>My Profile</title>
-    <link rel="stylesheet" href="../css/profile.css">
+    <link rel="stylesheet" href="/Hotel_Booking_System/css/profile.css">
 </head>
 <body>
 
