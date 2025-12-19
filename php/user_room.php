@@ -9,13 +9,42 @@ if ($hotel_id <= 0) {
 // room type filter
 $room_type = isset($_GET['room_type']) ? trim($_GET['room_type']) : '';
 
+// Pagination setup
+$rooms_per_page = 3;
+$current_page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
+$offset = ($current_page - 1) * $rooms_per_page;
+
 // 查询酒店信息
 $stmt = $conn->prepare("SELECT * FROM hotel WHERE HotelID = ?");
 $stmt->bind_param("i", $hotel_id);
 $stmt->execute();
 $hotel = $stmt->get_result()->fetch_assoc();
 
-// 查询房间信息
+// Count total rooms for pagination
+$count_sql = "
+    SELECT COUNT(*) as total
+    FROM room
+    WHERE HotelID = ?
+      AND RoomStatus = 'Available'
+";
+
+if (!empty($room_type)) {
+    $count_sql .= " AND RoomType = ?";
+}
+
+$count_stmt = $conn->prepare($count_sql);
+
+if (!empty($room_type)) {
+    $count_stmt->bind_param("is", $hotel_id, $room_type);
+} else {
+    $count_stmt->bind_param("i", $hotel_id);
+}
+
+$count_stmt->execute();
+$total_rooms = $count_stmt->get_result()->fetch_assoc()['total'];
+$total_pages = ceil($total_rooms / $rooms_per_page);
+
+// 查询房间信息 with LIMIT
 $sql = "
     SELECT RoomType, RoomPrice, RoomDesc, RoomImage, Capacity, RoomQuantity
     FROM room
@@ -27,12 +56,14 @@ if (!empty($room_type)) {
     $sql .= " AND RoomType = ?";
 }
 
+$sql .= " LIMIT ? OFFSET ?";
+
 $stmt2 = $conn->prepare($sql);
 
 if (!empty($room_type)) {
-    $stmt2->bind_param("is", $hotel_id, $room_type);
+    $stmt2->bind_param("isii", $hotel_id, $room_type, $rooms_per_page, $offset);
 } else {
-    $stmt2->bind_param("i", $hotel_id);
+    $stmt2->bind_param("iii", $hotel_id, $rooms_per_page, $offset);
 }
 
 $stmt2->execute();
@@ -52,6 +83,7 @@ $rooms = $stmt2->get_result();
     
     <!-- 可选：Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
@@ -60,6 +92,11 @@ $rooms = $stmt2->get_result();
         
         <!-- 页面头部 -->
         <div class="page-header">
+            <!-- 返回首页按钮 -->
+            <a href="../php/index.php" class="back-home-btn">
+                ← Back to Home
+            </a>
+            
             <h1>🏨 <?php echo htmlspecialchars($hotel['HotelName']); ?></h1>
             <p class="hotel-description">
                 <?php echo htmlspecialchars($hotel['Description']); ?>
@@ -95,6 +132,14 @@ $rooms = $stmt2->get_result();
                 <button type="submit">Apply Filter</button>
             </form>
         </div>
+
+        <!-- Page Info -->
+        <?php if ($total_rooms > 0): ?>
+            <div class="page-info">
+                Showing <?php echo $offset + 1; ?> - <?php echo min($offset + $rooms_per_page, $total_rooms); ?> 
+                of <?php echo $total_rooms; ?> room(s)
+            </div>
+        <?php endif; ?>
 
         <!-- 房间网格 -->
         <div class="room-grid">
@@ -177,57 +222,43 @@ $rooms = $stmt2->get_result();
             <?php endif; ?>
         </div>
 
+        <!-- Pagination -->
+        <?php if ($total_pages > 1): ?>
+            <div class="pagination">
+                <!-- Previous Button -->
+                <?php if ($current_page > 1): ?>
+                    <a href="?hotel_id=<?php echo $hotel_id; ?>&room_type=<?php echo urlencode($room_type); ?>&page=<?php echo $current_page - 1; ?>">
+                        « Previous
+                    </a>
+                <?php else: ?>
+                    <span class="disabled">« Previous</span>
+                <?php endif; ?>
+
+                <!-- Page Numbers -->
+                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                    <?php if ($i == $current_page): ?>
+                        <span class="current"><?php echo $i; ?></span>
+                    <?php else: ?>
+                        <a href="?hotel_id=<?php echo $hotel_id; ?>&room_type=<?php echo urlencode($room_type); ?>&page=<?php echo $i; ?>">
+                            <?php echo $i; ?>
+                        </a>
+                    <?php endif; ?>
+                <?php endfor; ?>
+
+                <!-- Next Button -->
+                <?php if ($current_page < $total_pages): ?>
+                    <a href="?hotel_id=<?php echo $hotel_id; ?>&room_type=<?php echo urlencode($room_type); ?>&page=<?php echo $current_page + 1; ?>">
+                        Next »
+                    </a>
+                <?php else: ?>
+                    <span class="disabled">Next »</span>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+
     </div>
 
-    <!-- 可选：添加一些JavaScript增强体验 -->
-    <script>
-        // 验证退房日期必须在入住日期之后
-        document.querySelectorAll('form').forEach(form => {
-            const checkin = form.querySelector('input[name="checkin_date"]');
-            const checkout = form.querySelector('input[name="checkout_date"]');
-            
-            if (checkin && checkout) {
-                checkin.addEventListener('change', function() {
-                    const nextDay = new Date(this.value);
-                    nextDay.setDate(nextDay.getDate() + 1);
-                    checkout.min = nextDay.toISOString().split('T')[0];
-                    
-                    // 如果当前checkout日期小于新的最小值，重置它
-                    if (checkout.value && checkout.value <= this.value) {
-                        checkout.value = checkout.min;
-                    }
-                });
-                
-                checkout.addEventListener('change', function() {
-                    if (checkin.value && this.value <= checkin.value) {
-                        alert('Check-out date must be after check-in date!');
-                        this.value = '';
-                    }
-                });
-            }
-        });
-
-        // 平滑滚动效果
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // 添加加载动画
-        window.addEventListener('load', function() {
-            document.querySelectorAll('.room-card').forEach((card, index) => {
-                card.style.animationDelay = `${index * 0.1}s`;
-            });
-        });
-    </script>
-
+    <script src="../js/register.js"></script>
 </body>
 
 </html>

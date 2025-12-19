@@ -34,6 +34,7 @@ body {
     color: white;
     padding: 40px 30px;
     text-align: center;
+    position: relative;
 }
 
 .page-header h1 {
@@ -51,6 +52,26 @@ body {
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
+}
+
+/* 返回首页按钮 */
+.back-home-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+}
+
+.back-home-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateX(-5px);
 }
 
 /* 筛选区域 */
@@ -110,6 +131,17 @@ body {
     background: #2980b9;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+}
+
+/* 页面信息显示 */
+.page-info {
+    text-align: center;
+    color: #666;
+    margin: 20px 0 10px;
+    font-size: 14px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
 }
 
 /* 房间网格布局 */
@@ -267,6 +299,66 @@ body {
     margin-bottom: 20px;
 }
 
+/* ==========================================
+   分页样式 (Pagination Styles)
+   ========================================== */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 30px 0;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.pagination a,
+.pagination span {
+    padding: 10px 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 14px;
+    min-width: 45px;
+    text-align: center;
+}
+
+.pagination a:hover {
+    background-color: #3498db;
+    color: white;
+    border-color: #3498db;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.pagination .current {
+    background-color: #3498db;
+    color: white;
+    border-color: #3498db;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+}
+
+.pagination .disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+    background: #f5f5f5;
+}
+
+/* Previous/Next 按钮特殊样式 */
+.pagination a:first-child,
+.pagination a:last-child,
+.pagination span:first-child,
+.pagination span:last-child {
+    padding: 10px 20px;
+    font-weight: 700;
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
     .page-header h1 {
@@ -287,6 +379,24 @@ body {
     .filter-section button {
         width: 100%;
     }
+
+    .back-home-btn {
+        position: static;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    .pagination {
+        gap: 5px;
+        padding: 15px 10px;
+    }
+
+    .pagination a,
+    .pagination span {
+        padding: 8px 12px;
+        font-size: 13px;
+        min-width: 40px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -300,6 +410,20 @@ body {
     
     .page-header h1 {
         font-size: 24px;
+    }
+
+    .pagination a,
+    .pagination span {
+        padding: 6px 10px;
+        font-size: 12px;
+        min-width: 35px;
+    }
+
+    .pagination a:first-child,
+    .pagination a:last-child,
+    .pagination span:first-child,
+    .pagination span:last-child {
+        padding: 6px 12px;
     }
 }
 
