@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Account</title>
+    <link rel="stylesheet" href="/Hotel_Booking_System/css/delete_account.css">
+</head>
+<body>
+    <h2>Delete Account</h2>
+    <p>Enter your password to confirm account deletion.</p>
+
+    <?php if ($error): ?>
+        <p style="color:red;"><?php echo htmlspecialchars($error); ?></p>
+    <?php endif; ?>
+
+    <form method="POST" action="">
+        <label for="password">Password:</label><br>
+        <input type="password" name="password" id="password" required><br><br>
+
+        <button type="submit">Delete My Account</button>
+        <a href="/Hotel_Booking_System/php/index.php">Cancel</a>
+    </form>
+</body>
+</html>
