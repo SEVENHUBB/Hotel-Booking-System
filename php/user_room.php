@@ -6,9 +6,6 @@ if ($hotel_id <= 0) {
     die("Invalid hotel ID");
 }
 
-<<<<<<< HEAD
-// check hotel information
-=======
 // room type filter
 $room_type = isset($_GET['room_type']) ? trim($_GET['room_type']) : '';
 
@@ -18,7 +15,6 @@ $current_page = isset($_GET['page']) ? max(1, (int)$_GET['page']) : 1;
 $offset = ($current_page - 1) * $rooms_per_page;
 
 // 查询酒店信息
->>>>>>> 581c7709e54bab271779afe0000e462299705bf2
 $stmt = $conn->prepare("SELECT * FROM hotel WHERE HotelID = ?");
 $stmt->bind_param("i", $hotel_id);
 $stmt->execute();
@@ -36,10 +32,6 @@ if (!empty($room_type)) {
     $count_sql .= " AND RoomType = ?";
 }
 
-<<<<<<< HEAD
-// Query room information
-$stmt2 = $conn->prepare("
-=======
 $count_stmt = $conn->prepare($count_sql);
 
 if (!empty($room_type)) {
@@ -54,7 +46,6 @@ $total_pages = ceil($total_rooms / $rooms_per_page);
 
 // 查询房间信息 with LIMIT
 $sql = "
->>>>>>> 581c7709e54bab271779afe0000e462299705bf2
     SELECT RoomType, RoomPrice, RoomDesc, RoomImage, Capacity, RoomQuantity
     FROM room
     WHERE HotelID = ?
@@ -79,21 +70,6 @@ $stmt2->execute();
 $rooms = $stmt2->get_result();
 ?>
 
-<<<<<<< HEAD
-// Prepare the data to be passed to HTML
-$hotel_name = htmlspecialchars($hotel['HotelName']);
-$hotel_description = htmlspecialchars($hotel['Description']);
-$min_checkin_date = date('Y-m-d');
-$min_checkout_date = date('Y-m-d', strtotime('+1 day'));
-
-$stmt->close();
-$stmt2->close();
-
-include '../room.html';
-
-$conn->close();
-?>
-=======
 <!DOCTYPE html>
 <html lang="en">
 
@@ -286,4 +262,3 @@ $conn->close();
 </body>
 
 </html>
->>>>>>> 581c7709e54bab271779afe0000e462299705bf2

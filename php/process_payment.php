@@ -14,10 +14,8 @@ if (!$payment_method) {
     die("Please select a payment method.");
 }
 
-<<<<<<< HEAD
-=======
+
 // Query all unpaid bookings for current user
->>>>>>> 581c7709e54bab271779afe0000e462299705bf2
 $sql = "SELECT BookingID, HotelID, RoomType, RoomQuantity, CheckInDate, CheckOutDate 
         FROM booking 
         WHERE TenantID=? AND Status='UNPAID'";
@@ -36,31 +34,24 @@ while ($row = $result->fetch_assoc()) {
     $checkout = new DateTime($row['CheckOutDate']);
     $days = max(1, $checkin->diff($checkout)->days);
 
-<<<<<<< HEAD
     // Get the price
-=======
+
     // Get room price
->>>>>>> 581c7709e54bab271779afe0000e462299705bf2
     $r = $conn->prepare("SELECT RoomPrice FROM room WHERE HotelID=? AND RoomType=?");
     $r->bind_param("is", $row['HotelID'], $row['RoomType']);
     $r->execute();
     $rp = $r->get_result()->fetch_assoc();
     $subtotal = $rp['RoomPrice'] * $days * $row['RoomQuantity'];
 
-<<<<<<< HEAD
     // Insert payment table
-=======
     // Insert into payment table
->>>>>>> 581c7709e54bab271779afe0000e462299705bf2
     $p = $conn->prepare("INSERT INTO payment (BookingID, Amount, PaymentMethod, PaymentStatus) VALUES (?, ?, ?, 'PAID')");
     $p->bind_param("ids", $row['BookingID'], $subtotal, $payment_method);
     $p->execute();
 
-<<<<<<< HEAD
+
     // Update Booking status to paid
-=======
     // Update booking status to paid
->>>>>>> 581c7709e54bab271779afe0000e462299705bf2
     $u = $conn->prepare("UPDATE booking SET Status='PAID' WHERE BookingID=?");
     $u->bind_param("i", $row['BookingID']);
     $u->execute();
