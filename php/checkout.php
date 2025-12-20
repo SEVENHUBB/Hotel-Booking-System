@@ -42,71 +42,107 @@ while($row = $result->fetch_assoc()) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Checkout</title>
-<link rel="stylesheet" href="/Hotel_Booking_System/css/home.css">
-<style>
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
-    th { background-color: #f5f5f5; }
-    .total { font-weight: bold; }
-    .btn { padding: 5px 10px; cursor: pointer; margin: 2px; }
-    .back-btn { text-decoration: none; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Hotel Booking</title>
+    <link rel="stylesheet" href="/Hotel_Booking_System/css/home.css">
+    <link rel="stylesheet" href="/Hotel_Booking_System/css/checkout.css">
 </head>
 <body>
-<h1>Checkout</h1>
+    <div class="checkout-container">
+        <div class="checkout-header">
+            <h1>Checkout</h1>
+            <p>Review your order and complete payment</p>
+        </div>
 
-<?php if(count($bookings) > 0): ?>
-<form action="process_payment.php" method="post">
-    <table>
-        <thead>
-            <tr>
-                <th>Hotel</th>
-                <th>Room Type</th>
-                <th>Check-in</th>
-                <th>Check-out</th>
-                <th>Quantity</th>
-                <th>Price (RM)</th>
-                <th>Days</th>
-                <th>Subtotal (RM)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach($bookings as $b): ?>
-            <tr>
-                <td><?= htmlspecialchars($b['HotelName']) ?></td>
-                <td><?= htmlspecialchars($b['RoomType']) ?></td>
-                <td><?= $b['CheckInDate'] ?></td>
-                <td><?= $b['CheckOutDate'] ?></td>
-                <td><?= $b['RoomQuantity'] ?></td>
-                <td><?= number_format($b['RoomPrice'], 2) ?></td>
-                <td><?= $b['days'] ?></td>
-                <td><?= number_format($b['subtotal'], 2) ?></td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="7" class="total">Total</td>
-                <td class="total"><?= number_format($total, 2) ?> RM</td>
-            </tr>
-        </tfoot>
-    </table>
+        <?php if(count($bookings) > 0): ?>
+        <form action="process_payment.php" method="post" class="checkout-form">
+            
+            <!-- Order Summary Section -->
+            <div class="order-section">
+                <h2>Order Summary</h2>
+                <div class="table-wrapper">
+                    <table class="order-table">
+                        <thead>
+                            <tr>
+                                <th>Hotel</th>
+                                <th>Room Type</th>
+                                <th>Check-in</th>
+                                <th>Check-out</th>
+                                <th>Rooms</th>
+                                <th>Price/Night</th>
+                                <th>Nights</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($bookings as $b): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($b['HotelName']) ?></td>
+                                <td><?= htmlspecialchars($b['RoomType']) ?></td>
+                                <td><?= date('d M Y', strtotime($b['CheckInDate'])) ?></td>
+                                <td><?= date('d M Y', strtotime($b['CheckOutDate'])) ?></td>
+                                <td><?= $b['RoomQuantity'] ?></td>
+                                <td>RM <?= number_format($b['RoomPrice'], 2) ?></td>
+                                <td><?= $b['days'] ?></td>
+                                <td class="subtotal">RM <?= number_format($b['subtotal'], 2) ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="7">Total Amount</td>
+                                <td class="total-amount">RM <?= number_format($total, 2) ?></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
 
-    <h3>Select Payment Method:</h3>
-    <input type="radio" name="payment_method" value="Credit Card" required> Credit Card<br>
-    <input type="radio" name="payment_method" value="Debit Card"> Debit Card<br>
-    <input type="radio" name="payment_method" value="E-wallet"> E-wallet<br><br>
+            <!-- Payment Method Section -->
+            <div class="payment-section">
+                <h2>Payment Method</h2>
+                <div class="payment-options">
+                    <label class="payment-option">
+                        <input type="radio" name="payment_method" value="Credit Card" required>
+                        <span class="option-content">
+                            <span class="option-title">Credit Card</span>
+                            <span class="option-desc">Visa, Mastercard, American Express</span>
+                        </span>
+                    </label>
 
-    <input type="hidden" name="total_amount" value="<?= $total ?>">
-    <button type="submit" class="btn">Pay Now</button>
-    <a href="cart.php" class="btn back-btn">← Back to Cart</a>
-</form>
-<?php else: ?>
-<p>No unpaid bookings in your cart.</p>
-<a href="index.php" class="btn back-btn">← Back to Home</a>
-<?php endif; ?>
+                    <label class="payment-option">
+                        <input type="radio" name="payment_method" value="Debit Card">
+                        <span class="option-content">
+                            <span class="option-title">Debit Card</span>
+                            <span class="option-desc">Direct debit from your bank account</span>
+                        </span>
+                    </label>
 
+                    <label class="payment-option">
+                        <input type="radio" name="payment_method" value="E-wallet">
+                        <span class="option-content">
+                            <span class="option-title">E-wallet</span>
+                            <span class="option-desc">Touch 'n Go, GrabPay, Boost</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <input type="hidden" name="total_amount" value="<?= $total ?>">
+                <a href="cart.php" class="btn btn-back">Back to Cart</a>
+                <button type="submit" class="btn btn-pay">Pay Now - RM <?= number_format($total, 2) ?></button>
+            </div>
+        </form>
+
+        <?php else: ?>
+        <div class="empty-checkout">
+            <p>No unpaid bookings in your cart.</p>
+            <a href="index.php" class="btn btn-primary">Back to Home</a>
+        </div>
+        <?php endif; ?>
+    </div>
 </body>
 </html>

@@ -25,8 +25,8 @@ function loadTenants() {
             tbody.innerHTML = data.map(t => `
                 <tr>
                     <td data-label="Avatar">
-                        ${t.ImagePath 
-                            ? `<img src="${t.ImagePath}" alt="${t.FullName || t.TenantName}" onerror="this.src='https://via.placeholder.com/70x70/eeeeee/999999?text=No+Image'">`
+                        ${t.profile_image 
+                            ? `<img src="${t.profile_image}" alt="${t.FullName || t.TenantName}" onerror="this.src='https://via.placeholder.com/70x70/eeeeee/999999?text=No+Image'">`
                             : '<small style="color:#999">No avatar</small>'
                         }
                     </td>
@@ -34,20 +34,17 @@ function loadTenants() {
                     <td data-label="Username">${t.TenantName}</td>
                     <td data-label="Email">${t.Email || "-"}</td>
                     <td data-label="Phone">${t.PhoneNo || "-"}</td>
-                    <td data-label="Action">
-                        <span class="delete-btn" style="color:red; cursor:pointer;" data-id="${t.TenantID}">Delete</span>
+                    <td data-label="Action" style="text-align:center;">
+                        <button class="action-btn delete-btn" onclick="deleteTenant(${t.TenantID})">
+                            Delete
+                        </button>
                     </td>
                 </tr>
             `).join("");
-
-            // Attach delete handlers
-            document.querySelectorAll(".delete-btn").forEach(btn => {
-                btn.onclick = () => deleteTenant(btn.dataset.id);
-            });
         })
         .catch(err => {
             console.error(err);
-            showMessage("Failed to load tenants: " + err.message, "error");
+            showMessage("Failed to load tenants", "error");
         });
 }
 
@@ -56,19 +53,29 @@ function deleteTenant(id) {
 
     const formData = new FormData();
     formData.append("TenantID", id);
+    formData.append("action", "delete");
 
-    fetch(`${API_URL}?action=delete`, { method: "POST", body: formData })
-        .then(res => res.json())
-        .then(result => {
-            if (result.success) {
-                showMessage("Tenant account deleted successfully");
-                loadTenants();
-            } else {
-                showMessage("Delete failed", "error");
-            }
-        })
-        .catch(() => showMessage("Delete request failed", "error"));
+    fetch(API_URL, {
+        method: "POST",
+        body: formData
+    })
+    .then(res => {
+        if (!res.ok) throw new Error("Server error");
+        return res.json();
+    })
+    .then(result => {
+        if (result.success) {
+            showMessage("Tenant account deleted successfully!");
+            loadTenants(); // Refreshes list instantly — perfect!
+        } else {
+            showMessage("Delete failed: " + (result.error || "Unknown error"), "error");
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        showMessage("Network/request error", "error");
+    });
 }
 
-// Load tenants when page loads
+// Load tenants on page load
 document.addEventListener("DOMContentLoaded", loadTenants);
