@@ -3,7 +3,7 @@ session_start();
 include 'db_hotel.php';
 
 // 超时设置（秒）
-$timeout = 1 * 60; // 1分钟
+$timeout = 2 * 60; // 2分钟
 
 $tenant_id = $_SESSION['tenant_id'] ?? null;
 if (!$tenant_id) {
