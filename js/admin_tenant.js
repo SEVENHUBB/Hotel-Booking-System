@@ -73,7 +73,7 @@ function deleteTenant(id) {
     })
     .catch(err => {
         console.error(err);
-        showMessage("Network/request error", "error");
+        showMessage("Failed to delete tenant", "error");
     });
 }
 
