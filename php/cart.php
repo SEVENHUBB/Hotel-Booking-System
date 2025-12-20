@@ -249,7 +249,7 @@ $result = $stmt->get_result();
                     <span class="cart-count"><?php echo $result->num_rows; ?> item<?php echo $result->num_rows > 1 ? 's' : ''; ?></span>
                 <?php endif; ?>
             </h1>
-            <a href="/Hotel_Booking_System/php/index.php" class="back-link">
+            <a href="index.php" class="back-link">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M19 12H5M12 19l-7-7 7-7"/>
                 </svg>
@@ -336,7 +336,7 @@ $result = $stmt->get_result();
                             </svg>
                             Update Cart
                         </button>
-                        <a href="/Hotel_Booking_System/php/payment.php" class="btn btn-primary">
+                        <a href="../payment.html" class="btn btn-primary">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
                                 <line x1="1" y1="10" x2="23" y2="10"/>
