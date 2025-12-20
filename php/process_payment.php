@@ -14,6 +14,10 @@ if (!$payment_method) {
     die("Please select a payment method.");
 }
 
+<<<<<<< HEAD
+=======
+// Query all unpaid bookings for current user
+>>>>>>> 581c7709e54bab271779afe0000e462299705bf2
 $sql = "SELECT BookingID, HotelID, RoomType, RoomQuantity, CheckInDate, CheckOutDate 
         FROM booking 
         WHERE TenantID=? AND Status='UNPAID'";
@@ -32,41 +36,79 @@ while ($row = $result->fetch_assoc()) {
     $checkout = new DateTime($row['CheckOutDate']);
     $days = max(1, $checkin->diff($checkout)->days);
 
+<<<<<<< HEAD
     // Get the price
+=======
+    // Get room price
+>>>>>>> 581c7709e54bab271779afe0000e462299705bf2
     $r = $conn->prepare("SELECT RoomPrice FROM room WHERE HotelID=? AND RoomType=?");
     $r->bind_param("is", $row['HotelID'], $row['RoomType']);
     $r->execute();
     $rp = $r->get_result()->fetch_assoc();
     $subtotal = $rp['RoomPrice'] * $days * $row['RoomQuantity'];
 
+<<<<<<< HEAD
     // Insert payment table
+=======
+    // Insert into payment table
+>>>>>>> 581c7709e54bab271779afe0000e462299705bf2
     $p = $conn->prepare("INSERT INTO payment (BookingID, Amount, PaymentMethod, PaymentStatus) VALUES (?, ?, ?, 'PAID')");
     $p->bind_param("ids", $row['BookingID'], $subtotal, $payment_method);
     $p->execute();
 
+<<<<<<< HEAD
     // Update Booking status to paid
+=======
+    // Update booking status to paid
+>>>>>>> 581c7709e54bab271779afe0000e462299705bf2
     $u = $conn->prepare("UPDATE booking SET Status='PAID' WHERE BookingID=?");
     $u->bind_param("i", $row['BookingID']);
     $u->execute();
 }
-
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Payment Success</title>
-<link rel="stylesheet" href="/Hotel_Booking_System/css/home.css">
-<style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    .btn { padding: 10px 20px; margin: 10px; display: inline-block; text-decoration: none; background-color: #4CAF50; color: #fff; border-radius: 5px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success - Hotel Booking System</title>
+    <link rel="stylesheet" href="/Hotel_Booking_System/css/payment_success.css">
 </head>
 <body>
-    <h1>Payment Successful!</h1>
-    <p>Your payment of RM <?= number_format($total_amount, 2) ?> using <strong><?= htmlspecialchars($payment_method) ?></strong> has been completed.</p>
-    <a href="index.php" class="btn">Back to Home</a>
-    <a href="cart.php" class="btn">Back to Cart</a>
+    <div class="container">
+        <div class="success-card">
+            <div class="success-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="#4CAF50" stroke-width="2"/>
+                    <path d="M8 12L11 15L16 9" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            
+            <h1>Payment Successful!</h1>
+            
+            <div class="payment-details">
+                <div class="detail-row">
+                    <span class="label">Amount Paid:</span>
+                    <span class="value">RM <?= number_format($total_amount, 2) ?></span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Payment Method:</span>
+                    <span class="value"><?= htmlspecialchars($payment_method) ?></span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Status:</span>
+                    <span class="value status-paid">Paid</span>
+                </div>
+            </div>
+
+            <p class="message">Thank you for your payment. Your booking has been confirmed.</p>
+
+            <div class="button-group">
+                <a href="index.php" class="btn btn-primary">Back to Home</a>
+                <a href="cart.php" class="btn btn-secondary">View Cart</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

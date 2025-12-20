@@ -34,6 +34,36 @@ function showSuccess(message) {
     alert(message);
 }
 
+// 锁定表单
+function lockForm(seconds) {
+    const submitBtn = document.querySelector('.login-btn');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    
+    // 禁用输入和按钮
+    submitBtn.disabled = true;
+    usernameInput.disabled = true;
+    passwordInput.disabled = true;
+    
+    let timeRemaining = seconds;
+    
+    // 更新按钮文字显示倒计时
+    const countdownInterval = setInterval(() => {
+        submitBtn.textContent = `Locked (${timeRemaining}s)`;
+        timeRemaining--;
+        
+        if (timeRemaining < 0) {
+            clearInterval(countdownInterval);
+            // 解锁表单
+            submitBtn.disabled = false;
+            usernameInput.disabled = false;
+            passwordInput.disabled = false;
+            submitBtn.textContent = 'Login';
+            showSuccess('Account unlocked! You can try again now.');
+        }
+    }, 1000);
+}
+
 // 表单验证
 document.getElementById('loginForm').addEventListener('submit', function(e) {
     const username = document.getElementById('username').value.trim();
@@ -94,13 +124,26 @@ window.onload = function() {
     const urlParams = new URLSearchParams(window.location.search);
     const error = urlParams.get('error');
     const success = urlParams.get('success');
+    const remaining = urlParams.get('remaining');
+    const lockTime = urlParams.get('time');
     
-    if (error === 'invalid') {
-        showError('Invalid username or password!');
+    if (error === 'locked' && lockTime) {
+        showError(`Account locked! Please wait ${lockTime} seconds.`);
+        lockForm(parseInt(lockTime));
+    } else if (error === 'invalid') {
+        if (remaining) {
+            showError(`Invalid username or password! Remaining attempts: ${remaining}`);
+        } else {
+            showError('Invalid username or password!');
+        }
     } else if (error === 'empty') {
         showError('Please fill in all fields!');
     } else if (error === 'notfound') {
-        showError('User not found!');
+        if (remaining) {
+            showError(`User not found! Remaining attempts: ${remaining}`);
+        } else {
+            showError('User not found!');
+        }
     } else if (success === 'registered') {
         showSuccess('Registration successful! Please login.');
     } else if (success === 'password_reset') {
@@ -129,7 +172,7 @@ function switchRole() {
     const roleInput = document.getElementById('role');
     const title = document.getElementById('loginTitle');
     const switchText = document.getElementById('switchRoleText');
-
+    
     if (roleInput.value === 'tenant') {
         roleInput.value = 'admin';
         title.textContent = 'Admin Login';

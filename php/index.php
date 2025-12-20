@@ -116,6 +116,10 @@ if (isset($_GET['keyword']) && !empty(trim($_GET['keyword']))) {
             <input type="text" name="keyword" placeholder="Enter city, address or hotel name"
                 value="<?php echo isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : ''; ?>" required />
 
+<<<<<<< HEAD
+=======
+            <!-- 房客选择区域 -->
+>>>>>>> 581c7709e54bab271779afe0000e462299705bf2
             <div class="search-item">
                 <div class="rect-box" id="guestsTrigger">
                     <i class="fas fa-user-friends"></i>
