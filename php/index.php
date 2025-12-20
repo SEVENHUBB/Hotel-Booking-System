@@ -7,12 +7,10 @@ include "db_hotel.php";
 // this is for search bar function
 $keyword = "";
 
-// 确保 session 已开启
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
 
-// 统计购物车总数量
 $cart_count = 0;
 foreach ($_SESSION['cart'] as $item) {
     $cart_count += $item['Quantity'];
@@ -59,8 +57,6 @@ if (isset($_GET['keyword']) && !empty(trim($_GET['keyword']))) {
 
 
 <body>
-
-    <!-- ⭐ 合并自 _main_page.php -->
     <header>
         <h1>Super Booking System</h1>
         <nav>
@@ -111,8 +107,6 @@ if (isset($_GET['keyword']) && !empty(trim($_GET['keyword']))) {
         </div>
     </header>
 
-
-    <!-- ⭐ 合并自 home 页面 -->
     <section class="home-header">
         <h1>Welcome to Super Booking Hotels</h1>
         <p>Find your perfect stay with the best prices</p>
@@ -122,7 +116,6 @@ if (isset($_GET['keyword']) && !empty(trim($_GET['keyword']))) {
             <input type="text" name="keyword" placeholder="Enter city, address or hotel name"
                 value="<?php echo isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : ''; ?>" required />
 
-            <!-- 房客选择区域 -->
             <div class="search-item">
                 <div class="rect-box" id="guestsTrigger">
                     <i class="fas fa-user-friends"></i>
@@ -135,7 +128,6 @@ if (isset($_GET['keyword']) && !empty(trim($_GET['keyword']))) {
 
         </form>
 
-        <!-- 隐藏的弹出框 -->
         <div class="guest-picker-popup" id="guestPicker">
             <div class="guest-row">
                 <div class="guest-label">
@@ -173,7 +165,6 @@ if (isset($_GET['keyword']) && !empty(trim($_GET['keyword']))) {
                 </div>
             </div>
 
-            <!-- 儿童年龄选择区域（动态生成） -->
             <div id="childrenAges"></div>
 
             <div class="guest-actions">
@@ -189,7 +180,6 @@ if (isset($_GET['keyword']) && !empty(trim($_GET['keyword']))) {
             <?php endif; ?>
         </h2>
 
-
         <div class="hotel-grid">
 
             <?php if ($result && $result->num_rows > 0): ?>
@@ -198,7 +188,8 @@ if (isset($_GET['keyword']) && !empty(trim($_GET['keyword']))) {
 
                     <a href="user_room.php?hotel_id=<?php echo $row['HotelID']; ?>">
                         <div class="hotel-card">
-                            <img src="../<?php echo !empty($row['ImagePath']) ? $row['ImagePath'] : 'default.png'; ?>" alt="<?php echo htmlspecialchars($row['HotelName']); ?>">
+                            <img src="../<?php echo !empty($row['ImagePath']) ? $row['ImagePath'] : 'default.png'; ?>"
+                             alt="<?php echo htmlspecialchars($row['HotelName']); ?>">
                             <div class="info">
                                 <h3><?php echo $row['HotelName'] ?></h3>
                                 <p><?php echo $row['Description']; ?></p>

@@ -22,7 +22,7 @@ function loadHotelOptions() {
         });
 }
 
-// Load rooms list
+// Load rooms lists
 function loadRooms() {
     fetch(`${ROOM_API}?action=read`)
         .then(res => res.json())
@@ -41,7 +41,7 @@ function loadRooms() {
                     <td>${r.HotelName}</td>
                     <td>${r.RoomImage ? `<img src="${r.RoomImage}" alt="Room">` : '<small>No image</small>'}</td>
                     <td>${r.RoomType}</td>
-                    <td>$${Number(r.RoomPrice).toFixed(2)}</td>
+                    <td>RM ${Number(r.RoomPrice).toFixed(2)}</td>
                     <td>${r.RoomDesc || '-'}</td>
                     <td><span class="status-badge status-${r.RoomStatus.toLowerCase()}">${r.RoomStatus}</span></td>
                     <td>${r.Capacity}</td>

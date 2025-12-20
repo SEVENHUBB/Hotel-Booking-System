@@ -14,6 +14,7 @@ if (!$payment_method) {
     die("Please select a payment method.");
 }
 
+
 // Query all unpaid bookings for current user
 $sql = "SELECT BookingID, HotelID, RoomType, RoomQuantity, CheckInDate, CheckOutDate 
         FROM booking 
@@ -33,6 +34,8 @@ while ($row = $result->fetch_assoc()) {
     $checkout = new DateTime($row['CheckOutDate']);
     $days = max(1, $checkin->diff($checkout)->days);
 
+    // Get the price
+
     // Get room price
     $r = $conn->prepare("SELECT RoomPrice FROM room WHERE HotelID=? AND RoomType=?");
     $r->bind_param("is", $row['HotelID'], $row['RoomType']);
@@ -40,11 +43,14 @@ while ($row = $result->fetch_assoc()) {
     $rp = $r->get_result()->fetch_assoc();
     $subtotal = $rp['RoomPrice'] * $days * $row['RoomQuantity'];
 
+    // Insert payment table
     // Insert into payment table
     $p = $conn->prepare("INSERT INTO payment (BookingID, Amount, PaymentMethod, PaymentStatus) VALUES (?, ?, ?, 'PAID')");
     $p->bind_param("ids", $row['BookingID'], $subtotal, $payment_method);
     $p->execute();
 
+
+    // Update Booking status to paid
     // Update booking status to paid
     $u = $conn->prepare("UPDATE booking SET Status='PAID' WHERE BookingID=?");
     $u->bind_param("i", $row['BookingID']);
