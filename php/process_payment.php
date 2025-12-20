@@ -14,7 +14,6 @@ if (!$payment_method) {
     die("Please select a payment method.");
 }
 
-// 查询当前用户所有未付款订单
 $sql = "SELECT BookingID, HotelID, RoomType, RoomQuantity, CheckInDate, CheckOutDate 
         FROM booking 
         WHERE TenantID=? AND Status='UNPAID'";
@@ -33,19 +32,19 @@ while ($row = $result->fetch_assoc()) {
     $checkout = new DateTime($row['CheckOutDate']);
     $days = max(1, $checkin->diff($checkout)->days);
 
-    // 获取房价
+    // Get the price
     $r = $conn->prepare("SELECT RoomPrice FROM room WHERE HotelID=? AND RoomType=?");
     $r->bind_param("is", $row['HotelID'], $row['RoomType']);
     $r->execute();
     $rp = $r->get_result()->fetch_assoc();
     $subtotal = $rp['RoomPrice'] * $days * $row['RoomQuantity'];
 
-    // 插入 payment 表
+    // Insert payment table
     $p = $conn->prepare("INSERT INTO payment (BookingID, Amount, PaymentMethod, PaymentStatus) VALUES (?, ?, ?, 'PAID')");
     $p->bind_param("ids", $row['BookingID'], $subtotal, $payment_method);
     $p->execute();
 
-    // 更新 booking 状态为已付款
+    // Update Booking status to paid
     $u = $conn->prepare("UPDATE booking SET Status='PAID' WHERE BookingID=?");
     $u->bind_param("i", $row['BookingID']);
     $u->execute();
