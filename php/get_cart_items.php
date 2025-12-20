@@ -9,40 +9,26 @@ header('Content-Type: application/json');
 
 include 'db_hotel.php';
 
-// Check if user is logged in
 $tenant_id = $_SESSION['tenant_id'] ?? null;
 if (!$tenant_id) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Please login first'
-    ]);
+    echo json_encode(['success' => false, 'message' => 'Please login first']);
     exit;
 }
 
 try {
-    // Query unpaid bookings (cart items)
     $sql = "
         SELECT 
-            b.BookingID,
-            b.HotelID,
-            b.RoomType,
-            b.CheckInDate,
-            b.CheckOutDate,
-            b.RoomQuantity,
-            b.BookingDate,
-            h.HotelName,
-            r.RoomPrice
+            b.BookingID, b.HotelID, b.RoomType, b.CheckInDate, b.CheckOutDate,
+            b.RoomQuantity, b.BookingDate, h.HotelName, r.RoomPrice
         FROM booking b
         JOIN hotel h ON b.HotelID = h.HotelID
         JOIN room r ON r.HotelID = b.HotelID AND r.RoomType = b.RoomType
-        WHERE b.TenantID = ?
+        WHERE b.TenantID = ? AND b.Status = 'UNPAID'
         ORDER BY b.BookingDate DESC
     ";
     
     $stmt = $conn->prepare($sql);
-    if (!$stmt) {
-        throw new Exception("Prepare failed: " . $conn->error);
-    }
+    if (!$stmt) throw new Exception("Prepare failed: " . $conn->error);
     
     $stmt->bind_param("i", $tenant_id);
     $stmt->execute();
@@ -53,12 +39,9 @@ try {
     $subtotal = 0;
     
     while ($row = $result->fetch_assoc()) {
-        // Calculate days
         $checkin = new DateTime($row['CheckInDate'] ?? 'now');
         $checkout = new DateTime($row['CheckOutDate'] ?? 'tomorrow');
         $days = max(1, $checkin->diff($checkout)->days);
-        
-        // Calculate item subtotal
         $quantity = $row['RoomQuantity'] ?? 1;
         $item_subtotal = $row['RoomPrice'] * $days * $quantity;
         $subtotal += $item_subtotal;
@@ -79,18 +62,15 @@ try {
         ];
     }
     
-    // Calculate tax (6% SST for Malaysia)
     $tax_rate = 0.06;
     $tax = $subtotal * $tax_rate;
     $total = $subtotal + $tax;
     
-    // Get user info for pre-filling form
-    $user_sql = "SELECT Email, PhoneNo FROM tenant WHERE TenantID = ?";
-    $user_stmt = $conn->prepare($user_sql);
+    // Get user info
+    $user_stmt = $conn->prepare("SELECT Email, PhoneNo FROM tenant WHERE TenantID = ?");
     $user_stmt->bind_param("i", $tenant_id);
     $user_stmt->execute();
-    $user_result = $user_stmt->get_result();
-    $user = $user_result->fetch_assoc();
+    $user = $user_stmt->get_result()->fetch_assoc();
     
     echo json_encode([
         'success' => true,
@@ -104,10 +84,7 @@ try {
     ]);
     
 } catch (Exception $e) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Error loading cart: ' . $e->getMessage()
-    ]);
+    echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
 }
 
 $conn->close();
