@@ -7,6 +7,13 @@
 </head>
 <body>
     <h2>Delete Account</h2>
+
+        <div class="notice">
+        <p>
+            ⚠️ Your account cannot be deleted because you still have active bookings.
+            Please cancel all bookings before deleting your account.
+        </p>
+    </div>
     <p>Enter your password to confirm account deletion.</p>
 
     <?php if ($error): ?>

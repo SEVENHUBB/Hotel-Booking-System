@@ -1,13 +1,15 @@
 <?php
 session_start();
-if (!isset($_SESSION['TenantID'])) {
+
+if (!isset($_SESSION['tenant_id'])) {
     header("Location: login.php");
     exit();
 }
 
 require 'config.php';
 
-$tenantID = $_SESSION['TenantID'];
+$tenantID = (int)$_SESSION['tenant_id'];
+
 $paymentID = isset($_GET['paymentID']) ? intval($_GET['paymentID']) : 0;
 
 $receipt = null;

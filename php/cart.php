@@ -8,7 +8,7 @@ if (!$tenant_id) {
     exit;
 }
 
-// Query user's cart (unpaid bookings)
+// Query user's cart (unpaid bookings only)
 $sql = "
     SELECT 
         b.BookingID, b.HotelID, b.RoomType, b.CheckInDate, b.CheckOutDate, b.RoomQuantity, b.BookingDate,
@@ -16,7 +16,7 @@ $sql = "
     FROM booking b
     JOIN hotel h ON b.HotelID = h.HotelID
     JOIN room r ON r.HotelID = b.HotelID AND r.RoomType = b.RoomType
-    WHERE b.TenantID = ?
+    WHERE b.TenantID = ? AND b.Status = 'UNPAID'
     ORDER BY b.BookingDate DESC
 ";
 
@@ -249,7 +249,7 @@ $result = $stmt->get_result();
                     <span class="cart-count"><?php echo $result->num_rows; ?> item<?php echo $result->num_rows > 1 ? 's' : ''; ?></span>
                 <?php endif; ?>
             </h1>
-            <a href="/index.php" class="back-link">
+            <a href="index.php" class="back-link">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M19 12H5M12 19l-7-7 7-7"/>
                 </svg>
@@ -363,7 +363,7 @@ $result = $stmt->get_result();
             </svg>
             <h2>Your cart is empty</h2>
             <p>Looks like you haven't added any rooms to your cart yet.</p>
-            <a href="/index.php" class="btn btn-primary">
+            <a href="/Hotel_Booking_System/php/index.php" class="btn btn-primary">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                     <polyline points="9 22 9 12 15 12 15 22"/>
